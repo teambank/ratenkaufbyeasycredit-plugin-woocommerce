@@ -1,6 +1,8 @@
 <?php
 class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
+    public static $initialized = false;
+
     public function __construct() {
 
 	    $this->plugin 			  = wc_ratenkaufbyeasycredit();
@@ -27,6 +29,10 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         $this->order_button_text  = __('Continue to pay by installments', 'woocommerce-gateway-ratenkaufbyeasycredit');
 
+        if (self::$initialized) {
+            return; // initialize payment gateway only once, e.g. WPML Woocommerce tries to initialize again which results in duplicate/wrong behavior
+        }
+
         if (!is_admin()) {
 	        add_action( 'wp', array($this, 'maybe_expire_order') );        
 	        add_action( 'wp', array($this, 'maybe_return_from_payment_page') );
@@ -49,6 +55,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
         
         add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
+
+        self::$initialized = true;
     }
     
 
