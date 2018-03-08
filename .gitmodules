@@ -1,0 +1,6 @@
+[submodule "src/woocommerce-gateway-ratenkaufbyeasycredit/lib"]
+	path = src/woocommerce-gateway-ratenkaufbyeasycredit/lib
+	url = git@git.netzkollektiv.com:netzkollektiv-projects/easycredit-api.git
+[submodule "src/woocommerce-gateway-ratenkaufbyeasycredit/zend"]
+	path = src/woocommerce-gateway-ratenkaufbyeasycredit/zend
+	url = https://github.com/Recensus/zend_http_client.git
