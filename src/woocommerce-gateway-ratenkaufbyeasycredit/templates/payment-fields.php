@@ -18,7 +18,7 @@
 
         <p class="form-row">
             <label for="<?php echo $id; ?>-agreement" class="<?php echo $id; ?>-agreement">
-                    <input type="checkbox" name="<?php echo $id; ?>-agreement" class="validate-required" required="required" id="<?php echo $id; ?>-agreement" />
+                    <input type="checkbox" name="<?php echo $id; ?>-agreement" class="validate-required" id="<?php echo $id; ?>-agreement" />
                     <span><?php echo $easyCreditAgreement; ?></span>
             </label>
         </p>
