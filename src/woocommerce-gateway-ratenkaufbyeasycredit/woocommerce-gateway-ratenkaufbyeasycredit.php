@@ -20,7 +20,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
     return;
 }
 
-define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.3' );
+define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.4' );
 define( 'WC_RATENKAUFBYEASYCREDIT_ID', 'ratenkaufbyeasycredit' );
 
 function wc_ratenkaufbyeasycredit() {

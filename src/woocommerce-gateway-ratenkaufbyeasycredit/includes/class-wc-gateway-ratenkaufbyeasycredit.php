@@ -3,6 +3,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
     public static $initialized = false;
 
+    public $_storage = null;
+
     public function __construct() {
 
 	    $this->plugin 			  = wc_ratenkaufbyeasycredit();
@@ -248,13 +250,15 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $wc_checkout = WC_Checkout::instance();
 
         $postData = array();
-        parse_str($_POST['post_data'],$postData);
+        if (isset($_POST['post_data'])) {
+            parse_str($_POST['post_data'],$postData);
+        }
         $wc_checkout->create_order($postData);
 
         remove_action('woocommerce_checkout_create_order', array($this, 'abort_create_order'), 10 );
 
         $order = $this->tmp_order;
-        if ($order) {
+        if ($order && isset($postData['ship_to_different_address'])) {
             $order->add_meta_data('ship_to_different_address',$postData['ship_to_different_address']);
         }
         return $order;
