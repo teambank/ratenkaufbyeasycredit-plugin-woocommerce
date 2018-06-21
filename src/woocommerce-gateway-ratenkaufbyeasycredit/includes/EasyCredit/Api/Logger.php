@@ -4,6 +4,7 @@ namespace Netzkollektiv\EasyCredit\Api;
 class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
 
     protected $_logger;
+    protected $_gateway;
 
     protected $debug = false;
 
@@ -11,6 +12,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
         if ($gateway->get_option('debug') == 'yes') {
             $this->debug = true;
         }
+        $this->_gateway = $gateway;
         $this->_logger = wc_get_logger();
     }
 
@@ -19,7 +21,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
             return;
         }
 
-        return $this->logInfo($this->_format($msg), array( 'source' => $gateway->id ));
+        return $this->logInfo($this->_format($msg), array( 'source' => $this->_gateway->id ));
     }
 
     public function logDebug($msg) {
@@ -27,7 +29,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
             return;
         }
 
-        $this->_logger->debug($this->_format($msg), array( 'source' => $gateway->id ));
+        $this->_logger->debug($this->_format($msg), array( 'source' => $this->_gateway->id ));
         return $this;
     }
 
@@ -36,7 +38,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
             return;
         }
         
-        $this->_logger->info($this->_format($msg), array( 'source' => $gateway->id ));
+        $this->_logger->info($this->_format($msg), array( 'source' => $this->_gateway->id ));
         return $this;
     }
 
@@ -45,12 +47,12 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
             return;
         }
 
-        $this->_logger->warning($this->_format($msg), array( 'source' => $gateway->id ));
+        $this->_logger->warning($this->_format($msg), array( 'source' => $this->_gateway->id ));
         return $this;
     }
 
     public function logError($msg) {
-        $this->_logger->emergency($this->_format($msg), array( 'source' => $gateway->id ));
+        $this->_logger->emergency($this->_format($msg), array( 'source' => $this->_gateway->id ));
         return $this;
     }
 

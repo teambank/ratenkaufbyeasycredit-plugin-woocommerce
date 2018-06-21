@@ -12,6 +12,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Widget {
     public function run() {
 
     	global $post;
+        if (!isset($post->ID)) {
+            return;
+        }
+
     	$this->product = $post->ID;
     	
     	if ($post->post_type != 'product'

@@ -6,7 +6,7 @@
     </div>
 
 <?php else: ?>
-    <fieldset id="wc-<?php echo id; ?>-form" class='wc-payment-form'>
+    <fieldset id="wc-<?php echo $id; ?>-form" class='wc-payment-form'>
         <p class="form-row">
             <label for="<?php echo $id; ?>-prefix"><?php echo esc_html__( 'Prefix', 'woocommerce-gateway-ratenkaufbyeasycredit' ); ?><span class="required">*</span></label>
             <select id="<?php echo $id; ?>-prefix" class="input-select <?php echo $id; ?>-prefix validate-required" name="<?php echo $id; ?>-prefix">

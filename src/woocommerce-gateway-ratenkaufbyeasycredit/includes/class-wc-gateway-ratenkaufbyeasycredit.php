@@ -253,6 +253,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         if (isset($_POST['post_data'])) {
             parse_str($_POST['post_data'],$postData);
         }
+        $postData['payment_method'] = 'easycredit';
+
         $wc_checkout->create_order($postData);
 
         remove_action('woocommerce_checkout_create_order', array($this, 'abort_create_order'), 10 );
@@ -275,12 +277,14 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         	$order = $this->get_tmp_order();
         }
 
-        if (!is_null($order)) {
-            try {
-                $checkout->isAvailable(new \Netzkollektiv\EasyCredit\Api\Quote($order));
-            } catch(\Exception $e) {
-                $error = $e->getMessage();
-            }
+        if (is_null($order)) {
+            return;
+	}
+
+	try {
+            $checkout->isAvailable(new \Netzkollektiv\EasyCredit\Api\Quote($order));
+        } catch(\Exception $e) {
+            $error = $e->getMessage();
         }
 
         $agreement = '';
