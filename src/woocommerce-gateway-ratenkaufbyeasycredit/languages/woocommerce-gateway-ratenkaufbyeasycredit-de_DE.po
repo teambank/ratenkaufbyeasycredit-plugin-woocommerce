@@ -2,90 +2,68 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ratenkauf by easyCredit for Woocommerce\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-29 15:36+0000\n"
-"PO-Revision-Date: 2018-01-29 15:36+0000\n"
-"Last-Translator: admin <admin@example.com>\n"
-"Language-Team: German\n"
-"Language: de-DE\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
+"POT-Creation-Date: 2018-08-21 12:28+0000\n"
+"PO-Revision-Date: 2018-08-21 12:35+0000\n"
+"Last-Translator: admin <webmaster@netzkollektiv.com>\n"
+"Language-Team: Deutsch\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco - https://localise.biz/"
+"X-Generator: Loco https://localise.biz/"
 
-#: includes/admin-fields.php:18
-msgid ""
-"This controls the title for the payment method the customer sees during "
-"checkout."
-msgstr ""
-
-#: includes/admin-fields.php:38
-msgid "Instructions"
-msgstr ""
-
-#: includes/admin-fields.php:40
-msgid "Instructions that will be added to the thank you page and emails."
-msgstr ""
-
-#: templates/payment-method-title.php:10
-msgid "Was ist ratenkauf by easyCredit?"
-msgstr "Was ist ratenkauf by easyCredit?"
-
-#: templates/review-order.php:7
-msgid "Please review and confirm your order"
-msgstr "Bitte überprüfen und bestätigen Sie Ihre Bestellung:"
-
-#: templates/review-order.php:44
-msgid "Click to view precontractual information for ratenkauf by easyCredit."
-msgstr "Vorvertragliche Informationen zum Ratenkauf hier anzeigen."
-
-#. Description of the plugin
-msgid ""
-"ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung "
-"Deutschlands nutzen. Unser Credo einfach, fair und sicher gilt sowohl für "
-"Ratenkaufkunden als auch für Händler. Der schnelle, einfache und "
-"medienbruchfreie Prozess mit sofortiger Online-Bonitätsprüfung lässt sich "
-"sicher in den Onlineshop integrieren. Wir übernehmen das Ausfallrisiko und "
-"Sie können Ihren Umsatz bereits nach drei Tagen verbuchen."
-msgstr ""
-
-#. URI of the plugin
-msgid "https://www.easycredit-ratenkauf.de/"
-msgstr ""
-
-#. Author of the plugin
-msgid "NETZKOLLEKTIV GmbH, Dominik Krebs"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://netzkollektiv.com"
-msgstr ""
-
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:15
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:19
 #: templates/review-order.php:24
 msgid "ratenkauf by easyCredit"
 msgstr "ratenkauf by easyCredit"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:28
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:32
 msgid "Continue to pay by installments"
 msgstr "Weiter zur Ratenzahlung"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:143
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:165
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:151
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:180
 msgid "Transaction not approved"
 msgstr "Transaktion wurde nicht genehmigt."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:413
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:229
+msgid "ratenkauf by easyCredit credentials are not valid."
+msgstr "Die Zugangsdaten für ratenkauf by easyCredit sind nicht korrekt."
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:230
+#, php-format
+msgid ""
+"Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
+"Token."
+msgstr ""
+"Bitte überprüfen Sie Ihre easycredit Zugangsdaten in den <a href=\"%s\">"
+"Plugin Einstellungen</a>."
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:237
+#, php-format
+msgid ""
+"Please enter your credentials to use ratenkauf by easyCredit payment plugin "
+"in the <a href=\"%s\">plugin settings</a>."
+msgstr ""
+"Bitte tragen Sie Ihre Zugangsdaten in den <a href=\"%s\">Plugin "
+"Einstellungen</a> ein, um ratenkauf by easyCredit anbieten zu können."
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:418
+msgid "Payment Page URI could not be retrieved"
+msgstr ""
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:452
 msgid "Interest:"
 msgstr "Zinsen für Ratenzahlung:"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:119
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:163
 msgid "Credentials invalid. Please check your input!"
 msgstr ""
 "Die Zugangsdaten sind nicht korrekt. Bitte überprüfen Sie API Key und API "
 "Token."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:125
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:169
 msgid "Credentials valid!"
 msgstr ""
 "Die Zugangsdaten sind korrekt. Sie können Ihren Kunden nun ratenkauf by "
@@ -107,6 +85,14 @@ msgstr "Darstellung"
 msgid "Title"
 msgstr "Titel"
 
+#: includes/admin-fields.php:18
+msgid ""
+"This controls the title for the payment method the customer sees during "
+"checkout."
+msgstr ""
+"Diese Einstellung bestimmt, mit welchem Titel ratenkauf by easyCredit im "
+"Bezahlvorgang angezeigt wird."
+
 #: includes/admin-fields.php:23
 msgid "Show widget next to product price"
 msgstr "Zeige Modellrechner-Widget neben Produktpreis"
@@ -117,39 +103,87 @@ msgid ""
 "view"
 msgstr ""
 "Bestimmt, ob Ratenkauf in der Detailansicht beworben wird (\"oder mtl. ab x "
-"EUR\")"
+"EUR\"). Für den größten Erfolg mit dem ratenkauf by easyCredit empfehlen wir,"
+" das Widget zu aktivieren."
 
-#: includes/admin-fields.php:46
+#: includes/admin-fields.php:32
+msgid "Show widget in Cart"
+msgstr "Zeige Modellrechner-Widget im Warenkorb"
+
+#: includes/admin-fields.php:34
+msgid "Specifies if ratenkauf by easyCredit will be advertised in cart view"
+msgstr ""
+"Bestimmt, ob der Ratenkauf im Warenkorb beworben wird. Für den größten "
+"Erfolg mit dem ratenkauf by easyCredit empfehlen wir, das Widget hier "
+"ebenfalls zu aktivieren."
+
+#: includes/admin-fields.php:49
+msgid "Instructions"
+msgstr ""
+
+#: includes/admin-fields.php:51
+msgid "Instructions that will be added to the thank you page and emails."
+msgstr ""
+
+#: includes/admin-fields.php:57
 msgid "API credentials"
-msgstr "API Zugangsdaten"
+msgstr "API-Zugangsdaten"
 
-#: includes/admin-fields.php:50
+#: includes/admin-fields.php:61
 msgid "API Key"
-msgstr "API Key"
+msgstr "Webshop-ID"
 
-#: includes/admin-fields.php:55
+#: includes/admin-fields.php:66
 msgid "API Token"
-msgstr "API Token"
+msgstr "API-Kennwort"
 
-#: includes/admin-fields.php:62
+#: includes/admin-fields.php:73
 msgid "Verify Credentials"
 msgstr "Zugangsdaten überprüfen"
 
-#: includes/admin-fields.php:80
+#: includes/admin-fields.php:91
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-#: includes/admin-fields.php:84
+#: includes/admin-fields.php:95
 msgid "Debug Logging"
 msgstr "Debug Logging"
 
-#: includes/admin-fields.php:86
+#: includes/admin-fields.php:97
 msgid "Enable Debug Logging"
 msgstr "Debug Logging aktivieren"
+
+#: includes/admin-fields.php:101
+msgid "CSS Selector to include widget at product page"
+msgstr ""
+"CSS Selektor, der bestimmt wo das Modellrechner-Widget auf der Produktseite "
+"angezeigt wird"
+
+#: includes/admin-fields.php:103 includes/admin-fields.php:110
+msgid ""
+"If the widget is not shown in the right place, please enter a selector which "
+"matches your theme."
+msgstr ""
+"Wenn das Modellrechner-Widget nicht an der richtigen Stelle angezeigt wird, "
+"lässt sich hier der zugehörige CSS-Selektor einstellen."
+
+#: includes/admin-fields.php:108
+msgid "CSS Selector to include widget at the cart page"
+msgstr ""
+"CSS Selektor, der bestimmt wo das Modellrechner-Widget im Warenkorb "
+"angezeigt wird"
 
 #: templates/payment-method-title.php:6 templates/review-order.php:26
 msgid "Easy. Fair. Pay by installments."
 msgstr "Einfach. Fair. In Raten zahlen."
+
+#: templates/payment-method-title.php:10
+msgid "Was ist ratenkauf by easyCredit?"
+msgstr "Was ist ratenkauf by easyCredit?"
+
+#: templates/review-order.php:7
+msgid "Please review and confirm your order"
+msgstr "Bitte überprüfen und bestätigen Sie Ihre Bestellung:"
 
 #: templates/review-order.php:17
 msgid "Payment Method"
@@ -158,6 +192,10 @@ msgstr "Zahlungsart"
 #: templates/review-order.php:37
 msgid "Redemption Plan"
 msgstr "Tilgungsplan"
+
+#: templates/review-order.php:44
+msgid "Click to view precontractual information for ratenkauf by easyCredit."
+msgstr "Vorvertragliche Informationen zum Ratenkauf hier anzeigen."
 
 #: templates/payment-fields.php:11
 msgid "Prefix"
@@ -178,3 +216,21 @@ msgstr "Frau"
 #. Name of the plugin
 msgid "ratenkauf by easyCredit for Woocommerce"
 msgstr "ratenkauf by easyCredit für Woocommerce"
+
+#. Description of the plugin
+msgid ""
+"ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung "
+"Deutschlands mit WooCommerce nutzen."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://www.easycredit-ratenkauf.de/"
+msgstr ""
+
+#. Author of the plugin
+msgid "NETZKOLLEKTIV GmbH, Dominik Krebs"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://netzkollektiv.com"
+msgstr ""

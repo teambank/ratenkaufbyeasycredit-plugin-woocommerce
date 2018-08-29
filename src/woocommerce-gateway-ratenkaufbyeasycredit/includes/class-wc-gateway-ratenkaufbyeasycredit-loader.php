@@ -9,6 +9,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Loader {
 
         require_once $plugin->includes_path.'/class-wc-gateway-ratenkaufbyeasycredit.php';
         require_once $plugin->includes_path.'/class-wc-gateway-ratenkaufbyeasycredit-widget.php';
+        require_once $plugin->includes_path.'/class-wc-gateway-ratenkaufbyeasycredit-widget-cart.php';
+        require_once $plugin->includes_path.'/class-wc-gateway-ratenkaufbyeasycredit-widget-product.php';
 
         add_filter( 'woocommerce_payment_gateways', array($this, 'payment_gateways') );
     }

@@ -17,7 +17,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         
         $this->has_fields         = false;
         $this->method_title       = __( 'ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit');
-        $this->method_description = __( 'ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung Deutschlands nutzen. Unser Credo einfach, fair und sicher gilt sowohl für Ratenkaufkunden als auch für Händler. Der schnelle, einfache und medienbruchfreie Prozess mit sofortiger Online-Bonitätsprüfung lässt sich sicher in den Onlineshop integrieren. Wir übernehmen das Ausfallrisiko und Sie können Ihren Umsatz bereits nach drei Tagn verbuchen.' );
+        $this->method_description = __( 'ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung Deutschlands nutzen. Unser Credo einfach, fair und sicher gilt sowohl für Ratenkaufkunden als auch für Händler. Der schnelle, einfache und medienbruchfreie Prozess mit sofortiger Online-Bonitätsprüfung lässt sich sicher in den Onlineshop integrieren. Wir übernehmen das Ausfallrisiko und Sie können Ihren Umsatz bereits nach drei Tagen verbuchen.' );
 
         $this->init_form_fields();
         $this->init_settings();
@@ -226,14 +226,16 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
             if (!$this->get_checkout()->verifyCredentials($apiKey, $apiToken)) {
                 echo $this->_displaySettingsError(array(
-                    'ratenkauf by easyCredit credentials are not valid.',
-                    'Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.'
+                    __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
+                    __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.','woocommerce-gateway-ratenkaufbyeasycredit')
                 ));
                 return;
             }
 
         } else {
-            echo $this->_displaySettingsError('Please enter your credentials to use ratenkauf by easyCredit payment plugin in the <a href="%s">plugin settings</a>.');
+            echo $this->_displaySettingsError(
+                __('Please enter your credentials to use ratenkauf by easyCredit payment plugin in the <a href="%s">plugin settings</a>.','woocommerce-gateway-ratenkaufbyeasycredit')
+            );
             return;
         }
     }

@@ -17,7 +17,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         $loader = new WC_Gateway_Ratenkaufbyeasycredit_Loader($this);
 
         if (!is_admin()) {
-	        new WC_Gateway_Ratenkaufbyeasycredit_Widget($this);
+	        new WC_Gateway_Ratenkaufbyeasycredit_Widget_Product($this);
+	        new WC_Gateway_Ratenkaufbyeasycredit_Widget_Cart($this);
         }
 
         add_action('admin_enqueue_scripts', array($this, 'enqueue_backend_ressources'));
@@ -112,8 +113,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     }
 
     public function enqueue_frontend_ressources($hook) {
-	    wp_enqueue_style( 'wc_ratenkaufbyeasycredit_frontend_css', 
-	    	$this->plugin_url. 'assets/css/easycredit-frontend.css', 'wc_ratenkaufbyeasycredit_widget_css' );
+	    wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css', 
+	    	$this->plugin_url. 'assets/css/easycredit.min.css', 'wc_ratenkaufbyeasycredit_css' );
 	}
 
     public function enqueue_backend_ressources($hook) {

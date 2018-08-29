@@ -24,7 +24,18 @@ return array(
         'type'        => 'checkbox',
         'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in product detail view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'desc_tip'    => true,
+        'default'     => 'yes'
     ),
+
+
+    'cart_widget_enabled' => array(
+        'title'       => __( 'Show widget in Cart', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in cart view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => 'yes'
+    ),
+
 /*
     'description' => array(
         'title'       => __( 'Description', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
@@ -35,9 +46,9 @@ return array(
     ),
 */
     'instructions' => array(
-        'title'       => __( 'Instructions', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'title'       => __( 'Instructions', 'woocommerce' ),
         'type'        => 'textarea',
-        'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
         'default'     => '',
         'desc_tip'    => true,
     ),
@@ -85,5 +96,19 @@ return array(
         'type'    => 'checkbox',
         'label'   => __( 'Enable Debug Logging', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'default' => 'no'
+    ),
+    'widget_selector' => array(
+        'title'       => __( 'CSS Selector to include widget at product page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'text',
+        'description' => __( 'If the widget is not shown in the right place, please enter a selector which matches your theme.', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => '.product .summary .price'
+    ),
+    'cart_widget_selector' => array(
+        'title'       => __( 'CSS Selector to include widget at the cart page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'text',
+        'description' => __( 'If the widget is not shown in the right place, please enter a selector which matches your theme.', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => '.wc-proceed-to-checkout'
     ),
 );
