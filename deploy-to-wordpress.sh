@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # get parameters
 POSITIONAL=()
@@ -22,11 +21,18 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$SVN" = YES ]; then
-    TAG=$(git describe --tags)
-    # remove first character (usually a 'v')
-    #TAG=${TAG:1:${#TAG}}
+version_statement=$(grep "define( 'WC_RATENKAUFBYEASYCREDIT_VERSION" src/woocommerce-gateway-ratenkaufbyeasycredit/woocommerce-gateway-ratenkaufbyeasycredit.php)
+PLUGINVERSION=$(php -r "$version_statement echo WC_RATENKAUFBYEASYCREDIT_VERSION;")
 
+if git show-ref --tags --quiet --verify -- "refs/tags/$PLUGINVERSION"
+    then
+        echo "Git tag $PLUGINVERSION does exist. Let's continue..."
+    else
+        echo "$PLUGINVERSION does not exist as a git tag. Aborting.";
+        exit 1;
+fi
+
+if [ "$SVN" = YES ]; then
     mkdir svn
     svn co $SVN_URL svn
     rsync -rv --delete \
@@ -47,7 +53,7 @@ if [ "$SVN" = YES ]; then
     # see https://stackoverflow.com/a/20095520/3461955
     svn st | grep '^\?' | sed 's/^\? *//' | xargs -I% svn add %
     cd ..
-    svn ci -m "Version ${TAG}"
-    svn cp trunk tags/${TAG}
-    svn ci -m "Tag ${TAG}"
+    svn ci --non-interactive --username $WORDPRESS_USER --password $WORDPRESS_PW -m "Version ${PLUGINVERSION}"
+    svn cp trunk tags/${PLUGINVERSION}
+    svn ci --non-interactive --username $WORDPRESS_USER --password $WORDPRESS_PW -m "Tag ${PLUGINVERSION}"
 fi
