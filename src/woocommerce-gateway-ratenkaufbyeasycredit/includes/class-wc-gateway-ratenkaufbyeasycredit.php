@@ -63,20 +63,23 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     
 
 	public function validate_fields() {
-	
+
 	    if ( ! $_POST['ratenkaufbyeasycredit-agreement'] ) {
-	        wc_add_notice( __( 
-	        	sprintf('%s: Please agree to the privacy conditions.', $this->title), 
+	        wc_add_notice( sprintf(__( 
+	        	'%s: Please agree to the privacy conditions.', 
 	        	'woocommerce-gateway-ratenkaufbyeasycredit'
-	        ), 
+	        ),$this->get_title()), 
 	        'error' );
 	    }
 	    
-	    if ( ! $_POST['ratenkaufbyeasycredit-prefix'] ) {
-	        wc_add_notice( __( 
-	        	sprintf('%s: Please enter a title.', $this->title ),
+	    if ( ! $_POST['ratenkaufbyeasycredit-prefix'] 
+            || !$this->get_checkout()->isPrefixValid($_POST['ratenkaufbyeasycredit-prefix']) 
+        ) {
+	        wc_add_notice( sprintf(__( 
+	        	'%s: Please select a title.',
 	        	'woocommerce-gateway-ratenkaufbyeasycredit'
-	        ), 'error' );
+            ), $this->get_title())
+            , 'error' );
 	    }
 	
 	}
@@ -319,7 +322,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         if (is_array($msg)) {
             $msg = implode(' ',$msg);
         }
-        $settingsUri = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' );
+        $uri = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' );
 
         return implode(array(
             '<div class="error"><p>',
