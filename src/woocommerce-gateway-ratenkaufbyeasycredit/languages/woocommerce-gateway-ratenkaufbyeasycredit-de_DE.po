@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ratenkauf by easyCredit for Woocommerce\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-21 12:28+0000\n"
-"PO-Revision-Date: 2018-08-21 12:35+0000\n"
+"POT-Creation-Date: 2018-09-19 11:08+0000\n"
+"PO-Revision-Date: 2018-09-19 11:09+0000\n"
 "Last-Translator: admin <webmaster@netzkollektiv.com>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -22,16 +22,27 @@ msgstr "ratenkauf by easyCredit"
 msgid "Continue to pay by installments"
 msgstr "Weiter zur Ratenzahlung"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:151
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:180
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:68
+#, php-format
+msgid "%s: Please agree to the privacy conditions."
+msgstr ""
+"%s: Bitte stimmen Sie der Datenübertragung an ratenkauf by easyCredit zu."
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:78
+#, php-format
+msgid "%s: Please select a title."
+msgstr "%s: Bitte wählen Sie eine Anrede aus."
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:154
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:183
 msgid "Transaction not approved"
 msgstr "Transaktion wurde nicht genehmigt."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:229
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:232
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr "Die Zugangsdaten für ratenkauf by easyCredit sind nicht korrekt."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:230
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:233
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
@@ -40,7 +51,7 @@ msgstr ""
 "Bitte überprüfen Sie Ihre easycredit Zugangsdaten in den <a href=\"%s\">"
 "Plugin Einstellungen</a>."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:237
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:240
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
@@ -49,11 +60,11 @@ msgstr ""
 "Bitte tragen Sie Ihre Zugangsdaten in den <a href=\"%s\">Plugin "
 "Einstellungen</a> ein, um ratenkauf by easyCredit anbieten zu können."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:418
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:421
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:452
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:455
 msgid "Interest:"
 msgstr "Zinsen für Ratenzahlung:"
 
@@ -116,14 +127,6 @@ msgstr ""
 "Bestimmt, ob der Ratenkauf im Warenkorb beworben wird. Für den größten "
 "Erfolg mit dem ratenkauf by easyCredit empfehlen wir, das Widget hier "
 "ebenfalls zu aktivieren."
-
-#: includes/admin-fields.php:49
-msgid "Instructions"
-msgstr ""
-
-#: includes/admin-fields.php:51
-msgid "Instructions that will be added to the thank you page and emails."
-msgstr ""
 
 #: includes/admin-fields.php:57
 msgid "API credentials"
@@ -228,7 +231,7 @@ msgid "https://www.easycredit-ratenkauf.de/"
 msgstr ""
 
 #. Author of the plugin
-msgid "NETZKOLLEKTIV GmbH, Dominik Krebs"
+msgid "NETZKOLLEKTIV"
 msgstr ""
 
 #. Author URI of the plugin

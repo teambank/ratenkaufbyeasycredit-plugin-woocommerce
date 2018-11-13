@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name:     ratenkauf by easyCredit for Woocommerce
+ * Plugin Name:     ratenkauf by easyCredit for WooCommerce
  * Plugin URI:      https://www.easycredit-ratenkauf.de/
  * Description:     ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung Deutschlands mit WooCommerce nutzen.
- * Author:          NETZKOLLEKTIV GmbH, Dominik Krebs
+ * Author:          NETZKOLLEKTIV
  * Author URI:      https://netzkollektiv.com
  * License:         GPL2
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     woocommerce-gateway-ratenkaufbyeasycredit
  * Domain Path:     /languages
- * Version:         1.4.2
+ * Version:         1.4.3
  * WC requires at least: 3.0.0
- * WC tested up to: 3.4.4
+ * WC tested up to: 3.5.1
  *
  * @package         Woocommerce_Gateway_Ratenkaufbyeasycredit
  */
@@ -22,7 +22,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
     return;
 }
 
-define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.4.2' );
+define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.4.3' );
 define( 'WC_RATENKAUFBYEASYCREDIT_ID', 'ratenkaufbyeasycredit' );
 
 function wc_ratenkaufbyeasycredit() {

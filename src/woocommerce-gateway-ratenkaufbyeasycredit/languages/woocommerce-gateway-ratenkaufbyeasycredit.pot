@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-21 12:28+0000\n"
+"POT-Creation-Date: 2018-09-19 11:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -23,34 +23,44 @@ msgstr ""
 msgid "Continue to pay by installments"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:151
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:180
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:68
+#, php-format
+msgid "%s: Please agree to the privacy conditions."
+msgstr ""
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:78
+#, php-format
+msgid "%s: Please select a title."
+msgstr ""
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:154
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:183
 msgid "Transaction not approved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:229
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:232
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:230
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:233
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:237
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:240
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:418
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:421
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:452
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:455
 msgid "Interest:"
 msgstr ""
 
@@ -100,14 +110,6 @@ msgstr ""
 
 #: includes/admin-fields.php:34
 msgid "Specifies if ratenkauf by easyCredit will be advertised in cart view"
-msgstr ""
-
-#: includes/admin-fields.php:49
-msgid "Instructions"
-msgstr ""
-
-#: includes/admin-fields.php:51
-msgid "Instructions that will be added to the thank you page and emails."
 msgstr ""
 
 #: includes/admin-fields.php:57
@@ -207,7 +209,7 @@ msgid "https://www.easycredit-ratenkauf.de/"
 msgstr ""
 
 #. Author of the plugin
-msgid "NETZKOLLEKTIV GmbH, Dominik Krebs"
+msgid "NETZKOLLEKTIV"
 msgstr ""
 
 #. Author URI of the plugin
