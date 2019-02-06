@@ -22,7 +22,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $this->init_form_fields();
         $this->init_settings();
 
-        $this->title        = $this->get_option( 'title' );
+        $title = $this->get_option( 'title' );
+        $this->title        = !empty($title) ? $title : $this->method_title;
         $this->description  = '';
         $this->instructions = $this->get_option( 'instructions' );
         $this->debug        = $this->get_option( 'debug', false );
