@@ -33,6 +33,12 @@
     -o-user-select: none;	
 }
 
+.ratenkaufbyeasycredit-payment-details::after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
 .ratenkaufbyeasycredit.checkout-review-button {
 	float:right;
 	width:50%;

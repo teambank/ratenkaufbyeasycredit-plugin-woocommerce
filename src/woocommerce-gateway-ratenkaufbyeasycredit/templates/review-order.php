@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) ); ?>
 
-<section class="woocommerce-payment-details">
+<section class="woocommerce-payment-details ratenkaufbyeasycredit-payment-details">
 
 		<section class="woocommerce-columns woocommerce-columns--2 col2-set addresses">
 			<div class="woocommerce-column woocommerce-column--1 col-1">

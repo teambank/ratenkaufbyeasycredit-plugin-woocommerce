@@ -32,12 +32,15 @@ class WC_Gateway_Ratenkaufbyeasycredit_Loader {
         
         if ( false !== strpos( $class, 'Zend' ) ) {
             $file = str_replace( array('_',), $ds, $class ) . '.php';
-            require_once implode($ds,array(
-            	$this->plugin_path,
-            	'zend',
-            	'src',
-            	$file
+            $file = implode($ds,array(
+                $this->plugin_path,
+                'zend',
+                'src',
+                $file
             ));
+            if (file_exists($file)) {
+                require_once $file;
+            }
             return;
         }
     }
