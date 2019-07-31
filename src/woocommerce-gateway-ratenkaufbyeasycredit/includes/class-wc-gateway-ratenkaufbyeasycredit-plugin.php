@@ -45,10 +45,45 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
         register_activation_hook( $this->file, array( $this, 'activate' ) );
         register_deactivation_hook( $this->file, array( $this, 'deactivate' ) );
-        register_uninstall_hook($this->file, array( $this, 'uninstall' ));
+        register_uninstall_hook(__FILE__, 'uninstall');
+        add_action('wpmu_new_blog', array($this,'activate_new_blog'), 10, 6 );
     }
 
-    public function activate() {
+    public function activate_new_blog($blog_id, $user_id, $domain, $path, $site_id, $meta) {
+        if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+            require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+        }
+        if ( is_plugin_active_for_network(plugin_basename($this->file)) ) {
+            switch_to_blog($blog_id);
+            $this->activate_single_site(); 
+            restore_current_blog();
+        }
+    }
+
+    public function activate($network_wide) {
+        if ( is_multisite() && $network_wide ) { 
+            global $wpdb;
+
+            foreach ($wpdb->get_col("SELECT blog_id FROM $wpdb->blogs") as $blog_id) {
+                switch_to_blog($blog_id);
+                $this->activate_single_site();
+                restore_current_blog();
+            } 
+
+        } else {
+            $this->activate_single_site();
+        }
+    }
+ 
+    public function deactivate() {
+	    // nothing to do here currently	    
+    }
+
+    public static function uninstall() {
+	    // nothing to do here currently
+    }
+
+    public function activate_single_site() {
         require_once( WC_ABSPATH . 'includes/admin/wc-admin-functions.php' );
 
         $pages = $this->get_review_page_data();
@@ -62,14 +97,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             );
         }
         delete_transient( 'woocommerce_cache_excluded_uris' );
-    }
-    
-    public function deactivate() {
-	    // nothing to do here currently	    
-    }
-
-    public function uninstall() {
-	    // nothing to do here currently
     }
     
     public function get_review_page_data() {
@@ -134,7 +161,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-data']['callback'] = get_class($this).'::prevent_shipping_address_change';
     }
 
-    public function prevent_shipping_address_change($post) {
+    public static function prevent_shipping_address_change($post) {
         global $theorder;
 
         if ( ! is_object( $theorder ) ) {
