@@ -114,6 +114,9 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     }
 
     public function payment_review() {
+        if (is_admin()) {
+            return;
+        }
     	if (!$order = $this->get_current_order()) {
 	    	return;
     	}    
