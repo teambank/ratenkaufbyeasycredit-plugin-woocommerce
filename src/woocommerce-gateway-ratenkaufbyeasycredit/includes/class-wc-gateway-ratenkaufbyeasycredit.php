@@ -7,12 +7,12 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
     public function __construct() {
 
-	    $this->plugin 			  = wc_ratenkaufbyeasycredit();
-	    
+        $this->plugin               = wc_ratenkaufbyeasycredit();
+        
         $this->id                 = WC_RATENKAUFBYEASYCREDIT_ID;
         $this->icon               = apply_filters(
-        	'woocommerce_ratenkaufbyeasycredit_icon', 
-        	'https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png'
+            'woocommerce_ratenkaufbyeasycredit_icon', 
+            'https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png'
         );
         
         $this->has_fields         = false;
@@ -37,24 +37,24 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         if (!is_admin()) {
-	        add_action( 'wp', array($this, 'maybe_expire_order') );        
-	        add_action( 'wp', array($this, 'maybe_return_from_payment_page') );
-	        add_action( 'wp', array($this, 'maybe_order_confirm') );
+            add_action( 'wp', array($this, 'maybe_expire_order') );        
+            add_action( 'wp', array($this, 'maybe_return_from_payment_page') );
+            add_action( 'wp', array($this, 'maybe_order_confirm') );
 
-	        add_action ('woocommerce_checkout_create_order', 
-	        	array($this, 'proccess_payment_order_details')
-	        );
-	        add_action( 'woocommerce_ratenkaufbyeasycredit_order_item_totals', 
-	        	array( $this, 'order_item_totals' )
-	        );
+            add_action ('woocommerce_checkout_create_order', 
+                array($this, 'proccess_payment_order_details')
+            );
+            add_action( 'woocommerce_ratenkaufbyeasycredit_order_item_totals', 
+                array( $this, 'order_item_totals' )
+            );
 
         }
 
         if (is_admin()) {
-        	add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, 
-        		array( $this, 'process_admin_options' ) 
-        	);
-        	add_action( 'admin_notices', array($this, 'check_credentials') );
+            add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, 
+                array( $this, 'process_admin_options' ) 
+            );
+            add_action( 'admin_notices', array($this, 'check_credentials') );
         }
         
         add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
@@ -63,165 +63,165 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     }
     
 
-	public function validate_fields() {
+    public function validate_fields() {
 
-	    if ( ! $_POST['ratenkaufbyeasycredit-agreement'] ) {
-	        wc_add_notice( sprintf(__( 
-	        	'%s: Please agree to the privacy conditions.', 
-	        	'woocommerce-gateway-ratenkaufbyeasycredit'
-	        ),$this->get_title()), 
-	        'error' );
-	    }
-	    
-	    if ( ! $_POST['ratenkaufbyeasycredit-prefix'] 
+        if ( ! $_POST['ratenkaufbyeasycredit-agreement'] ) {
+            wc_add_notice( sprintf(__( 
+                '%s: Please agree to the privacy conditions.', 
+                'woocommerce-gateway-ratenkaufbyeasycredit'
+            ),$this->get_title()), 
+            'error' );
+        }
+        
+        if ( ! $_POST['ratenkaufbyeasycredit-prefix'] 
             || !$this->get_checkout()->isPrefixValid($_POST['ratenkaufbyeasycredit-prefix']) 
         ) {
-	        wc_add_notice( sprintf(__( 
-	        	'%s: Please select a title.',
-	        	'woocommerce-gateway-ratenkaufbyeasycredit'
+            wc_add_notice( sprintf(__( 
+                '%s: Please select a title.',
+                'woocommerce-gateway-ratenkaufbyeasycredit'
             ), $this->get_title())
             , 'error' );
-	    }
-	
-	}
+        }
+    
+    }
     
     public function get_title() {
-	    $backtrace = debug_backtrace();
-	    if ($backtrace[1]['function'] == 'include') {
-	    	$this->plugin->load_template('payment-method-title',array(
-	    		'title' => parent::get_title()
-	    	));
-	    	return;
-	    }
-	    return parent::get_title();
+        $backtrace = debug_backtrace();
+        if ($backtrace[1]['function'] == 'include') {
+            $this->plugin->load_template('payment-method-title',array(
+                'title' => parent::get_title()
+            ));
+            return;
+        }
+        return parent::get_title();
     }
 
     public function get_icon() {
-	    $backtrace = debug_backtrace();
-	    if ($backtrace[1]['function'] == 'include') {
-	    	return '';
-	    }
-	    return parent::get_icon();
+        $backtrace = debug_backtrace();
+        if ($backtrace[1]['function'] == 'include') {
+            return '';
+        }
+        return parent::get_icon();
     }
 
     protected function get_current_order() {
-    	$order_id = $this->get_storage()->get('order_id');
-    	if (!$order_id) {
-	    	return false;
-    	}
-       	
-    	return wc_get_order($order_id);
+        $order_id = $this->get_storage()->get('order_id');
+        if (!$order_id) {
+            return false;
+        }
+           
+        return wc_get_order($order_id);
     }
 
     public function payment_review() {
         if (is_admin()) {
             return;
         }
-    	if (!$order = $this->get_current_order()) {
-	    	return;
-    	}    
-    		
+        if (!$order = $this->get_current_order()) {
+            return;
+        }    
+            
         $this->get_checkout()->loadFinancingInformation();        
 
         $this->plugin->load_template('review-order', array(
-        	'gateway' => $this,
-        	'order'	  => $order
+            'gateway' => $this,
+            'order'      => $order
         ));
     }
     
     public function maybe_expire_order() {
-    	if (!$order = $this->get_current_order()) {
-	    	return;
-    	}
-    	
-    	$quote = new \Netzkollektiv\EasyCredit\Api\Quote($order);
+        if (!$order = $this->get_current_order()) {
+            return;
+        }
+        
+        $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order);
 
-    	$checkout = $this->get_checkout();    	
-    	if ($this->get_storage()->get('authorized_amount') != $quote->getGrandTotal()
-    		&& !$checkout->verifyAddressNotChanged($quote)
-    	) {
-        	$checkout->clear();
+        $checkout = $this->get_checkout();        
+        if ($this->get_storage()->get('authorized_amount') != $quote->getGrandTotal()
+            && !$checkout->verifyAddressNotChanged($quote)
+        ) {
+            $checkout->clear();
         }    
     }
     
     public function maybe_return_from_payment_page() {
-	    if (!isset($_GET['woo-'.$this->id.'-return'])) {
-	    	return;
-	    }
+        if (!isset($_GET['woo-'.$this->id.'-return'])) {
+            return;
+        }
 
         try {
-        	$checkout = $this->get_checkout();
-        	
-        	if (!$checkout->isInitialized()
-        		|| !$checkout->isApproved()
-        	) {
-            	throw new \Exception(__('Transaction not approved', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+            $checkout = $this->get_checkout();
+            
+            if (!$checkout->isInitialized()
+                || !$checkout->isApproved()
+            ) {
+                throw new \Exception(__('Transaction not approved', 'woocommerce-gateway-ratenkaufbyeasycredit'));
             }
 
         } catch (\Exception $e) {
-   		    $this->_handleError($e->getMessage());
+               $this->_handleError($e->getMessage());
         }
     }
     
     public function maybe_order_confirm() {
-	    if (!isset($_POST['woo-'.$this->id.'-confirm'])) {
-		    return;
-	    }
-	   
-	    if (!$order = $this->get_current_order()) {
-	    	$this->_handleError('Could not find order');
-	    	return;
-    	}
+        if (!isset($_POST['woo-'.$this->id.'-confirm'])) {
+            return;
+        }
+       
+        if (!$order = $this->get_current_order()) {
+            $this->_handleError('Could not find order');
+            return;
+        }
 
-    	if (!wp_verify_nonce($_POST['_wpnonce'], 'woocommerce-easycredit-pay')) {
-	    	$this->_handleError('Could not verify nonce');
-    	}
-	    
-  	    try {
-	    	
-		    $checkout = $this->get_checkout();
-	
-        	if (!$checkout->isInitialized()
-        		|| !$checkout->isApproved()
-        	) {
-            	throw new \Exception(__('Transaction not approved', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+        if (!wp_verify_nonce($_POST['_wpnonce'], 'woocommerce-easycredit-pay')) {
+            $this->_handleError('Could not verify nonce');
+        }
+        
+          try {
+            
+            $checkout = $this->get_checkout();
+    
+            if (!$checkout->isInitialized()
+                || !$checkout->isApproved()
+            ) {
+                throw new \Exception(__('Transaction not approved', 'woocommerce-gateway-ratenkaufbyeasycredit'));
             }
 
-		    ob_start(); // Suppress error output from akismet
-		    
-	       	$checkout->capture();
+            ob_start(); // Suppress error output from akismet
+    
+            $checkout->capture(null, $order->get_order_number());
 
-	       	$transaction_id = $this->get_storage()->get('transaction_id');
-	       	
-	        $order->payment_complete(
-	        	$transaction_id
-	        );
-	        $order->add_meta_data($this->id.'-interest-amount',$this->get_storage()->get('interest_amount'),true);
-	        $order->add_meta_data($this->id.'-transaction-id',$transaction_id,true);
-	        $order->save();
-	        
-	        WC()->cart->empty_cart();	    
-	        $checkout->clear();
-	        
-	        ob_end_clean();
-	        
-	       	wp_redirect( $order->get_checkout_order_received_url() );
-	       	exit;
-	    } catch (\Exception $e) {
-		    $this->_handleError($e->getMessage());
-	    }
+            $transaction_id = $this->get_storage()->get('transaction_id');
+               
+            $order->payment_complete(
+                $transaction_id
+            );
+            $order->add_meta_data($this->id.'-interest-amount',$this->get_storage()->get('interest_amount'),true);
+            $order->add_meta_data($this->id.'-transaction-id',$transaction_id,true);
+            $order->save();
+            
+            WC()->cart->empty_cart();        
+            $checkout->clear();
+            
+            ob_end_clean();
+            
+               wp_redirect( $order->get_checkout_order_received_url() );
+               exit;
+        } catch (\Exception $e) {
+            $this->_handleError($e->getMessage());
+        }
     }
     
     protected function _handleError($message) {
         wc_add_notice( __($message, 'woocommerce-gateway-ratenkaufbyeasycredit'), 'error' );
-		$this->get_checkout()->clear();
+        $this->get_checkout()->clear();
 
-		$url = wc_get_page_permalink( 'cart' );
-		if ($order = $this->get_current_order()) {
-			$url = $order->get_cancel_order_url_raw();
-		}
-		wp_safe_redirect( $url );
-		exit;	    
+        $url = wc_get_page_permalink( 'cart' );
+        if ($order = $this->get_current_order()) {
+            $url = $order->get_cancel_order_url_raw();
+        }
+        wp_safe_redirect( $url );
+        exit;        
     }
     
     public function check_credentials() {
@@ -281,16 +281,16 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         global $wp;
         if (isset($wp->query_vars['order-pay'])) {
-	        $order = wc_get_order($wp->query_vars['order-pay']);
+            $order = wc_get_order($wp->query_vars['order-pay']);
         } else {
-        	$order = $this->get_tmp_order();
+            $order = $this->get_tmp_order();
         }
 
         if (is_null($order)) {
             return;
-	}
+        }
 
-	try {
+        try {
             $checkout->isAvailable(new \Netzkollektiv\EasyCredit\Api\Quote($order));
         } catch(\Exception $e) {
             $error = $e->getMessage();
@@ -299,11 +299,11 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $agreement = '';
         if (!$error) {
             try {
-            	$transientKey = $this->id.'-agreement';
-            	if (false === ( $agreement = get_transient( $transientKey ) )) {
-	                $agreement = $checkout->getAgreement();
-	                set_transient($transientKey, $agreement, 24 * HOUR_IN_SECONDS );	            	
-            	}
+                $transientKey = $this->id.'-agreement';
+                if (false === ( $agreement = get_transient( $transientKey ) )) {
+                    $agreement = $checkout->getAgreement();
+                    set_transient($transientKey, $agreement, 24 * HOUR_IN_SECONDS );                    
+                }
             } catch (\Exception $e) { }
         }
 
@@ -363,18 +363,18 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     public function email_instructions( $order, $sent_to_admin, $plain_text = false ) {
 
         if ( $this->instructions && 
-        	! $sent_to_admin && 
-        	$this->id === $order->payment_method
+            ! $sent_to_admin && 
+            $this->id === $order->payment_method
         ) {
             echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
         }
     }
     
     public function get_storage() {
-	    if ($this->_storage == null) {
-	    	$this->_storage = new \Netzkollektiv\EasyCredit\Api\Storage();
-	    }
-	    return $this->_storage;
+        if ($this->_storage == null) {
+            $this->_storage = new \Netzkollektiv\EasyCredit\Api\Storage();
+        }
+        return $this->_storage;
     }
 
     public function get_checkout() {
@@ -396,13 +396,13 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         );
     }
 
-	public function get_confirm_url() {
-		$query_args = array(
-			'woo-'.$this->id.'-return' => true,
-		);
-		return add_query_arg( $query_args, $this->plugin->get_review_page_uri() );
-	}
-	
+    public function get_confirm_url() {
+        $query_args = array(
+            'woo-'.$this->id.'-return' => true,
+        );
+        return add_query_arg( $query_args, $this->plugin->get_review_page_uri() );
+    }
+    
     public function process_payment( $order_id ) {
 
         $order = wc_get_order( $order_id );
@@ -423,8 +423,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         if (!$paymentPageUrl) {
             throw new Exception(__(
-            	'Payment Page URI could not be retrieved',
-            	'woocommerce-gateway-ratenkaufbyeasycredit'
+                'Payment Page URI could not be retrieved',
+                'woocommerce-gateway-ratenkaufbyeasycredit'
             ));
         }
 
@@ -434,43 +434,43 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         );
     }
 
-	protected function get_total_including_interest($order) {
-		$interest = $this->get_storage()->get('interest_amount');
+    protected function get_total_including_interest($order) {
+        $interest = $this->get_storage()->get('interest_amount');
 
-		$total = $order->get_total();
-		$order->set_total($total + $interest);
-		$_total = $order->get_formatted_order_total();
-		$order->set_total($total);
-		
-		return $_total;
-	}
-	
-	public function order_item_totals($order) {
-		$interest = $this->get_storage()->get('interest_amount');
-	
-		$_totals = array();
-		foreach ($order->get_order_item_totals() as $key => $total) {
+        $total = $order->get_total();
+        $order->set_total($total + $interest);
+        $_total = $order->get_formatted_order_total();
+        $order->set_total($total);
+        
+        return $_total;
+    }
+    
+    public function order_item_totals($order) {
+        $interest = $this->get_storage()->get('interest_amount');
+    
+        $_totals = array();
+        foreach ($order->get_order_item_totals() as $key => $total) {
 
-			if ($key == 'payment_method') {
-				continue;
-			}
-			if ($key == 'order_total') {
-				$_totals['interest'] = array(
-					'label' => __('Interest:', 'woocommerce-gateway-ratenkaufbyeasycredit'),
-					'value' => wc_price($interest, array('currency',$order->get_currency()))
-				);
-				$total['value'] = $this->get_total_including_interest($order);
-			}
-			$_totals[$key] = $total;
-		}
-		return $_totals;
-	}
+            if ($key == 'payment_method') {
+                continue;
+            }
+            if ($key == 'order_total') {
+                $_totals['interest'] = array(
+                    'label' => __('Interest:', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+                    'value' => wc_price($interest, array('currency',$order->get_currency()))
+                );
+                $total['value'] = $this->get_total_including_interest($order);
+            }
+            $_totals[$key] = $total;
+        }
+        return $_totals;
+    }
     
     public function capture_payment() {
     
         $order = wc_get_order( $order_id );
         
-        $this->get_return_url( $order );	    
+        $this->get_return_url( $order );        
     }
 
     public function proccess_payment_order_details($order) {

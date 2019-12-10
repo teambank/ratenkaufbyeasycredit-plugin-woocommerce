@@ -31,20 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			</div>
 
-			<div class="woocommerce-column woocommerce-column--2 col-2">
-				
-				<h2 class="woocommerce-column__title">
-					<?php _e('Redemption Plan', 'woocommerce-gateway-ratenkaufbyeasycredit'); ?>
-				</h2>
-			
-				<?php echo $gateway->get_storage()->get('redemption_plan'); ?>
-				<br />
-				
-				<a href="<?php echo esc_url($gateway->get_storage()->get('pre_contract_information_url')); ?>" target="_blank" style="text-decoration:underline !important;">
-					<?php echo _e('Click to view precontractual information for ratenkauf by easyCredit.',
-						'woocommerce-gateway-ratenkaufbyeasycredit'); ?>
-				</a>
-			</div>	
 		</section>
 </section>
 

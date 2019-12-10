@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-19 11:08+0000\n"
+"POT-Creation-Date: 2019-12-10 12:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -19,56 +19,56 @@ msgstr ""
 msgid "ratenkauf by easyCredit"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:32
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:33
 msgid "Continue to pay by installments"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:68
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:69
 #, php-format
 msgid "%s: Please agree to the privacy conditions."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:78
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:79
 #, php-format
 msgid "%s: Please select a title."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:154
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:183
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:158
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:187
 msgid "Transaction not approved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:232
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:236
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:233
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:237
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:240
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:244
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:421
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:425
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:455
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:459
 msgid "Interest:"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:163
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:192
 msgid "Credentials invalid. Please check your input!"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:169
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:198
 msgid "Credentials valid!"
 msgstr ""
 
@@ -170,14 +170,6 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: templates/review-order.php:37
-msgid "Redemption Plan"
-msgstr ""
-
-#: templates/review-order.php:44
-msgid "Click to view precontractual information for ratenkauf by easyCredit."
-msgstr ""
-
 #: templates/payment-fields.php:11
 msgid "Prefix"
 msgstr ""
@@ -195,7 +187,7 @@ msgid "Ms/Mrs."
 msgstr ""
 
 #. Name of the plugin
-msgid "ratenkauf by easyCredit for Woocommerce"
+msgid "ratenkauf by easyCredit for WooCommerce"
 msgstr ""
 
 #. Description of the plugin
