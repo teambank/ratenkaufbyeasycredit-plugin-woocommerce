@@ -9,9 +9,9 @@
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     woocommerce-gateway-ratenkaufbyeasycredit
  * Domain Path:     /languages
- * Version:         1.4.6
+ * Version:         1.4.7
  * WC requires at least: 3.0.0
- * WC tested up to: 3.6.5
+ * WC tested up to: 3.8.1
  *
  * @package         Woocommerce_Gateway_Ratenkaufbyeasycredit
  */
