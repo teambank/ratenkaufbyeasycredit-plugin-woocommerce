@@ -311,7 +311,10 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             $error = 'ratenkauf by easyCredit zur Zeit nicht verfügbar.';
         }
 
-        if (is_array($order->get_address('billing')) && $order->get_address('billing')['country'] != 'DE') {
+        if (is_array($order->get_address('billing')) 
+            && $order->get_address('billing')['country'] != '' 
+            && $order->get_address('billing')['country'] != 'DE'
+        ) {
             $error = 'ratenkauf by easyCredit ist leider nur in Deutschland verfügbar.';
         }
 

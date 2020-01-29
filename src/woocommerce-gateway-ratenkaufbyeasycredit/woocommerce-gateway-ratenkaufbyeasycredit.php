@@ -9,16 +9,16 @@
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     woocommerce-gateway-ratenkaufbyeasycredit
  * Domain Path:     /languages
- * Version:         1.4.7
+ * Version:         1.4.8
  * WC requires at least: 3.0.0
- * WC tested up to: 3.8.1
+ * WC tested up to: 3.9
  *
  * @package         Woocommerce_Gateway_Ratenkaufbyeasycredit
  */
 
 defined( 'ABSPATH' ) or exit;
 
-define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.4.7' );
+define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.4.8' );
 define( 'WC_RATENKAUFBYEASYCREDIT_ID', 'ratenkaufbyeasycredit' );
 
 function wc_ratenkaufbyeasycredit() {
