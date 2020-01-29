@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'order'			     => $order,
 					'item_id'		     => $item_id,
 					'item'			     => $item,
-					'show_purchase_note' => $show_purchase_note,
+					'show_purchase_note' => 0,
 					'purchase_note'	     => $product ? $product->get_purchase_note() : '',
 					'product'	         => $product,
 				) );
