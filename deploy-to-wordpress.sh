@@ -1,5 +1,8 @@
 #!/bin/bash
 
+***REMOVED***
+WORDPRESS_PW=***REMOVED***
+
 # get parameters
 POSITIONAL=()
 while [[ $# -gt 0 ]]
