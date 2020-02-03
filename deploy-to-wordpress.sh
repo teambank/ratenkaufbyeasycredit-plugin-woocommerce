@@ -1,5 +1,8 @@
 #!/bin/bash
 
+***REMOVED***
+***REMOVED***
+
 # get parameters
 POSITIONAL=()
 while [[ $# -gt 0 ]]

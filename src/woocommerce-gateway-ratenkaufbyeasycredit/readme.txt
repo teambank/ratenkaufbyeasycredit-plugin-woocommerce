@@ -4,7 +4,7 @@ Tags: payment, woocommerce, ratenkauf, pay by installments, easycredit
 Requires at least: 4.4
 Tested up to: 5.3
 Requires PHP: 5.5
-Stable tag: 1.4.8
+Stable tag: 1.4.9
 License: OSL 3.0
 License URI: https://opensource.org/licenses/OSL-3.0
 
