@@ -291,7 +291,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         try {
-            $checkout->isAvailable(new \Netzkollektiv\EasyCredit\Api\Quote($order));
+            $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order);
+            $checkout->isAvailable($quote);
         } catch(\Exception $e) {
             $error = $e->getMessage();
         }
@@ -311,9 +312,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             $error = 'ratenkauf by easyCredit zur Zeit nicht verfügbar.';
         }
 
-        if (is_array($order->get_address('billing')) 
-            && $order->get_address('billing')['country'] != '' 
-            && $order->get_address('billing')['country'] != 'DE'
+        if ($quote->getBillingAddress()->getCountryId() != 'DE' &&
+            $quote->getBillingAddress()->getCountryId() != '' 
         ) {
             $error = 'ratenkauf by easyCredit ist leider nur in Deutschland verfügbar.';
         }
