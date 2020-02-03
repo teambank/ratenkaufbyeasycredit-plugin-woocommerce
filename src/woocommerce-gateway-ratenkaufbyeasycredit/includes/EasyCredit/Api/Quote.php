@@ -25,14 +25,25 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
     }
 
     public function getBillingAddress() {
-        return new Quote\Address($this->_quote->get_address('billing'));
+        $address = $this->_quote->get_address('billing');
+        if (!array_filter($address) && $this->getCustomer()->isLoggedIn()) {
+            $address = $this->_customer->get_billing();
+        }
+
+        return new Quote\Address($address);
     }
+
     public function getShippingAddress() {
         $_key = 'billing';
         if ($this->_quote->get_meta('ship_to_different_address')) {
             $_key = 'shipping';
         }
-        return new Quote\ShippingAddress($this->_quote->get_address($_key));
+
+        $address = $this->_quote->get_address($_key);
+        if (!array_filter($address) && $this->getCustomer()->isLoggedIn()) {
+            $address = ($_key == 'billing') ? $this->_customer->get_billing() : $this->_customer->get_shipping();
+        }
+        return new Quote\ShippingAddress($address);
     }
 
     public function getCustomer() {
