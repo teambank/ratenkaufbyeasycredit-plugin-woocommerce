@@ -111,4 +111,33 @@ return array(
         'desc_tip'    => true,
         'default'     => '.wc-proceed-to-checkout'
     ),
+
+    'transactions' => array(
+        'title'       => __( 'Order Management', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'title'
+    ),
+
+    'mark_shipped' => array(
+        'title'       => __( '„Lieferung melden“ automatisch durchführen?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'default'     => 'no'
+    ),
+    'mark_shipped_status' => array(
+        'title'       => __( 'Lieferung melden bei Bestellstatus', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'select',
+        'default'     => 'wc-completed',
+        'options'     => wc_get_order_statuses()
+    ),
+
+    'mark_refunded' => array(
+        'title'       => __( 'Rückabwicklung automatisch durchführen?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'default'     => 'no'
+    ),
+    'mark_refunded_status' => array(
+        'title'       => __( 'Rückabwicklung bei folgendem Bestellstatus durchführen', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'select',
+        'default'     => 'wc-refunded',
+        'options'     => wc_get_order_statuses()
+    ),
 );

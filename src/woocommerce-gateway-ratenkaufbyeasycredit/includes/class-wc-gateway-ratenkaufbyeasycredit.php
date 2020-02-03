@@ -409,6 +409,18 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         );
     }
 
+     public function get_merchant_client() {
+        $logger = new \Netzkollektiv\EasyCredit\Api\Logger($this);
+        $config = new \Netzkollektiv\EasyCredit\Api\Config($this);
+        $clientFactory = new \Netzkollektiv\EasyCreditApi\Client\HttpClientFactory();
+
+        return new \Netzkollektiv\EasyCreditApi\Merchant(
+            $config,
+            $clientFactory,
+            $logger
+        );
+    }
+
     public function get_confirm_url() {
         $query_args = array(
             'woo-'.$this->id.'-return' => true,
