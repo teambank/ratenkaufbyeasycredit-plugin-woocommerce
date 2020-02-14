@@ -225,20 +225,30 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     }
     
     public function check_credentials() {
+        if (get_current_screen()->parent_base !== 'woocommerce' ||
+            get_transient( $this->id.'-settings-checked' )
+        ) {
+            return;
+        }
+
         $settingsUri = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' );
 
         $apiKey = $this->get_option('api_key');
         $apiToken = $this->get_option('api_token');
+
         if (!empty($apiKey) && !empty($apiToken)) {
-
-            if (!$this->get_checkout()->verifyCredentials($apiKey, $apiToken)) {
-                echo $this->_displaySettingsError(array(
-                    __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
-                    __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.','woocommerce-gateway-ratenkaufbyeasycredit')
-                ));
-                return;
+            try {
+                if (!$this->get_checkout()->verifyCredentials($apiKey, $apiToken)) {
+                    echo $this->_displaySettingsError(array(
+                        __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
+                        __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.','woocommerce-gateway-ratenkaufbyeasycredit')
+                    ));
+                    return;
+                }
+                set_transient( $this->id.'-settings-checked', true, DAY_IN_SECONDS );
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
             }
-
         } else {
             echo $this->_displaySettingsError(
                 __('Please enter your credentials to use ratenkauf by easyCredit payment plugin in the <a href="%s">plugin settings</a>.','woocommerce-gateway-ratenkaufbyeasycredit')
