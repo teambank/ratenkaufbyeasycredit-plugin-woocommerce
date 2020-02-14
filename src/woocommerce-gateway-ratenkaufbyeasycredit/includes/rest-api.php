@@ -31,7 +31,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
 
         register_rest_route( 'easycredit/v1', '/transaction', array(
             'methods' => 'POST',
-            'callback' => array( $this->order_management, 'set_status' )
+            'callback' => array( $this, 'update_transaction' )
         ));
     }
 
@@ -47,7 +47,41 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
         $id = $request->get_param('id');
         $transaction = current($this->order_management->get_transactions($id));
         if ($transaction->transaction) {
-            return json_decode($transaction->transaction);
+            $trans = json_decode($transaction->transaction);
+
+$status = ['LIEFERUNG','WIDERRUF_VOLLSTAENDIG','WIDERRUF_TEILWEISE','RUECKGABE_GARANTIE_GEWAEHRLEISTUNG','MINDERUNG_GARANTIE_GEWAEHRLEISTUNG'];
+$key = array_rand($status);
+            $trans->haendlerstatusV2 = $status[$key];
+return $trans;
+        }
+    }
+
+    public function update_transaction(WP_REST_Request $request) {
+
+        $client = $this->gateway->get_merchant_client();
+
+        switch ($request->get_param('status')) {
+            case "LIEFERUNG":
+                $client->confirmShipment($request->get_param('id'));
+                break;
+            case "WIDERRUF_VOLLSTAENDIG":
+            case "WIDERRUF_TEILWEISE":
+            case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
+            case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
+                $client->cancelOrder(
+                    $request->get_param('id'), 
+                    $request->get_param('status'), 
+                    DateTime::createFromFormat('Y-d-m', $request->get_param('date')), 
+                    $request->get_param('amount')
+                );
+                break;
+        }
+
+        $cachedTransaction = current($this->order_management->get_transactions($request->get_param('id')));
+        error_log(print_r($cachedTransaction,true));
+        if ($cachedTransaction->post_id) {
+            $transaction = current($client->getTransaction($request->get_param('id')));
+            update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));
         }
     }
 }
