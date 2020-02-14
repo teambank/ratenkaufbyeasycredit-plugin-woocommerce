@@ -48,6 +48,8 @@ if [ "$SVN" = YES ]; then
         --exclude 'nbproject' \
         --exclude '.git' \
         --exclude '.gitignore' \
+        --exclude '.vscode' \
+        --exclude 'merchant-interface' \
          src/woocommerce-gateway-ratenkaufbyeasycredit/* svn/trunk/ 
     rsync -rv --delete assets/* svn/assets/
 
@@ -59,6 +61,7 @@ if [ "$SVN" = YES ]; then
     svn st | grep '^\?' | sed 's/^\? *//' | xargs -I% svn add %
     cd ..
     svn ci --non-interactive --username $WORDPRESS_USER --password $WORDPRESS_PW -m "Version ${PLUGINVERSION}"
+    svn mkdir tags/${PLUGINVERSION}
     svn cp trunk/* tags/${PLUGINVERSION}/
     svn ci --non-interactive --username $WORDPRESS_USER --password $WORDPRESS_PW -m "Tag ${PLUGINVERSION}"
 fi
