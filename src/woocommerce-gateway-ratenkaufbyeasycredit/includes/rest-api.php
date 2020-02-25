@@ -12,7 +12,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
         if ( ! is_user_logged_in() ||
             ! current_user_can( 'shop_manager' ) 
         ) {
-            //return;
+            return;
         }
 
         $this->register_routes();
@@ -48,11 +48,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
         $transaction = current($this->order_management->get_transactions($id));
         if ($transaction->transaction) {
             $trans = json_decode($transaction->transaction);
-
-$status = ['LIEFERUNG','WIDERRUF_VOLLSTAENDIG','WIDERRUF_TEILWEISE','RUECKGABE_GARANTIE_GEWAEHRLEISTUNG','MINDERUNG_GARANTIE_GEWAEHRLEISTUNG'];
-$key = array_rand($status);
-            $trans->haendlerstatusV2 = $status[$key];
-return $trans;
+            return $trans;
         }
     }
 
@@ -78,7 +74,6 @@ return $trans;
         }
 
         $cachedTransaction = current($this->order_management->get_transactions($request->get_param('id')));
-        error_log(print_r($cachedTransaction,true));
         if ($cachedTransaction->post_id) {
             $transaction = current($client->getTransaction($request->get_param('id')));
             update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));

@@ -12,6 +12,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
         add_action( 'woocommerce_admin_order_data_after_shipping_address',  array( $this, 'add_status_after_shipping_address'), 10, 1);
         add_action( 'admin_enqueue_scripts', array( $this, 'require_transaction_manager') );
+        add_action( 'admin_notices', array($this, 'bg_sync_transactions'));
 
         foreach (array('shipped','refunded') as $state) {
             if ($this->gateway->get_option('mark_'.$state) == 'yes') {
@@ -39,24 +40,41 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     }
 
     public function require_transaction_manager() {
-        wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/merchant-interface/dist/css/app.css', false, '1.0.0' );
+        //wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css',
+        //    $this->plugin_url. 'assets/css/easycredit-backend.css' );
+
+        wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/assets/css/easycredit-backend.min.css', false, '1.0.0' );
         wp_enqueue_style( 'easycredit_transaction_manager' );
-        wp_register_script( 'easycredit_transaction_manager', $this->plugin_url . '/merchant-interface/dist/js/app.js', false, '1.0.0' );
+        wp_register_script( 'easycredit_transaction_manager', $this->plugin_url . '/assets/js/easycredit-backend.min.js', false, '1.0.0' );
         wp_enqueue_script( 'easycredit_transaction_manager' );
 
     }
 
-    public function sync_transactions() {
-        $transactions = $this->gateway->get_merchant_client()
-            ->searchTransactions();
+    public function bg_sync_transactions() {
+        $screen = get_current_screen();
+        if ($screen->base == 'edit'
+            && $screen->parent_base == 'woocommerce' 
+            && $screen->post_type == 'shop_order'
+        ) {
+            $this->sync_transactions();
+        }
+    }
 
-        $ids = $this->get_transactions();
-        foreach ($ids as $transaction_id => $entry) {
-            foreach ($transactions as $transaction) {
-                if ($transaction->vorgangskennungFachlich == $transaction_id) {
-                    update_post_meta($entry->post_id, $this->get_field(), json_encode($transaction));
+    public function sync_transactions() {
+        try {
+            $transactions = $this->gateway->get_merchant_client()
+                ->searchTransactions();
+
+            $ids = $this->get_transactions();
+            foreach ($ids as $transaction_id => $entry) {
+                foreach ($transactions as $transaction) {
+                    if ($transaction->vorgangskennungFachlich == $transaction_id) {
+                        update_post_meta($entry->post_id, $this->get_field(), json_encode($transaction));
+                    }
                 }
             }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
     }
 
@@ -88,9 +106,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         return json_decode($status);
     }
 
-    public function add_status_after_shipping_address($order) {
-        $this->sync_transactions();
-        
+    public function add_status_after_shipping_address($order) {        
         if ($content = $this->get_order_status_icon($order)) {
             echo $content;
         }

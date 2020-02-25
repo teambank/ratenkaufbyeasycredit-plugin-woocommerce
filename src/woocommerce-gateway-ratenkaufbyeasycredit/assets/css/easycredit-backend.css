@@ -2,3 +2,6 @@
     width:auto;
     padding: 0 10px 1px;
 }
+
+.wp-admin mark.order-status { margin: auto 0.2em 0.45em auto; }
+.wp-admin .easycredit-tx-status-widget { margin-top: -0.25em; }
