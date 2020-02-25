@@ -40,8 +40,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     }
 
     public function require_transaction_manager() {
-        //wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css',
-        //    $this->plugin_url. 'assets/css/easycredit-backend.css' );
 
         wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/assets/css/easycredit-backend.min.css', false, '1.0.0' );
         wp_enqueue_style( 'easycredit_transaction_manager' );
