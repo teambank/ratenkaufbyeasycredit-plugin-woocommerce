@@ -25,18 +25,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             new WC_Gateway_Ratenkaufbyeasycredit_Order_Management($this);
         }
 
-        add_action( 'rest_api_init', function() {
-            remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
-            add_filter( 'rest_pre_serve_request', function( $value ) {
-                header( 'Access-Control-Allow-Origin: *' );
-                header( 'Access-Control-Allow-Methods: GET' );
-                header( 'Access-Control-Allow-Credentials: true' );
-                header( 'Access-Control-Expose-Headers: Link', false );
-        
-                return $value;
-            } );
-        }, 15 );
-
         add_action( 'rest_api_init', array($this, 'init_api'));
 
         add_action( 'parse_request', array($this, 'init_order_management') );
