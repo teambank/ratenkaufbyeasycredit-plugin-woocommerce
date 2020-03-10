@@ -27,8 +27,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
         add_action( 'rest_api_init', array($this, 'init_api'));
 
-        add_action( 'parse_request', array($this, 'init_order_management') );
-
         add_action('admin_enqueue_scripts', array($this, 'enqueue_backend_ressources'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_ressources'));
         add_action('do_meta_boxes', array($this, 'hook_prevent_shipping_address_change'));
