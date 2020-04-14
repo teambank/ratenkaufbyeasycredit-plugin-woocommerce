@@ -4,9 +4,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     protected $_field = 'merchant-status';
 
     public function __construct($plugin) {
-    	$this->plugin = $plugin;
-    	$this->plugin_url = $plugin->plugin_url;
-    	$this->gateway = $this->plugin->get_gateway();
+        $this->plugin = $plugin;
+        $this->plugin_url = $plugin->plugin_url;
+        $this->gateway = $this->plugin->get_gateway();
 
         add_action( 'manage_shop_order_posts_custom_column',  array( $this, 'add_order_column_content'),20);
         add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
@@ -31,12 +31,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     }
 
     public function add_endpoint_vars() {
-        $endpoints = array(
-          'get' => get_rest_url(null, 'easycredit/v1/transaction'),
-          'list' => get_rest_url(null, 'easycredit/v1/transactions'),
-          'post' => get_rest_url(null, 'easycredit/v1/transaction')
+        $config = array(
+          'endpoints' => array(
+              'get' => get_rest_url(null, 'easycredit/v1/transaction'),
+              'list' => get_rest_url(null, 'easycredit/v1/transactions'),
+              'post' => get_rest_url(null, 'easycredit/v1/transaction')
+           )
        );
-       echo "<script>window.ratenkaufbyeasycreditOrderManagementEndpoints = ".json_encode($endpoints).";</script>";
+       echo "<script>window.ratenkaufbyeasycreditOrderManagementConfig = ".json_encode($config).";</script>";
     }
 
     public function require_transaction_manager() {
