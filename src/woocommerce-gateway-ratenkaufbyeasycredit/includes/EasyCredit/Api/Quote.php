@@ -62,6 +62,9 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
     protected function _getItems($items) {
         $_items = array();
         foreach ($items as $item) {
+            if ($item->get_subtotal() == 0) {
+                continue;
+            }
             $_items[] = new Quote\Item(
                 $item
             );
