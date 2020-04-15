@@ -53,29 +53,30 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
     }
 
     public function update_transaction(WP_REST_Request $request) {
+        $params = $request->get_json_params();
 
         $client = $this->gateway->get_merchant_client();
 
-        switch ($request->get_param('status')) {
+        switch ($params['status']) {
             case "LIEFERUNG":
-                $client->confirmShipment($request->get_param('id'));
+                $client->confirmShipment($params['id']);
                 break;
             case "WIDERRUF_VOLLSTAENDIG":
             case "WIDERRUF_TEILWEISE":
             case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
             case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
                 $client->cancelOrder(
-                    $request->get_param('id'), 
-                    $request->get_param('status'), 
-                    DateTime::createFromFormat('Y-d-m', $request->get_param('date')), 
-                    $request->get_param('amount')
+                    $params['id'], 
+                    $params['status'], 
+                    DateTime::createFromFormat('Y-d-m', $params['date']), 
+                    $params['amount']
                 );
                 break;
         }
 
-        $cachedTransaction = current($this->order_management->get_transactions($request->get_param('id')));
+        $cachedTransaction = current($this->order_management->get_transactions($params['id']));
         if ($cachedTransaction->post_id) {
-            $transaction = current($client->getTransaction($request->get_param('id')));
+            $transaction = current($client->getTransaction($params['id']));
             update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));
         }
     }

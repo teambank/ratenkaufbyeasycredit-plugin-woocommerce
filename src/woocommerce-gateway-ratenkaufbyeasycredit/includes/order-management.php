@@ -32,12 +32,17 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
     public function add_endpoint_vars() {
         $config = array(
-          'endpoints' => array(
-              'get' => get_rest_url(null, 'easycredit/v1/transaction'),
-              'list' => get_rest_url(null, 'easycredit/v1/transactions'),
-              'post' => get_rest_url(null, 'easycredit/v1/transaction')
-           )
-       );
+            'endpoints' => array(
+                'get' => get_rest_url(null, 'easycredit/v1/transaction'),
+                'list' => get_rest_url(null, 'easycredit/v1/transactions'),
+                'post' => get_rest_url(null, 'easycredit/v1/transaction')
+            ),
+            'request_config' => array(
+                'headers' => array(
+                    'Content-Type' => 'application/json'
+                )
+            )
+        );
        echo "<script>window.ratenkaufbyeasycreditOrderManagementConfig = ".json_encode($config).";</script>";
     }
 
