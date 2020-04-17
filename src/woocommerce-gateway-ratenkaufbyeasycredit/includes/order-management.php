@@ -93,9 +93,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
         $data = $wpdb->get_results('
             SELECT m.meta_value as transaction_id, p.ID as post_id, m1.meta_value as transaction
-            FROM  wp_posts p 
-            LEFT JOIN wp_postmeta m ON m.post_id = p.ID AND m.meta_key = "'.$this->gateway->id.'-transaction-id"
-            LEFT JOIN wp_postmeta m1 ON m1.post_id = p.ID AND m1.meta_key = "'.$this->get_field().'"
+            FROM  '.$wpdb->posts.' p 
+            LEFT JOIN '.$wpdb->postmeta.' m ON m.post_id = p.ID AND m.meta_key = "'.$this->gateway->id.'-transaction-id"
+            LEFT JOIN '.$wpdb->postmeta.' m1 ON m1.post_id = p.ID AND m1.meta_key = "'.$this->get_field().'"
             WHERE post_type = "shop_order" AND m.meta_key IS NOT NULL
             '.$cond.';', OBJECT_K
         );
