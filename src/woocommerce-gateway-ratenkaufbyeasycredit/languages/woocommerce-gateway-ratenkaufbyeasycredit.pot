@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-10 12:04+0000\n"
+"POT-Creation-Date: 2020-05-11 14:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -38,37 +38,37 @@ msgstr ""
 msgid "Transaction not approved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:236
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:243
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:237
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:244
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:244
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:254
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:425
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:450
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:459
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:484
 msgid "Interest:"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:192
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:205
 msgid "Credentials invalid. Please check your input!"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:198
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:211
 msgid "Credentials valid!"
 msgstr ""
 
@@ -152,6 +152,26 @@ msgstr ""
 
 #: includes/admin-fields.php:108
 msgid "CSS Selector to include widget at the cart page"
+msgstr ""
+
+#: includes/admin-fields.php:116 includes/order-management.php:141
+msgid "Order Management"
+msgstr ""
+
+#: includes/admin-fields.php:121
+msgid "Confirm shipping automatically?"
+msgstr ""
+
+#: includes/admin-fields.php:126
+msgid "Order status to confirm shipping"
+msgstr ""
+
+#: includes/admin-fields.php:133
+msgid "Refund automatically?"
+msgstr ""
+
+#: includes/admin-fields.php:138
+msgid "Order status to refund"
 msgstr ""
 
 #: templates/payment-method-title.php:6 templates/review-order.php:26

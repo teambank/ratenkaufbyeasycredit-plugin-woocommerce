@@ -118,24 +118,24 @@ return array(
     ),
 
     'mark_shipped' => array(
-        'title'       => __( '„Lieferung melden“ automatisch durchführen?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'title'       => __( 'Confirm shipping automatically?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'checkbox',
         'default'     => 'no'
     ),
     'mark_shipped_status' => array(
-        'title'       => __( 'Lieferung melden bei Bestellstatus', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'title'       => __( 'Order status to confirm shipping', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'select',
         'default'     => 'wc-completed',
         'options'     => wc_get_order_statuses()
     ),
 
     'mark_refunded' => array(
-        'title'       => __( 'Rückabwicklung automatisch durchführen?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'title'       => __( 'Refund automatically?', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'checkbox',
         'default'     => 'no'
     ),
     'mark_refunded_status' => array(
-        'title'       => __( 'Rückabwicklung bei folgendem Bestellstatus durchführen', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'title'       => __( 'Order status to refund', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'select',
         'default'     => 'wc-refunded',
         'options'     => wc_get_order_statuses()
