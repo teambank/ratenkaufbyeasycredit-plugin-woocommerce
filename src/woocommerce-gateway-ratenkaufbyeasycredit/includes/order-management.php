@@ -24,7 +24,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         }
     }
 
-    protected function get_order() {
+    protected function get_order($post_id = null) {
         if ($post_id === null) {
             global $post;
             $post_id = $post->ID;
@@ -56,7 +56,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/assets/css/easycredit-backend.min.css', false, '1.0.0' );
         wp_enqueue_style( 'easycredit_transaction_manager' );
         wp_register_script( 'easycredit_transaction_manager', $this->plugin_url . '/assets/js/easycredit-backend.min.js', false, '1.0.0' );
-        wp_localize_script( 'easycredit_transaction_manager', 'window.ratenkaufbyeasycreditOrderManagementConfig', array($this->get_endpoint_vars()) );
+        wp_localize_script( 'easycredit_transaction_manager', 'ratenkaufbyeasycreditOrderManagementConfig', $this->get_endpoint_vars() );
         wp_enqueue_script( 'easycredit_transaction_manager' );
 
     }
