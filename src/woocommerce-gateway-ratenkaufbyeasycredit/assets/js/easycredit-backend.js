@@ -1,8 +1,11 @@
 jQuery(function($){
+    if (typeof wc_ratenkaufbyeasycredit_config === 'undefined') {
+        return;
+    }
+
     var prefix = 'wc_ratenkaufbyeasycredit_';
     var getBaseUrl = function(action) {
-        var l = window.location;
-        return l.protocol+'//'+l.host+'/'+l.pathname.split('/')[1]+'/admin-post.php?action='+prefix+action;
+        return wc_ratenkaufbyeasycredit_config.url+'?action='+prefix+action;
     }
 
     $('#woocommerce_ratenkaufbyeasycredit_api_verify_credentials').click(function(){
