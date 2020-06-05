@@ -22,8 +22,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                 add_action( 'woocommerce_order_status_'.$status, array($this, 'mark_'.$status),10,2);
             }
         }
-
-        add_action('admin_head', array($this,'add_endpoint_vars'));
     }
 
     protected function get_order() {
@@ -38,8 +36,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         return $this->gateway->id.'-'.$this->_field;
     }
 
-    public function add_endpoint_vars() {
-        $config = array(
+    public function get_endpoint_vars() {
+        return array(
             'endpoints' => array(
                 'get' => get_rest_url(null, 'easycredit/v1/transaction'),
                 'list' => get_rest_url(null, 'easycredit/v1/transactions'),
@@ -51,7 +49,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                 )
             )
         );
-       echo "<script>window.ratenkaufbyeasycreditOrderManagementConfig = ".json_encode($config).";</script>";
     }
 
     public function require_transaction_manager() {
@@ -59,6 +56,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/assets/css/easycredit-backend.min.css', false, '1.0.0' );
         wp_enqueue_style( 'easycredit_transaction_manager' );
         wp_register_script( 'easycredit_transaction_manager', $this->plugin_url . '/assets/js/easycredit-backend.min.js', false, '1.0.0' );
+        wp_localize_script( 'easycredit_transaction_manager', 'window.ratenkaufbyeasycreditOrderManagementConfig', array($this->get_endpoint_vars()) );
         wp_enqueue_script( 'easycredit_transaction_manager' );
 
     }
