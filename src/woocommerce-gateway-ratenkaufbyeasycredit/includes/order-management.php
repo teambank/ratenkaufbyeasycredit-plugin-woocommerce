@@ -26,6 +26,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         add_action('admin_head', array($this,'add_endpoint_vars'));
     }
 
+    protected function get_order() {
+        if ($post_id === null) {
+            global $post;
+            $post_id = $post->ID;
+        }
+        return new WC_Order( $post_id );
+    }
+
     public function get_field() {
         return $this->gateway->id.'-'.$this->_field;
     }
@@ -122,9 +130,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
             return;
         }
 
-        global $post;
-        $order = new WC_Order( $post->ID );
-
+        $order = $this->get_order();
         if ($content = $this->get_order_status_icon($order)) {
             echo $content;
         }
@@ -136,6 +142,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
     public function add_meta_boxes()
     {
+        if ($this->get_order()->get_payment_method() != $this->plugin->id) {
+            return false;
+        }
+
         add_meta_box( 
             'easycredit-merchant-status', 
             __('Order Management','woocommerce-gateway-ratenkaufbyeasycredit'), 
@@ -148,11 +158,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
     public function add_order_management_meta_box($post_id = null)
     {
-        if ($post_id === null) {
-            global $post;
-            $post_id = $post->ID;
-        }
-        $order = new WC_Order( $post_id );
+        $order = $this->get_order($post_id);
         ?>
             <easycredit-tx-manager 
                 id="<?php echo $order->get_meta($this->gateway->id.'-transaction-id'); ?>" 
