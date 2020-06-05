@@ -262,9 +262,14 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         throw new Exception(__CLASS__.'_tmp_order');
     }
 
+    public function prevent_remove_items() {
+        return false;
+    }
+
     public function get_tmp_order() {
 
         add_action ('woocommerce_checkout_create_order', array($this, 'abort_create_order'));
+        add_filter ('woocommerce_order_has_status', array($this, 'prevent_remove_items'));
 
         $wc_checkout = WC_Checkout::instance();
 
@@ -276,6 +281,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         $wc_checkout->create_order($postData);
 
+        remove_filter ('woocommerce_order_has_status', array($this, 'prevent_remove_items'));
         remove_action('woocommerce_checkout_create_order', array($this, 'abort_create_order'), 10 );
 
         $order = $this->tmp_order;
