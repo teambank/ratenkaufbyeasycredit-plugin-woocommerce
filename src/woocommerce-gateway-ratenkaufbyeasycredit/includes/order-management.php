@@ -9,10 +9,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         $this->gateway = $this->plugin->get_gateway();
 
         add_action( 'manage_shop_order_posts_custom_column',  array( $this, 'add_order_column_content'),20);
-        add_action( 'load-post.php', array( $this, 'add_meta_boxes_in_listing') );
         add_action( 'woocommerce_admin_order_data_after_shipping_address',  array( $this, 'add_status_after_shipping_address'), 10, 1);
         add_action( 'admin_enqueue_scripts', array( $this, 'require_transaction_manager') );
         add_action( 'admin_notices', array($this, 'bg_sync_transactions'));
+        add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
 
         foreach (array('shipped','refunded') as $state) {
             if ($this->gateway->get_option('mark_'.$state) == 'yes') {
@@ -134,13 +134,11 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         }
     }
 
-    public function add_meta_boxes_in_listing() {
-        add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
-    }
-
-    public function add_meta_boxes()
+    public function add_meta_boxes($post_type)
     {
-        if ($this->get_order()->get_payment_method() != $this->plugin->id) {
+        if ($post_type !== 'shop_order'
+            || $this->get_order()->get_payment_method() != $this->plugin->id
+        ) {
             return false;
         }
 
