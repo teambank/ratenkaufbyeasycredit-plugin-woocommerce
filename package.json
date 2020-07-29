@@ -22,7 +22,7 @@
   "scripts": {
     "docs:html" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
 	"docs:pdf" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
-    "deploy:docs" : "rsync -rvz --delete ${PWD}/docs/build/html/ corporate-mittwald:/home/www/p188630/html/corporate-2016/web/docs/ratenkaufbyeasycredit-woocommerce/",
+    "deploy:docs" : "rsync -rvz --delete ${PWD}/docs/build/html/ nk:/home/www/p539312/html/corporate-2019/web/docs/ratenkaufbyeasycredit-woocommerce/",
     "deploy" : "bin/deploy-to-wordpress.sh --svn",
     "release" : "bin/release.sh"
   },
