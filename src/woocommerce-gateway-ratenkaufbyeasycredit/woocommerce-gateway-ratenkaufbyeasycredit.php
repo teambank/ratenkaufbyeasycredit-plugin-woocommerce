@@ -36,10 +36,9 @@ function wc_ratenkaufbyeasycredit() {
     return $plugin;
 }
 
-function ratenkaufByEasyCreditCheckForWooCommerce($index, $plugin) {
+function ratenkaufByEasyCreditCheckForWooCommerce($plugin) {
     return preg_match('/^woocommerce[\-\.0-9]*\/woocommerce.php$/', $plugin);
 }
-
 if (array_filter(
     array_merge(
         apply_filters( 'active_plugins',get_option( 'active_plugins' )),
