@@ -1,0 +1,31 @@
+{
+  "name": "woo-easycredit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "^1.0.4",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^3.4.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify": "^3.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.netzkollektiv.com:netzkollektiv-projects/easycredit-woocommerce.git"
+  },
+  "scripts": {
+    "docs:html" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
+	"docs:pdf" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
+    "deploy:docs" : "rsync -rvz --delete ${PWD}/docs/build/html/ corporate-mittwald:/home/www/p188630/html/corporate-2016/web/docs/ratenkaufbyeasycredit-woocommerce/",
+    "deploy" : "bin/deploy-to-wordpress.sh --svn",
+    "release" : "bin/release.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
