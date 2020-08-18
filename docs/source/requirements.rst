@@ -6,7 +6,7 @@ Zu Nutzung von **ratenkauf by easyCredit für WooCommerce** benötigen Sie:
 
 * eine funktionierende **WooCommerce** Installation
 * valide API-Zugangsdaten zu *ratenkauf by easyCredit*
-* die aktuelle Version des wooCommerce Plugins für ratenkauf by easyCredit (siehe https://www.easycredit-ratenkauf.de/system/magento/)
+* die aktuelle Version des wooCommerce Plugins für ratenkauf by easyCredit (siehe https://www.easycredit-ratenkauf.de/system/woocommerce/)
 
 Versionskompatibilität
 ----------------------

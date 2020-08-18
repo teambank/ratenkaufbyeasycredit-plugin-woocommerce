@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.6.9
+------
+
+- der Link zu „Was ist ratenkauf by easyCredit“ wurde aktualisiert
+
+1.6.8
+------
+
+- behebt einen NOTICE-Fehler, der auftrat, wenn Multi-Site nicht verwendet wird
 
 1.6.7
 ------
