@@ -55,6 +55,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                 array( $this, 'process_admin_options' ) 
             );
             add_action( 'admin_notices', array($this, 'check_credentials') );
+            add_action( 'admin_notices', array($this, 'check_review_page_exists') );
         }
         
         add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
@@ -239,7 +240,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         if (!empty($apiKey) && !empty($apiToken)) {
             try {
                 if (!$this->get_checkout()->verifyCredentials($apiKey, $apiToken)) {
-                    echo $this->_displaySettingsError(array(
+                    echo $this->_display_settings_error(array(
                         __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
                         __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.','woocommerce-gateway-ratenkaufbyeasycredit')
                     ));
@@ -250,11 +251,28 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                 error_log($e->getMessage());
             }
         } else {
-            echo $this->_displaySettingsError(
+            echo $this->_display_settings_error(
                 __('Please enter your credentials to use ratenkauf by easyCredit payment plugin in the <a href="%s">plugin settings</a>.','woocommerce-gateway-ratenkaufbyeasycredit')
             );
             return;
         }
+    }
+
+    public function check_review_page_exists() {
+        if (get_current_screen()->parent_base !== 'woocommerce') {
+            return;
+        }
+
+        $page_path = current($this->plugin->get_review_page_data())['name'];
+        if (get_page_by_path( $page_path, OBJECT )) {
+            return;
+        }
+
+        echo $this->_display_settings_error(
+            __('The "ratenkauf by easyCredit" review page does not exist. Probably it was deleted by mistake. The page is necessary to confirm "ratenkauf by easyCredit" payments after being returned from the payment terminal. To restore the page, please restore it from the trash under "Pages", or deactivate and activate the plugin in the <a href="%s">plugin administration</a>.','woocommerce-gateway-ratenkaufbyeasycredit'),
+            is_multisite() ? admin_url('network/plugins.php?s=easycredit') :  admin_url('plugins.php?s=easycredit')
+        );
+        return;
     }
 
     public function abort_create_order($order) {
@@ -341,12 +359,14 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         ));
     }
 
-    protected function _displaySettingsError($msg) {
+    protected function _display_settings_error($msg, $uri = null) {
         if (is_array($msg)) {
             $msg = implode(' ',$msg);
         }
-        $uri = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' );
 
+        if ($uri === null) {
+            $uri = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' );
+        }
         return implode(array(
             '<div class="error"><p>',
                 sprintf( $msg, $uri),

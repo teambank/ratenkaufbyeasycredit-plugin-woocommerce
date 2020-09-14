@@ -9,13 +9,13 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
 
         $this->order_management = $order_management;
 
-        if ( ! is_user_logged_in() ||
-            ! current_user_can( 'shop_manager' ) 
-        ) {
-            return;
+        if (is_user_logged_in() && (
+            current_user_can( 'shop_manager' )
+			|| current_user_can('administrator')
+        )) {
+			$this->register_routes();
         }
 
-        $this->register_routes();
     }
     
     public function register_routes() {
