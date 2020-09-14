@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-11 14:01+0000\n"
+"POT-Creation-Date: 2020-09-14 14:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,8 +14,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:19
+#: templates/payment-method-title.php:6 templates/review-order.php:26
+msgid "Easy. Fair. Pay by installments."
+msgstr ""
+
+#: templates/payment-method-title.php:10
+msgid "Was ist ratenkauf by easyCredit?"
+msgstr ""
+
+#: templates/payment-fields.php:11
+msgid "Prefix"
+msgstr ""
+
+#: templates/payment-fields.php:13
+msgid "Please select a title"
+msgstr ""
+
+#: templates/payment-fields.php:14
+msgid "Mr."
+msgstr ""
+
+#: templates/payment-fields.php:15
+msgid "Ms/Mrs."
+msgstr ""
+
+#: templates/review-order.php:7
+msgid "Please review and confirm your order"
+msgstr ""
+
+#: templates/review-order.php:17
+msgid "Payment Method"
+msgstr ""
+
 #: templates/review-order.php:24
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:19
 msgid "ratenkauf by easyCredit"
 msgstr ""
 
@@ -23,52 +55,63 @@ msgstr ""
 msgid "Continue to pay by installments"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:69
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:70
 #, php-format
 msgid "%s: Please agree to the privacy conditions."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:79
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:80
 #, php-format
 msgid "%s: Please select a title."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:158
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:187
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:159
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:188
 msgid "Transaction not approved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:243
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:244
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:244
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:245
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:254
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:255
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:450
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:272
+#, php-format
+msgid ""
+"The \"ratenkauf by easyCredit\" review page does not exist. Probably it was "
+"deleted by mistake. The page is necessary to confirm \"ratenkauf by "
+"easyCredit\" payments after being returned from the payment terminal. To "
+"restore the page, please restore it from the trash under \"Pages\", or "
+"deactivate and activate the plugin in the <a href=\"%s\">plugin "
+"administration</a>."
+msgstr ""
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:475
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:484
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:509
 msgid "Interest:"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:205
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:208
 msgid "Credentials invalid. Please check your input!"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:211
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:214
 msgid "Credentials valid!"
 msgstr ""
 
@@ -154,7 +197,7 @@ msgstr ""
 msgid "CSS Selector to include widget at the cart page"
 msgstr ""
 
-#: includes/admin-fields.php:116 includes/order-management.php:141
+#: includes/admin-fields.php:116 includes/order-management.php:147
 msgid "Order Management"
 msgstr ""
 
@@ -174,46 +217,14 @@ msgstr ""
 msgid "Order status to refund"
 msgstr ""
 
-#: templates/payment-method-title.php:6 templates/review-order.php:26
-msgid "Easy. Fair. Pay by installments."
-msgstr ""
-
-#: templates/payment-method-title.php:10
-msgid "Was ist ratenkauf by easyCredit?"
-msgstr ""
-
-#: templates/review-order.php:7
-msgid "Please review and confirm your order"
-msgstr ""
-
-#: templates/review-order.php:17
-msgid "Payment Method"
-msgstr ""
-
-#: templates/payment-fields.php:11
-msgid "Prefix"
-msgstr ""
-
-#: templates/payment-fields.php:13
-msgid "Please select a title"
-msgstr ""
-
-#: templates/payment-fields.php:14
-msgid "Mr."
-msgstr ""
-
-#: templates/payment-fields.php:15
-msgid "Ms/Mrs."
-msgstr ""
-
 #. Name of the plugin
 msgid "ratenkauf by easyCredit for WooCommerce"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung "
-"Deutschlands mit WooCommerce nutzen."
+"ratenkauf by easyCredit - use the easiest installment purchase of Germany "
+"for your WooCommerce store now"
 msgstr ""
 
 #. URI of the plugin
