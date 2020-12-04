@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.6.11
+-------
+
+- Anpassung zur Kompatibilität mit PHP 7.4
+- Erweiterung der REST API Routes um permission_callback
+- Verbesserung der Kompatibilität mit Elementor
+- Kompatibilität bis Wordpress v5.5.3, wooCommerce v4.7.1
+
 1.6.10
 ------
 
