@@ -124,10 +124,14 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             
         $this->get_checkout()->loadFinancingInformation();        
 
+        ob_start();
         $this->plugin->load_template('review-order', array(
             'gateway' => $this,
             'order'      => $order
         ));
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
     }
     
     public function maybe_expire_order() {

@@ -21,17 +21,20 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
     public function register_routes() {
         register_rest_route( 'easycredit/v1', '/transactions', array(
             'methods' => 'GET',
-            'callback' => array( $this, 'get_transactions' )
+            'callback' => array( $this, 'get_transactions' ),
+            'permission_callback' => '__return_true' // // allow for anybody as routes are only registered in admin
         ));
 
         register_rest_route( 'easycredit/v1', '/transaction', array(
             'methods' => 'GET',
-            'callback' => array( $this, 'get_transaction' )
+            'callback' => array( $this, 'get_transaction' ),
+            'permission_callback' => '__return_true' // // allow for anybody as routes are only registered in admin
         ));
 
         register_rest_route( 'easycredit/v1', '/transaction', array(
             'methods' => 'POST',
-            'callback' => array( $this, 'update_transaction' )
+            'callback' => array( $this, 'update_transaction' ),
+            'permission_callback' => '__return_true' // allow for anybody as routes are only registered in admin
         ));
     }
 

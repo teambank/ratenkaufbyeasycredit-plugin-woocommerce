@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.6.10
+------
+
+- der Administrator kann nun auf die Transaktions-API zugreifen und Transaktionen bearbeiten
+- wenn die Review Seite nicht vorhanden ist, wird ein Hinweis angezeigt, wie diese wiederhergestellt werden kann
+- Übersetzungen in "Deutsch" sind nun in Du-Form formuliert, Deutsch (Sie) weiterhin in Sie-Form
+- Kompatibilität bis Wordpress v5.5.1, wooCommerce v4.5.1
+
 1.6.9
 ------
 
