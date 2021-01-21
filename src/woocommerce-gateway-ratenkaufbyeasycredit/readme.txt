@@ -2,9 +2,9 @@
 Contributors: ratenkaufbyeasycredit, netzkollektiv
 Tags: payment, woocommerce, ratenkauf, pay by installments, easycredit
 Requires at least: 4.4
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.5
-Stable tag: 1.6.11
+Stable tag: 1.6.12
 License: OSL 3.0
 License URI: https://opensource.org/licenses/OSL-3.0
 

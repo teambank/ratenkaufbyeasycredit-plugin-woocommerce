@@ -44,6 +44,9 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             add_action ('woocommerce_checkout_create_order', 
                 array($this, 'proccess_payment_order_details')
             );
+            add_action('woocommerce_before_pay_action',
+                array($this, 'proccess_payment_order_details')
+            );
             add_action( 'woocommerce_ratenkaufbyeasycredit_order_item_totals', 
                 array( $this, 'order_item_totals' )
             );
