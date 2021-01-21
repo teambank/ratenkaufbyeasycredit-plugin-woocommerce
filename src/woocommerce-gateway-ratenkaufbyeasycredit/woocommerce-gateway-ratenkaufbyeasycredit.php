@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) or exit;
 
-define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.6.11' );
+define( 'WC_RATENKAUFBYEASYCREDIT_VERSION', '1.6.12' );
 define( 'WC_RATENKAUFBYEASYCREDIT_ID', 'ratenkaufbyeasycredit' );
 
 function wc_ratenkaufbyeasycredit() {
