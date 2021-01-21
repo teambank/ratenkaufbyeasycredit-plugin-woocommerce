@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.6.12
+------
+
+- ratenkauf by easyCredit kann nun auch mit der Kundenbezahlungsseite verwendet werden (bei Erstellung der Bestellung durch den Händler)
+- Kompatibilität bis Wordpress v5.6, wooCommerce v4.9.1
+
 1.6.11
 -------
 
