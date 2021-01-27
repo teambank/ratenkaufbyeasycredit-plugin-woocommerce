@@ -1,3 +1,7 @@
+= 1.6.13 =
+
+- Verbesserung der Kompatibilität mit Drittanbieter-Plugins
+
 = 1.6.12 =
 
 - ratenkauf by easyCredit kann nun auch mit der Kundenbezahlungsseite verwendet werden (bei Erstellung der Bestellung durch den Händler)

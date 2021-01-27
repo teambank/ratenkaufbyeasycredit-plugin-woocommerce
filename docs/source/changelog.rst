@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6.13
+-------
+
+- Verbesserung der Kompatibilität mit Drittanbieter-Plugins
+
 1.6.12
 ------
 
