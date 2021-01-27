@@ -149,7 +149,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
          if ( $_template = locate_template( $tpl.'.php' ) ) {
             $template = $_template;
         }
-        load_template( $template, true );
+        load_template( $template, false );
     }
 
     public function enqueue_frontend_ressources($hook) {
