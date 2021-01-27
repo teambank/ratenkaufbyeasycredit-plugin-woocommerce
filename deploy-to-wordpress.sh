@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ***REMOVED***
-WORDPRESS_PW=***REMOVED***
+***REMOVED***
 
 # get parameters
 POSITIONAL=()
