@@ -5,3 +5,16 @@
 
 .wp-admin mark.order-status { margin: auto 0.2em 0.45em auto; }
 .wp-admin .easycredit-tx-status-widget { margin-top: -0.25em; }
+
+.easycredit-intro {
+  padding: 15px 0;
+  background:#fff;
+}
+.easycredit-intro img {
+  display:inline-block;
+  padding:15px;
+  width:170px;
+}
+.easycredit-intro div {
+  display:inline-block;
+}

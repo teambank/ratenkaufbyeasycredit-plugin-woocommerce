@@ -65,7 +65,45 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         self::$initialized = true;
     }
-    
+
+    public function admin_options() {
+        ob_start();
+        parent::admin_options();
+        $parent_options = ob_get_contents();
+        ob_end_clean();
+
+        ?>
+        <div class="ratenkaufbyeasycredit-wrapper">
+            <div class="easycredit-intro">
+              <img src="https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png">
+              <div>
+                Bieten Sie Ihren Kunden die Möglichkeit der Ratenzahlung mit ratenkauf by easyCredit.<br>
+                <strong>Einfach. Fair. In Raten zahlen.</strong>
+                <br><br>
+                <a href="https://www.easycredit-ratenkauf.de/anmeldung.htm" target="_blank">zum Händler-Interface</a>
+                 - <a href="https://www.easycredit-ratenkauf.de/shopsysteme.htm" target="_blank">zum Integration-Center</a>
+                 - <a href="https://netzkollektiv.com/docs/ratenkaufbyeasycredit-woocommerce/" target="_blank">zur Dokumentation</a> 
+              </div>
+            </div>
+            <!-- style>
+            .easycredit-intro {
+              padding: 15px 0;
+              background:#fff;
+            }
+            .easycredit-intro img {
+              display:inline-block; 
+              padding:15px; 
+              width:170px;
+            }
+            .easycredit-intro div {
+              display:inline-block;
+            }
+            </style -->
+
+          <?php echo $parent_options; ?>
+        </div>
+        <?php
+    }
 
     public function validate_fields() {
 
@@ -142,7 +180,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             return;
         }
         
-        $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order);
+        $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order, $this);
 
         $checkout = $this->get_checkout();        
         if ($this->get_storage()->get('authorized_amount') != $quote->getGrandTotal()
@@ -332,7 +370,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         try {
-            $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order);
+            $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order, $this);
             $checkout->isAvailable($quote);
         } catch(\Exception $e) {
             $error = $e->getMessage();
@@ -383,11 +421,21 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
     public function init_form_fields() {
 
+        $shipping_methods = array(''=>'');
+        if (WC()->shipping()) {
+            foreach (WC()->shipping()->load_shipping_methods() as $code => $method) {
+                $shipping_methods[$method->id] = $method->get_method_title();
+            }
+        }
+
         $fields = require (wc_ratenkaufbyeasycredit()->includes_path.'admin-fields.php');
         $fields = apply_filters( 'wc_ratenkaufbyeasycredit_form_fields', $fields);
         $this->form_fields = $fields;
     }
 
+    public function generate_clickandcollectintro_html() {
+        return file_get_contents(dirname(__FILE__).'/../templates/click-and-collect.html');
+    }
 
     public function get_option($key, $empty_value = null) {
         $option = parent::get_option($key,$empty_value);
@@ -467,7 +515,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         $checkout = $this->get_checkout();
         $checkout->start(
-            new \Netzkollektiv\EasyCredit\Api\Quote($order),
+            new \Netzkollektiv\EasyCredit\Api\Quote($order, $this),
             esc_url_raw( $order->get_cancel_order_url_raw() ),
             $this->get_confirm_url($order_id),
             esc_url_raw( $order->get_cancel_order_url_raw() )

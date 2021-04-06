@@ -19,32 +19,6 @@ return array(
         'desc_tip'    => true,
     ),
 
-    'widget_enabled' => array(
-        'title'       => __( 'Show widget next to product price', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'        => 'checkbox',
-        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in product detail view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'desc_tip'    => true,
-        'default'     => 'yes'
-    ),
-
-
-    'cart_widget_enabled' => array(
-        'title'       => __( 'Show widget in Cart', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'        => 'checkbox',
-        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in cart view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'desc_tip'    => true,
-        'default'     => 'yes'
-    ),
-
-/*
-    'description' => array(
-        'title'       => __( 'Description', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'        => 'textarea',
-        'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'default'     => __( 'You will be redirected to ratenkauf by easyCredit once you submit the order', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'desc_tip'    => true,
-    ),
-*/
     'instructions' => array(
         'title'       => __( 'Instructions', 'woocommerce' ),
         'type'        => 'textarea',
@@ -73,30 +47,27 @@ return array(
         'default'       => __( 'Verify Credentials', 'woocommerce-gateway-ratenkaufbyeasycredit'),
         'class'     => 'button-primary'
     ),
-    /*
-    'processing' => array(
-        'title'       => __( 'Processing settings', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'        => 'title'
-    ),
-    'order_status' => array(
-        'title'   => __( 'Order status', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'    => 'select',
-    ), 
-    'pamyent_status' => array(
-        'title'   => __( 'Payment status', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'    => 'select',
-    ), 
-    */
-    'advanced' => array(
-        'title'       => __( 'Advanced Settings', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
-        'type'        => 'title'
-    ),
+
     'debug' => array(
         'title'   => __( 'Debug Logging', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'    => 'checkbox',
         'label'   => __( 'Enable Debug Logging', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'default' => 'no'
     ),
+
+    'marketing' => array(
+        'title'       => __( 'Marketing', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'title'
+    ),
+
+    'widget_enabled' => array(
+        'title'       => __( 'Show widget next to product price', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in product detail view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => 'yes'
+    ),
+
     'widget_selector' => array(
         'title'       => __( 'CSS Selector to include widget at product page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'text',
@@ -104,6 +75,15 @@ return array(
         'desc_tip'    => true,
         'default'     => '.product .summary .price'
     ),
+
+    'cart_widget_enabled' => array(
+        'title'       => __( 'Show widget in Cart', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in cart view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => 'yes'
+    ),
+
     'cart_widget_selector' => array(
         'title'       => __( 'CSS Selector to include widget at the cart page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'text',
@@ -139,5 +119,21 @@ return array(
         'type'        => 'select',
         'default'     => 'wc-refunded',
         'options'     => wc_get_order_statuses()
+    ),
+
+    'clickandcollect' => array(
+        'title'       => __( 'Click & Collect', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'title'
+    ),
+
+    'clickandcollect_intro' => array(
+        'type'        => 'clickandcollectintro'
+    ),
+
+    'clickandcollect_shipping_method' => array(
+        'title'       => __( 'Shipping method', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'select',
+        'default'     => '',
+        'options'     => $shipping_methods
     ),
 );

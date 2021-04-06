@@ -2,11 +2,13 @@
 Contributors: ratenkaufbyeasycredit, netzkollektiv
 Tags: payment, woocommerce, ratenkauf, pay by installments, easycredit
 Requires at least: 4.4
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.5
-Stable tag: 1.6.13
-License: OSL 3.0
-License URI: https://opensource.org/licenses/OSL-3.0
+WC requires at least: 3.9
+WC tested up to: 5.1
+Stable tag: 1.7.0
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 
 ratenkauf by easyCredit is the easiest and fastest installment payment solution of Germany. Join today to get the simplest way of partial payment for your POS and E-Commerce. ratenkauf by easyCredit gives you the opportunity to offer installments as an additional payment method in your German WooCommerce store.
 

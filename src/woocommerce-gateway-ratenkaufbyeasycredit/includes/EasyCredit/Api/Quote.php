@@ -3,8 +3,8 @@ namespace Netzkollektiv\EasyCredit\Api;
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
 
-    public function __construct(\WC_Order $order) {
-
+    public function __construct(\WC_Order $order, \WC_Gateway_RatenkaufByEasyCredit $gateway) {
+        $this->_gateway = $gateway;
         $this->_quote = $order;
         $this->_customer = new \WC_Customer( $order->get_user_id() );
     }
@@ -19,6 +19,14 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
             return $shippingItem->get_name();
         }
     }
+
+    public function getIsClickAndCollect() {
+        $shippingItem = current($this->_quote->get_items('shipping'));
+        if ($shippingItem instanceof \WC_Order_Item_Shipping) {
+            return $shippingItem->get_method_id() == $this->_gateway->get_option('clickandcollect_shipping_method');
+        }
+    }
+
 
     public function getGrandTotal() {
         return $this->_quote->get_total();

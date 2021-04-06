@@ -4,7 +4,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Loader {
 
 	    $this->includes_path = $plugin->includes_path;
 	    $this->plugin_path = $plugin->plugin_path;
-	    
+
+        require_once dirname(__FILE__).'/../vendor/autoload.php';
         spl_autoload_register( array($this, 'autoloader') );
 
         require_once $plugin->includes_path.'/class-wc-gateway-ratenkaufbyeasycredit.php';
@@ -19,30 +20,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Loader {
 
     public function autoloader($class) {
     	$ds = DIRECTORY_SEPARATOR;
-    	
-        if ( false !== strpos( $class, 'EasyCreditApi' ) ) {
-            $file = str_replace( array('_','Netzkollektiv\\','\\'), $ds, $class ) . '.php';
-            require_once $this->plugin_path . $ds . 'lib' . $file;
-            return;
-        }
-        
+
         if ( false !== strpos( $class, 'EasyCredit' ) ) {
             $file = str_replace( array('_','Netzkollektiv\\','\\'), $ds, $class ) . '.php';
             require_once $this->includes_path . $file;
-            return;
-        }
-        
-        if ( false !== strpos( $class, 'Zend' ) ) {
-            $file = str_replace( array('_',), $ds, $class ) . '.php';
-            $file = implode($ds,array(
-                $this->plugin_path,
-                'zend',
-                'src',
-                $file
-            ));
-            if (file_exists($file)) {
-                require_once $file;
-            }
             return;
         }
     }

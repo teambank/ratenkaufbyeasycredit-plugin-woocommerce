@@ -38,3 +38,11 @@ Bestellbearbeitung
 
 Zur komfortablen Verwaltung ihrer Transaktionen können Sie das Plugin unter *Bestellbearbeitung* so konfigurieren, dass der Bestellstatus für Bestellungen mit einem bestimmten Status an ratenkauf by easyCredit gemeldet wird.
 Weitere Details dazu finden Sie unter :ref:`usage-merchant`.
+
+Click & Collect konfigurieren
+------------------------------
+
+Um *Click & Collect* für eine Versandart zu aktivieren, kann diese als *Click & Collect*-Versandart ausgewählt werden. Wählt der Kunde diese Versandart im Bezahlvorgang aus, wird dies bei der Finanzierungsanfrage entsprechend übertragen. Weitere Informationen finden Sie unter `Click & Collect <https://www.easycredit-ratenkauf.de/click-und-collect/>`_
+
+.. image:: ./_static/config-clickandcollect.png
+           :scale: 50%

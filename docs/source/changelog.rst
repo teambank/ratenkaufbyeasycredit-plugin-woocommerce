@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.7.0
+------
+
+- eine Versandart kann für „Click & Collect“ definiert werden
+- die Konfiguration wurde übersichtlicher strukturiert
+- die API-Library wurde aktualisiert und wird nun über Composer eingebunden
+
 1.6.13
 -------
 

@@ -59,18 +59,6 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         return (string)$this->_customer->get_date_created();
     }
 
-        /*$billingAddress = $quote->getBillingAddress();
-
-        if ($this->_customerSession->isLoggedIn()) {
-            $customer = $quote->getCustomer();
-            $customerData = $this->_convertPersonalData($customer);
-            $email = $customer->getEmail();
-        } else {
-            $email = $billingAddress->getEmail();
-            $customerData = $this->_convertPersonalDataFromBillingAddress($billingAddress);
-        }*/
-
-
     public function getOrderCount() {
         if (!$this->isLoggedIn()) {
             return 0;
