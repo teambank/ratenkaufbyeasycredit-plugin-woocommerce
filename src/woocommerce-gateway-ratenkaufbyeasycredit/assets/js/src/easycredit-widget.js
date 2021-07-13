@@ -17,8 +17,8 @@ if (typeof define === 'function' && define.amd) {
         handleModal: function(element, content) {
             var modal = $(this.template)
             modal.find('.easycredit-embed-responsive').append(content).css({
-                'height': '900px',
-                'max-height':'900px'
+                'height': '670px',
+                'max-height':'670px'
             });
             $(element).append(modal);
             modal.easycreditmodal();

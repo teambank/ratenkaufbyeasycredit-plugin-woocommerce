@@ -259,6 +259,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     }
     
     protected function _handleError($message) {
+        error_log($message);
         wc_add_notice( __($message, 'woocommerce-gateway-ratenkaufbyeasycredit'), 'error' );
         $this->get_checkout()->clear();
 
