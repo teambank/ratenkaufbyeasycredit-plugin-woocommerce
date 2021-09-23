@@ -107,6 +107,22 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
     public function validate_fields() {
 
+        $order = $this->get_tmp_order();
+        try {
+            $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order, $this);
+            $checkout = $this->get_checkout();
+            $checkout->isAvailable($quote);
+        } catch(\Exception $e) {
+            $error = $e->getMessage();
+            wc_add_notice( sprintf(__(
+                '%s: '.$error,
+                'woocommerce-gateway-ratenkaufbyeasycredit'
+            ),$this->get_title()),
+            'error' );
+
+            return;
+        }
+
         if ( ! $_POST['ratenkaufbyeasycredit-agreement'] ) {
             wc_add_notice( sprintf(__( 
                 '%s: Please agree to the privacy conditions.', 
@@ -336,10 +352,11 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         add_filter ('woocommerce_order_has_status', array($this, 'prevent_remove_items'));
 
         $wc_checkout = WC_Checkout::instance();
-
         $postData = array();
         if (isset($_POST['post_data'])) {
             parse_str($_POST['post_data'],$postData);
+        } else {
+            $postData = $_POST;
         }
         $postData['payment_method'] = 'easycredit';
 
