@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ratenkauf by easyCredit for Woocommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-14 14:43+0000\n"
-"PO-Revision-Date: 2021-04-06 09:09+0000\n"
+"PO-Revision-Date: 2021-10-11 13:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -14,12 +14,12 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.4.3; wp-5.5.1"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:111
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:127
 #, php-format
 msgid "%s: Please agree to the privacy conditions."
 msgstr "%s: Bitte stimme der Datenübertragung an ratenkauf by easyCredit zu."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:121
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:137
 #, php-format
 msgid "%s: Please select a title."
 msgstr "%s: Bitte wähle eine Anrede aus."
@@ -112,7 +112,7 @@ msgstr ""
 "Wenn das Modellrechner-Widget nicht an der richtigen Stelle angezeigt wird, "
 "lässt sich hier der zugehörige CSS-Selektor einstellen."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:565
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:583
 msgid "Interest:"
 msgstr "Zinsen für Ratenzahlung:"
 
@@ -132,7 +132,7 @@ msgstr "Frau"
 msgid "NETZKOLLEKTIV"
 msgstr ""
 
-#: includes/admin-fields.php:96 includes/order-management.php:147
+#: includes/admin-fields.php:96 includes/order-management.php:148
 msgid "Order Management"
 msgstr "Bestellbearbeitung"
 
@@ -148,11 +148,11 @@ msgstr "Rückabwicklung bei folgendem Bestellstatus durchführen"
 msgid "Payment Method"
 msgstr "Zahlungsart"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:531
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:549
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:300
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:317
 #, php-format
 msgid ""
 "Please enter your credentials to use ratenkauf by easyCredit payment plugin "
@@ -161,7 +161,7 @@ msgstr ""
 "Bitte trage deine Zugangsdaten in den <a href=\"%s\">Plugin Einstellungen</a>"
 " ein, um ratenkauf by easyCredit anbieten zu können."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:290
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:307
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
@@ -195,7 +195,7 @@ msgstr ""
 "ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung "
 "Deutschlands mit WooCommerce nutzen."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:289
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:306
 msgid "ratenkauf by easyCredit credentials are not valid."
 msgstr "Die Zugangsdaten für ratenkauf by easyCredit sind nicht korrekt."
 
@@ -203,9 +203,21 @@ msgstr "Die Zugangsdaten für ratenkauf by easyCredit sind nicht korrekt."
 msgid "ratenkauf by easyCredit for WooCommerce"
 msgstr "ratenkauf by easyCredit für WooCommerce"
 
+#: includes/order-management.php:206
+msgid "Refund automatically set in ratenkauf by easyCredit"
+msgstr ""
+"Die Rückerstattung wurde auf Basis des Bestellstatus automatisch an "
+"ratenkauf by easyCredit gemeldet."
+
 #: includes/admin-fields.php:113
 msgid "Refund automatically?"
 msgstr "Rückabwicklung automatisch durchführen?"
+
+#: includes/order-management.php:187
+msgid "Shipment automatically set in ratenkauf by easyCredit"
+msgstr ""
+"Die Lieferung wurde auf Basis des Bestellstatus automatisch an ratenkauf by "
+"easyCredit gemeldet."
 
 #: includes/admin-fields.php:134
 msgid "Shipping method"
@@ -235,7 +247,7 @@ msgstr ""
 "EUR\"). Für den größten Erfolg mit dem ratenkauf by easyCredit empfehlen wir,"
 " das Widget zu aktivieren."
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:317
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:334
 #, php-format
 msgid ""
 "The \"ratenkauf by easyCredit\" review page does not exist. Probably it was "
@@ -264,8 +276,8 @@ msgstr ""
 msgid "Title"
 msgstr "Titel"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:204
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:233
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:220
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:249
 msgid "Transaction not approved"
 msgstr "Transaktion wurde nicht genehmigt."
 

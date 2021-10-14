@@ -19,7 +19,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                 $status = $this->gateway->get_option('mark_'.$state.'_status');
                 $status = str_replace('wc-','',$status);
 
-                add_action( 'woocommerce_order_status_'.$status, array($this, 'mark_'.$status),10,2);
+                add_action( 'woocommerce_order_status_'.$status, array($this, 'mark_'.$state),10,2);
             }
         }
     }
@@ -63,7 +63,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
     public function bg_sync_transactions() {
         $screen = get_current_screen();
-        if ($screen->base == 'edit'
+        if (
+            ($screen->base == 'edit' || $screen->base == 'post')
             && $screen->parent_base == 'woocommerce' 
             && $screen->post_type == 'shop_order'
         ) {
@@ -175,18 +176,24 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     }
 
     public function mark_shipped($order_id, $order) {
+        if ($this->gateway->id !== $order->get_payment_method()) {
+            return;
+        }
 
         try {
             $client = $this->gateway->get_merchant_client()
                 ->confirmShipment($order->get_transaction_id());
             
-            $order->add_order_note( __("Shipment automatically set in ratenkauf by easyCredit") );
+            $order->add_order_note( __('Shipment automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
         } catch (\Exception $e) {
-            $order->add_order_note( __("Shipment update failed with message: %s", $e->getMessage()) );
+            $order->add_order_note( __( sprintf('Shipment update failed with message: %s', $e->getMessage()), 'woocommerce-gateway-ratenkaufbyeasycredit') );
         }
     }
 
     public function mark_refunded($order_id, $order) {
+        if ($this->gateway->id !== $order->get_payment_method()) {
+            return;
+        }
 
         try {
             $client = $this->gateway->get_merchant_client()
@@ -196,9 +203,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                 new DateTime()
             );
 
-            $order->add_order_note( __("Refund automatically set in ratenkauf by easyCredit") );
+            $order->add_order_note( __('Refund automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
         } catch (\Exception $e) {
-            $order->add_order_note( __("Refund update failed with message: %s", $e->getMessage()) );
+            $order->add_order_note( __( sprintf('Refund update failed with message: %s', $e->getMessage()), 'woocommerce-gateway-ratenkaufbyeasycredit' ) );
         }
     }
 }
