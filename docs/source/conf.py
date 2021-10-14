@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = u'ratenkauf by easyCredit für WooCommerce'
-copyright = u'2019, NETZKOLLEKTIV GmbH'
+copyright = u'2021, NETZKOLLEKTIV GmbH'
 author = u'Teambank AG'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'1.6.0'
+release = u'1.7.1'
 
 # -- General configuration ---------------------------------------------------
 

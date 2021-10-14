@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.7.1
+-----
+
+- das automatische Update des Transaktionsstatus ist nun auf mit *ratenkauf by easyCredit* bezahlte Bestellungen beschränkt
+- der Transaktionsstatus wird nun nach Status-Update im Backend unmittelbar korrekt dargestellt
+- das Transaktionsstatus-Update ruft nun immer die korrekte Funktion auf (behebt "WC_Gateway_Ratenkaufbyeasycredit_Order_Management does not have a method "mark_completed")
+- bei Absenden der Bestellung wird zusätzlich auf die Verfügbarkeit von *ratenkauf by easyCredit* geprüft und eine etwaige Fehlermeldung oberhalb der Kasse angezeigt (vorher: nur unterhalb der Zahlungsart)
+
 1.7.0
 ------
 
@@ -16,7 +24,7 @@ Changelog
 1.6.12
 ------
 
-- ratenkauf by easyCredit kann nun auch mit der Kundenbezahlungsseite verwendet werden (bei Erstellung der Bestellung durch den Händler)
+- *ratenkauf by easyCredit* kann nun auch mit der Kundenbezahlungsseite verwendet werden (bei Erstellung der Bestellung durch den Händler)
 - Kompatibilität bis Wordpress v5.6, wooCommerce v4.9.1
 
 1.6.11
@@ -168,7 +176,7 @@ Changelog
 
 - behebt kleinere Fehler im Checkout, die bei wenigen Kunden aufgetreten sind
 - das Plugin erstellt nun ein eigenes Log-File
-- Anpassung des Links auf die Kundenseite von ratenkauf by easyCredit
+- Anpassung des Links auf die Kundenseite von *ratenkauf by easyCredit*
 
 1.4
 ------
@@ -191,5 +199,5 @@ Changelog
 - die Transaktions-ID wird nun im Backend angezeigt
 - die Zinsen werden nun im Backend angezeigt
 - die Versandadresse kann nachträglich nicht mehr verändert werden
-- ratenkauf by easyCredit ist nur für Deutschland wählbar
+- *ratenkauf by easyCredit* ist nur für Deutschland wählbar
 - das Release ist getestet mit allen PHP-Versionen von 5.4 - 7.1, sowie mit wooCommerce 3.0.
