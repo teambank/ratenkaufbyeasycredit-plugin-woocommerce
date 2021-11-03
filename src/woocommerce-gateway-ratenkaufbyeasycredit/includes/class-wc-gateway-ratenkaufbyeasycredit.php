@@ -107,7 +107,13 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
     public function validate_fields() {
 
-        $order = $this->get_tmp_order();
+        global $wp;
+        if (isset($wp->query_vars['order-pay'])) {
+            $order = wc_get_order($wp->query_vars['order-pay']);
+        } else {
+            $order = $this->get_tmp_order();
+        }
+
         try {
             $quote = new \Netzkollektiv\EasyCredit\Api\Quote($order, $this);
             $checkout = $this->get_checkout();

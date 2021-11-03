@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.7.2
+-----
+
+- behebt einen Validierungsfehler bei der Zahlung über die Kundenbezahlungsseite
+
 1.7.1
 -----
 

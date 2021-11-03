@@ -1,3 +1,20 @@
+= 1.7.2 =
+
+- behebt einen Validierungsfehler bei der Zahlung über die Kundenbezahlungsseite
+
+= 1.7.1 =
+
+- das automatische Update des Transaktionsstatus ist nun auf mit *ratenkauf by easyCredit* bezahlte Bestellungen beschränkt
+- der Transaktionsstatus wird nun nach Status-Update im Backend unmittelbar korrekt dargestellt
+- das Transaktionsstatus-Update ruft nun immer die korrekte Funktion auf (behebt "WC_Gateway_Ratenkaufbyeasycredit_Order_Management does not have a method "mark_completed")
+- bei Absenden der Bestellung wird zusätzlich auf die Verfügbarkeit von *ratenkauf by easyCredit* geprüft und eine etwaige Fehlermeldung oberhalb der Kasse angezeigt (vorher: nur unterhalb der Zahlungsart)
+
+= 1.7.0 =
+
+- eine Versandart kann für „Click & Collect“ definiert werden
+- die Konfiguration wurde übersichtlicher strukturiert
+- die API-Library wurde aktualisiert und wird nun über Composer eingebunden
+
 = 1.6.13 =
 
 - Verbesserung der Kompatibilität mit Drittanbieter-Plugins
