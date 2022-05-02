@@ -157,7 +157,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     {
         $order = $this->get_order($post_id);
         ?>
-            <easycredit-tx-manager 
+            <easycredit-merchant-manager 
                 id="<?php echo $order->get_meta($this->gateway->id.'-transaction-id'); ?>" 
                 date="<?php echo $order->get_date_created()->format ('Y-m-d'); ?>"    
             />
@@ -169,7 +169,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
             return;
         }
 
-        return '<easycredit-tx-status 
+        return '<easycredit-merchant-status-widget  
             id="'.$order->get_meta($this->gateway->id.'-transaction-id').'" 
             date="'.$order->get_date_created()->format ('Y-m-d').'" 
         />';

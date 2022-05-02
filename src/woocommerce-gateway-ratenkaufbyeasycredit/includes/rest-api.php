@@ -60,27 +60,33 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
 
         $client = $this->gateway->get_merchant_client();
 
-        switch ($params['status']) {
-            case "LIEFERUNG":
-                $client->confirmShipment($params['id']);
-                break;
-            case "WIDERRUF_VOLLSTAENDIG":
-            case "WIDERRUF_TEILWEISE":
-            case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
-            case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
-                $client->cancelOrder(
-                    $params['id'], 
-                    $params['status'], 
-                    DateTime::createFromFormat('Y-d-m', $params['date']), 
-                    $params['amount']
-                );
-                break;
-        }
+		try {
+            switch ($params['status']) {
+                case "LIEFERUNG":
+                    $client->confirmShipment($params['id']);
+                    break;
+                case "WIDERRUF_VOLLSTAENDIG":
+                case "WIDERRUF_TEILWEISE":
+                case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
+                case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
+                    $client->cancelOrder(
+                        $params['id'], 
+                        $params['status'], 
+                        new DateTime(),
+                        $params['amount']
+                    );
+                    break;
+            }
 
-        $cachedTransaction = current($this->order_management->get_transactions($params['id']));
-        if ($cachedTransaction->post_id) {
-            $transaction = current($client->getTransaction($params['id']));
-            update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));
-        }
+            $cachedTransaction = current($this->order_management->get_transactions($params['id']));
+            if ($cachedTransaction->post_id) {
+                $transaction = current($client->getTransaction($params['id']));
+                update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));
+            }
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo esc_html__($e->getMessage());
+            exit;
+        } 
     }
 }
