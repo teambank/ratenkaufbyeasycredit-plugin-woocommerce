@@ -72,6 +72,19 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $parent_options = ob_get_contents();
         ob_end_clean();
 
+        $shipping_methods = '';
+        if (WC()->shipping()) {
+            foreach (WC()->shipping()->load_shipping_methods() as $code => $method) {
+                $shipping_methods .= '<option value="'.$method->id.'">'.$method->get_method_title().'</option>';
+            }
+        }
+        $parent_options = preg_replace(
+            '!(id="woocommerce_ratenkaufbyeasycredit_clickandcollect_shipping_method".*?>)(.+?)(</select>)!s',
+            '$1$2'.$shipping_methods.'$3',
+            $parent_options
+        );
+
+
         ?>
         <div class="ratenkaufbyeasycredit-wrapper">
             <div class="easycredit-intro">
@@ -444,14 +457,6 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
     }
 
     public function init_form_fields() {
-
-        $shipping_methods = array(''=>'');
-        if (WC()->shipping()) {
-            foreach (WC()->shipping()->load_shipping_methods() as $code => $method) {
-                $shipping_methods[$method->id] = $method->get_method_title();
-            }
-        }
-
         $fields = require (wc_ratenkaufbyeasycredit()->includes_path.'admin-fields.php');
         $fields = apply_filters( 'wc_ratenkaufbyeasycredit_form_fields', $fields);
         $this->form_fields = $fields;

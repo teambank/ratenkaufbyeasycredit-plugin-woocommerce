@@ -134,6 +134,6 @@ return array(
         'title'       => __( 'Shipping method', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'select',
         'default'     => '',
-        'options'     => $shipping_methods
+        'options'     => array(''=>'')
     ),
 );
