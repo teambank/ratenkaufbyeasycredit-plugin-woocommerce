@@ -93,7 +93,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                 Bieten Sie Ihren Kunden die Möglichkeit der Ratenzahlung mit ratenkauf by easyCredit.<br>
                 <strong>Einfach. Fair. In Raten zahlen.</strong>
                 <br><br>
-                <a href="https://www.easycredit-ratenkauf.de/anmeldung.htm" target="_blank">zum Händler-Interface</a>
+                <a href="https://partner.easycredit-ratenkauf.de/portal/" target="_blank">zum Partnerportal</a>
                  - <a href="https://www.easycredit-ratenkauf.de/shopsysteme.htm" target="_blank">zum Integration-Center</a>
                  - <a href="https://netzkollektiv.com/docs/ratenkaufbyeasycredit-woocommerce/" target="_blank">zur Dokumentation</a> 
               </div>
