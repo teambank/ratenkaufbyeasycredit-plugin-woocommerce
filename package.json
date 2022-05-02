@@ -3,29 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
+  "devDependencies": {
+    "@ratenkaufbyeasycredit/easycredit-merchant-interface": "^1.1.1",
     "grunt": "^1.0.4",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^3.4.0"
-  },
-  "devDependencies": {
     "grunt-contrib-cssmin": "^2.2.1",
-    "grunt-contrib-uglify": "^3.4.0"
+    "grunt-contrib-uglify": "^5.2.1",
+    "grunt-contrib-uglify-es": "^3.3.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs:build:html": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
+    "docs:build:pdf": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
+    "docs:deploy": "rsync -rvz --delete ${PWD}/docs/build/html/ nk:html/corporate-2019/web/docs/ratenkaufbyeasycredit-woocommerce/",
+    "docs": "yarn docs:build:html; yarn docs:deploy",
+    "deploy": "bin/deploy-to-wordpress.sh --svn",
+    "release": "bin/release.sh"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@git.netzkollektiv.com:netzkollektiv-projects/easycredit-woocommerce.git"
-  },
-  "scripts": {
-    "docs:html" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
-	"docs:pdf" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
-    "deploy:docs" : "rsync -rvz --delete ${PWD}/docs/build/html/ nk:/home/www/p539312/html/corporate-2019/web/docs/ratenkaufbyeasycredit-woocommerce/",
-    "deploy" : "bin/deploy-to-wordpress.sh --svn",
-    "release" : "bin/release.sh"
-  },
-  "author": "",
-  "license": "ISC"
+  "author": "NETZKOLLEKTIV <corporate@netzkollektiv.com>",
+  "license": "MIT"
 }

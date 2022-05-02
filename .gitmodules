@@ -1,3 +1,0 @@
-[submodule "src/woocommerce-gateway-ratenkaufbyeasycredit/zend"]
-	path = src/woocommerce-gateway-ratenkaufbyeasycredit/zend
-	url = https://github.com/netzkollektiv/zend_http_client.git

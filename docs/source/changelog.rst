@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.7.3
+-----
+
+- die Merchant-Widgets wurden für ein besseres Error-Reporting auf die neueste Version aktualisiert
+- behebt eine Imkompatibilität mit WooCommerce Advanced Shipping
+- kleinere textliche Änderungen
+
+
 1.7.2
 -----
 
