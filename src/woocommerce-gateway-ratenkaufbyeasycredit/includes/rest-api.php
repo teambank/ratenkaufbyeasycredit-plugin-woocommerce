@@ -1,6 +1,17 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
+
 class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
-    protected $_field = 'ratenkaufbyeasycredit-merchant-status';
+    protected $plugin;
+    protected $plugin_url;
+    protected $gateway;
+    protected $order_management;
 
     public function __construct($plugin, $order_management) {
     	$this->plugin = $plugin;
@@ -31,62 +42,81 @@ class WC_Gateway_Ratenkaufbyeasycredit_RestApi {
             'permission_callback' => '__return_true' // // allow for anybody as routes are only registered in admin
         ));
 
-        register_rest_route( 'easycredit/v1', '/transaction', array(
+        register_rest_route( 'easycredit/v1', '/capture', array(
             'methods' => 'POST',
-            'callback' => array( $this, 'update_transaction' ),
+            'callback' => array( $this, 'capture' ),
+            'permission_callback' => '__return_true' // allow for anybody as routes are only registered in admin
+        ));
+
+        register_rest_route( 'easycredit/v1', '/refund', array(
+            'methods' => 'POST',
+            'callback' => array( $this, 'refund' ),
             'permission_callback' => '__return_true' // allow for anybody as routes are only registered in admin
         ));
     }
 
-    public function get_transactions() {
-        $txs = array();
-        foreach ($this->order_management->get_transactions() as $transaction) {
-            $txs[] = json_decode($transaction->transaction);
-        }
-        return $txs;
+    public function get_transactions(WP_REST_Request $request)
+    {
+        $transactionIds = $request->get_param('ids');
+
+        $response = $this->gateway->get_merchant_client()
+            ->apiMerchantV3TransactionGet(null, null,  null, 100, null, null, null, null, array('tId' => $transactionIds));
+
+        return $this->respondWithJson($response);
     }
 
     public function get_transaction(WP_REST_Request $request) {
-        $id = $request->get_param('id');
-        $transaction = current($this->order_management->get_transactions($id));
-        if ($transaction->transaction) {
-            $trans = json_decode($transaction->transaction);
-            return $trans;
+
+        $transactionId = $request->get_param('id');
+
+        $response = $this->gateway->get_merchant_client()
+            ->apiMerchantV3TransactionTransactionIdGet($transactionId);
+
+        return $this->respondWithJson($response);
+    }
+
+    public function capture(WP_REST_Request $request) {
+        try {
+            $transactionId = $request->get_param('id');
+            $requestData = json_decode($request->get_body());
+
+            $response = $this->gateway->get_merchant_client()
+                ->apiMerchantV3TransactionTransactionIdCapturePost(
+                    $transactionId,
+                    new CaptureRequest(['trackingNumber' => $request->get_json_params()['trackingNumber']])
+                );
+
+            return $this->respondWithJson($response);
+        } catch (ApiException $e) {
+            return $this->respondWithJson($e->getResponseBody(), $e->getCode());
+        } catch (\Throwable $e) {
+            return $this->respondWithJson(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function update_transaction(WP_REST_Request $request) {
-        $params = $request->get_json_params();
+    public function refund(WP_REST_Request $request) {
+        try {
+            $transactionId = $request->get_param('id');
+            $requestData = json_decode($request->get_body());
 
-        $client = $this->gateway->get_merchant_client();
+            $response = $this->gateway->get_merchant_client()
+                ->apiMerchantV3TransactionTransactionIdRefundPost(
+                    $transactionId,
+                    new RefundRequest(['value' => $request->get_json_params()['value']])
+                );
 
-		try {
-            switch ($params['status']) {
-                case "LIEFERUNG":
-                    $client->confirmShipment($params['id']);
-                    break;
-                case "WIDERRUF_VOLLSTAENDIG":
-                case "WIDERRUF_TEILWEISE":
-                case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
-                case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
-                    $client->cancelOrder(
-                        $params['id'], 
-                        $params['status'], 
-                        new DateTime(),
-                        $params['amount']
-                    );
-                    break;
-            }
+            return $this->respondWithJson($response);
+        } catch (ApiException $e) {
+            return $this->respondWithJson($e->getResponseBody(), $e->getCode());
+        } catch (\Throwable $e) {
+            return $this->respondWithJson(['error' => $e->getMessage()], 500);
+        }
+    }
 
-            $cachedTransaction = current($this->order_management->get_transactions($params['id']));
-            if ($cachedTransaction->post_id) {
-                $transaction = current($client->getTransaction($params['id']));
-                update_post_meta($cachedTransaction->post_id, $this->_field, json_encode($transaction));
-            }
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo esc_html__($e->getMessage());
-            exit;
-        } 
+    protected function respondWithJson ($content, $code = 200) {
+        header('Content-Type: application/json');
+        http_response_code($code);
+        echo json_encode($content);
+        exit;
     }
 }

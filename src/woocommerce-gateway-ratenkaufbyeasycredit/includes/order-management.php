@@ -1,7 +1,19 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\ConstraintViolation;
+
 class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
 
     protected $_field = 'merchant-status';
+    protected $plugin;
+    protected $plugin_url;
+    protected $gateway;
 
     public function __construct($plugin) {
         $this->plugin = $plugin;
@@ -11,7 +23,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         add_action( 'manage_shop_order_posts_custom_column',  array( $this, 'add_order_column_content'),20);
         add_action( 'woocommerce_admin_order_data_after_shipping_address',  array( $this, 'add_status_after_shipping_address'), 10, 1);
         add_action( 'admin_enqueue_scripts', array( $this, 'require_transaction_manager') );
-        add_action( 'admin_notices', array($this, 'bg_sync_transactions'));
         add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
 
         foreach (array('shipped','refunded') as $state) {
@@ -39,9 +50,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     public function get_endpoint_vars() {
         return array(
             'endpoints' => array(
-                'get' => get_rest_url(null, 'easycredit/v1/transaction'),
-                'list' => get_rest_url(null, 'easycredit/v1/transactions'),
-                'post' => get_rest_url(null, 'easycredit/v1/transaction')
+                'get' => get_rest_url(null, 'easycredit/v1/transaction?ids={transactionId}'),
+                'list' => get_rest_url(null, 'easycredit/v1/transactions?ids={transactionId}'),
+                'capture' => get_rest_url(null, 'easycredit/v1/capture?id={transactionId}'),
+                'refund' => get_rest_url(null, 'easycredit/v1/refund?id={transactionId}')
             ),
             'request_config' => array(
                 'headers' => array(
@@ -52,52 +64,15 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
     }
 
     public function require_transaction_manager() {
-
-        wp_register_style( 'easycredit_transaction_manager', $this->plugin_url . '/assets/css/easycredit-backend.min.css', false, '1.0.0' );
-        wp_enqueue_style( 'easycredit_transaction_manager' );
-        wp_register_script( 'easycredit_transaction_manager', $this->plugin_url . '/assets/js/easycredit-backend.min.js', false, '1.0.0' );
-        wp_localize_script( 'easycredit_transaction_manager', 'ratenkaufbyeasycreditOrderManagementConfig', $this->get_endpoint_vars() );
+        wp_register_script( 'easycredit_transaction_manager', '');
         wp_enqueue_script( 'easycredit_transaction_manager' );
-
-    }
-
-    public function bg_sync_transactions() {
-        $screen = get_current_screen();
-        if (
-            ($screen->base == 'edit' || $screen->base == 'post')
-            && $screen->parent_base == 'woocommerce' 
-            && $screen->post_type == 'shop_order'
-        ) {
-            $this->sync_transactions();
-        }
-    }
-
-    public function sync_transactions() {
-        try {
-            $transactions = $this->gateway->get_merchant_client()
-                ->searchTransactions();
-
-            $ids = $this->get_transactions();
-            foreach ($ids as $transaction_id => $entry) {
-                foreach ($transactions as $transaction) {
-                    if ($transaction->vorgangskennungFachlich == $transaction_id) {
-                        update_post_meta($entry->post_id, $this->get_field(), json_encode($transaction));
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
+        wp_add_inline_script( 'easycredit_transaction_manager', 'window.ratenkaufbyeasycreditOrderManagementConfig = '.json_encode($this->get_endpoint_vars()));
     }
 
     public function get_transactions($transaction_id = null) {
         global $wpdb;
 
-        $cond = '';
-        if ($transaction_id) {
-            $cond = ($transaction_id !== null) ? ' AND m.meta_value = "'.$transaction_id.'"' : '';
-        }
-
+        $cond = ($transaction_id !== null) ? ' AND m.meta_value = "'.$transaction_id.'"' : '';
         $data = $wpdb->get_results('
             SELECT m.meta_value as transaction_id, p.ID as post_id, m1.meta_value as transaction
             FROM  '.$wpdb->posts.' p 
@@ -158,7 +133,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         $order = $this->get_order($post_id);
         ?>
             <easycredit-merchant-manager 
-                id="<?php echo $order->get_meta($this->gateway->id.'-transaction-id'); ?>" 
+                tx-id="<?php echo $order->get_meta($this->gateway->id.'-transaction-id'); ?>" 
                 date="<?php echo $order->get_date_created()->format ('Y-m-d'); ?>"    
             />
         <?php
@@ -170,7 +145,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         }
 
         return '<easycredit-merchant-status-widget  
-            id="'.$order->get_meta($this->gateway->id.'-transaction-id').'" 
+            tx-id="'.$order->get_meta($this->gateway->id.'-transaction-id').'" 
             date="'.$order->get_date_created()->format ('Y-m-d').'" 
         />';
     }
@@ -181,12 +156,31 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         }
 
         try {
-            $client = $this->gateway->get_merchant_client()
-                ->confirmShipment($order->get_transaction_id());
-            
-            $order->add_order_note( __('Shipment automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+            try {
+                $txId = $order->get_transaction_id();
+                if (!$txId) {
+                    throw new \Exception(__('The transaction id of this transaction is not available. This usually happens if the webhook which confirms the transaction is not working properly.', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+                }
+
+                $this->gateway->get_merchant_client()
+                    ->apiMerchantV3TransactionTransactionIdCapturePost(
+                        $txId,
+                        new CaptureRequest([])
+                    );
+                    $order->add_order_note( __('Shipment automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+
+            } catch (ApiException $e) {
+                if ($e->getResponseObject() instanceof ConstraintViolation) {
+                    $error = 'ratenkauf by easyCredit: ';
+                    foreach ($e->getResponseObject()->getViolations() as $violation) {
+                        $error .= $violation->getMessage();
+                    }
+                    throw new \Exception($error);
+                }
+                throw $e;
+            }
         } catch (\Exception $e) {
-            $order->add_order_note( __( sprintf('Shipment update failed with message: %s', $e->getMessage()), 'woocommerce-gateway-ratenkaufbyeasycredit') );
+            $order->add_order_note( sprintf(__('Shipment update failed with message: %s', 'woocommerce-gateway-ratenkaufbyeasycredit'), $e->getMessage()) );
         }
     }
 
@@ -196,16 +190,30 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
         }
 
         try {
-            $client = $this->gateway->get_merchant_client()
-                ->cancelOrder(
-                $order->get_transaction_id(), 
-                'WIDERRUF_VOLLSTAENDIG',
-                new DateTime()
-            );
+            try {
+                $txId = $order->get_transaction_id();
+                if (!$txId) {
+                    throw new \Exception(__('The transaction id of this transaction is not available. This usually happens if the webhook which confirms the transaction is not working properly.', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+                }
 
-            $order->add_order_note( __('Refund automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+                $this->gateway->get_merchant_client()
+                    ->apiMerchantV3TransactionTransactionIdRefundPost(
+                        $txId,
+                        new RefundRequest(['value'=> $order->get_total()])
+                    );
+                $order->add_order_note( __('Refund automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+            } catch (ApiException $e) {
+                if ($e->getResponseObject() instanceof ConstraintViolation) {
+                    $error = 'ratenkauf by easyCredit: ';
+                    foreach ($e->getResponseObject()->getViolations() as $violation) {
+                        $error .= $violation->getMessage();
+                    }
+                    throw new \Exception($error);
+                }
+                throw $e;
+            }
         } catch (\Exception $e) {
-            $order->add_order_note( __( sprintf('Refund update failed with message: %s', $e->getMessage()), 'woocommerce-gateway-ratenkaufbyeasycredit' ) );
+            $order->add_order_note( sprintf(__('Refund update failed with message: %s', 'woocommerce-gateway-ratenkaufbyeasycredit' ),$e->getMessage()) );
         }
     }
 }

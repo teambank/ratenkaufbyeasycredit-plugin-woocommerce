@@ -1,9 +1,17 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class WC_Gateway_Ratenkaufbyeasycredit_Loader {
+
+    protected $includes_path;
+    protected $plugin_path;
+
     public function __construct($plugin) {
 
-	    $this->includes_path = $plugin->includes_path;
-	    $this->plugin_path = $plugin->plugin_path;
+        $this->includes_path = $plugin->includes_path;
+        $this->plugin_path = $plugin->plugin_path;
 
         require_once dirname(__FILE__).'/../vendor/autoload.php';
         spl_autoload_register( array($this, 'autoloader') );

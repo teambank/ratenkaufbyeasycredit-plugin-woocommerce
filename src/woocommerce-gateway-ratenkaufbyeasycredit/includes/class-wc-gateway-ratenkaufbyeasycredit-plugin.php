@@ -1,7 +1,20 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Teambank\RatenkaufByEasyCreditApiV3 as ApiV3;
+
 class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
-    public function __construct($file, $version) {
+    public $id;
+    public $file;
+    public $plugin_path;
+    public $plugin_url;
+    public $includes_path;
+    public $gateway;
+
+    public function __construct($file) {
 
         $this->id              = WC_RATENKAUFBYEASYCREDIT_ID;
         $this->file             = $file;
@@ -27,8 +40,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
         add_action( 'rest_api_init', array($this, 'init_api'));
 
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_backend_ressources'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_ressources'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_backend_resources'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_resources'));
         add_action('do_meta_boxes', array($this, 'hook_prevent_shipping_address_change'));
         
         add_action('admin_post_wc_ratenkaufbyeasycredit_verify_credentials', array($this, 'verify_credentials'));
@@ -36,6 +49,11 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
         add_shortcode($this->get_review_shortcode(), array($this->get_gateway(), 'payment_review'));
 
+        add_action( 'init', function() {
+            add_rewrite_tag( '%easycredit%', '([^/]+)' );
+            add_rewrite_rule( 'easycredit/(authorize)/secToken/([^/]+)/?', 'index.php?easycredit[action]=$matches[1]&easycredit[sec_token]=$matches[2]', 'top' );
+        });
+        add_action ('template_redirect', array($this, 'handle_controller'));
     }
 
     public function init_api() {
@@ -74,6 +92,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     }
 
     public function activate($network_wide) {
+        flush_rewrite_rules();
+
         if ( is_multisite() && $network_wide ) { 
             global $wpdb;
 
@@ -96,6 +116,55 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         // nothing to do here currently
     }
 
+    public function handle_controller () {
+        global $wp_query;
+
+        $params = $wp_query->get( 'easycredit' );
+        if ( ! empty( $params['action'] ) ) {
+            if (method_exists($this, $params['action'].'Action')) {
+                $this->{$params['action'].'Action'}($params);
+            }
+        }
+    }
+
+    public function authorizeAction($params) {
+        $txId = $_GET['transactionId'];
+        $secToken = $params['sec_token'];
+
+        $args = array(
+            'post_type' => 'shop_order',
+            'post_status' => 'any',
+            'limit' => 1,
+            'return' => 'ids',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    'key' => 'ratenkaufbyeasycredit-transaction-id',
+                    'value' => $txId,
+                    'compare' => '=',
+                ),
+                array(
+                    'key' => 'ratenkaufbyeasycredit-sec-token',
+                    'value' => $params['sec_token'],
+                    'compare' => '=',
+                )
+            )
+        );
+
+        $orders = new WP_Query($args);
+        $order = wc_get_order(current($orders->posts));
+
+        if ($order) {
+            $order->payment_complete(
+                $txId
+            );
+            http_response_code(200);
+            exit;
+        }
+        http_response_code(404);
+        exit;
+    }
+
     public function activate_single_site() {
         require_once( WC_ABSPATH . 'includes/admin/wc-admin-functions.php' );
 
@@ -111,13 +180,18 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         }
         delete_transient( 'woocommerce_cache_excluded_uris' );
     }
-    
+
     public function get_review_page_data() {
          return array(
              'woocommerce_easycredit_checkout_review_page_id' => array(
                 'name'    => _x( 'easycredit-checkout-review', 'Page slug', 'woocommerce' ),
                 'title'   => _x( 'Review Order', 'Page title', 'woocommerce' ),
                 'content' => '['.$this->get_review_shortcode().']',
+             ),
+             'woocommerce_easycredit_infopage_page_id' => array(
+                'name'    => _x( 'easycredit-infopage', 'Page slug', 'woocommerce' ),
+                'title'   => _x( 'ratenkauf by easyCredit - Einfach. Fair. In Raten zahlen', 'Page title', 'woocommerce' ),
+                'content' => '<easycredit-infopage></easycredit-infopage>',
             )
         );
     }
@@ -152,19 +226,40 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         load_template( $template, false );
     }
 
-    public function enqueue_frontend_ressources($hook) {
-        wp_enqueue_script('wc_ratenkaufbyeasycredit_js',
-            $this->plugin_url . 'assets/js/easycredit.min.js', 'wc_ratenkaufbyeasycredit_widget_js', '1.0');
-        wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css', 
-            $this->plugin_url. 'assets/css/easycredit.min.css', 'wc_ratenkaufbyeasycredit_css' );
+    public function add_module_nomodule_attribute($tag, $handle, $src) {
+        if ( 'easycredit-components-module' === $handle ) {
+            $src = remove_query_arg( 'ver', $src );
+            return '<script type="module" src="' . esc_url( $src ) . '"></script>';
+        }
+        if ( 'easycredit-components-nomodule' === $handle ) {
+            $src = remove_query_arg( 'ver', $src );
+            return '<script nomodule src="' . esc_url( $src ) . '"></script>';
+        }
+        return $tag;
     }
 
-    public function enqueue_backend_ressources($hook) {
-        if ('woocommerce_page_wc-settings' !== $hook) {
-            return;
-        }
+    public function enqueue_easycredit_components () {
+        wp_register_script('easycredit-components-module', 'https://easycredit-ratenkauf-webcomponents.netzkollektiv.com/easycredit-components/easycredit-components.esm.js', [], '1.0');
+        wp_enqueue_script('easycredit-components-module');
+        wp_register_script('easycredit-components-nomodule', 'https://easycredit-ratenkauf-webcomponents.netzkollektiv.com/easycredit-components/easycredit-components.js', [], '1.0');
+        wp_enqueue_script('easycredit-components-nomodule');
+        add_filter('script_loader_tag', array($this, 'add_module_nomodule_attribute'), 10, 3);
+    }
+
+    public function enqueue_frontend_resources($hook) {
+        $this->enqueue_easycredit_components();
+
+        wp_enqueue_script('wc_ratenkaufbyeasycredit_js',
+            $this->plugin_url . 'assets/js/easycredit.min.js', ['jquery'], '1.0');
+        wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css', 
+            $this->plugin_url. 'assets/css/easycredit.min.css');
+    }
+
+    public function enqueue_backend_resources($hook) {
+        $this->enqueue_easycredit_components();
+
         wp_enqueue_script('wc_ratenkaufbyeasycredit_js', 
-            $this->plugin_url . 'assets/js/easycredit-backend.js', 'jquery', '1.0');
+            $this->plugin_url . 'assets/js/easycredit-backend.js', ['jquery'], '1.0');
 
         wp_localize_script( 'wc_ratenkaufbyeasycredit_js', 'wc_ratenkaufbyeasycredit_config', array('url' => admin_url( 'admin-post.php' )) );
 
@@ -195,27 +290,27 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         ob_start();
         WC_Meta_Box_Order_Data::output($post);
         $html = ob_get_contents();
-        $html = preg_replace('/(<h3>.+?)(<a .+?class="edit_address">.+?<\/a>)(.+?load_customer_shipping.+?<\/h3>)/sU','$1$3'.$note,$html);
+        $html = preg_replace('/(<h3>.+?)(<a .+?class="edit_address">.+?<\/a>)(.+?load_customer_shipping.+?<\/h3>)/sU','$1$3'.$note, (string)$html);
         ob_end_clean();
         echo $html;
     }
     
     public function verify_credentials() {
-        $payment = new WC_Gateway_RatenkaufByEasyCredit();
-    
+
         $status = array(
-            'status' => false,
-            'msg' => __('Credentials invalid. Please check your input!','woocommerce-gateway-ratenkaufbyeasycredit')
+            'status' => true,
+            'msg' => __('Credentials valid!','woocommerce-gateway-ratenkaufbyeasycredit')
         );
-    
-        if ($payment->get_checkout()->verifyCredentials($_REQUEST['api_key'], $_REQUEST['api_token'])) {
+
+        $payment = new WC_Gateway_RatenkaufByEasyCredit();
+        if ($error =  $payment->check_credentials($_REQUEST['api_key'], $_REQUEST['api_token'], $_REQUEST['api_signature'])) {
             $status = array(
-                'status' => true,
-                'msg' => __('Credentials valid!','woocommerce-gateway-ratenkaufbyeasycredit')
+                'status' => false,
+                'msg' => $error
             );
         }
+
         wp_send_json($status);
-        exit;
     }
 
     public function plugin_links( $links ) {

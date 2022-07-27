@@ -6,3 +6,8 @@ node_modules/
 *.tar.gz
 *.zip
 .vscode
+/env
+/build
+/src/woocommerce-gateway-ratenkaufbyeasycredit/vendor
+/docker-compose.override.yml
+/wordpress
