@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return array(
     'enabled' => array(
         'title'   => __( 'Enable/Disable', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
@@ -39,6 +43,12 @@ return array(
     'api_token' => array(
         'title'       => __( 'API Token', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'text',
+    ),
+
+    'api_signature' => array(
+        'title'       => __( 'API Signature (if activated in partner portal, optional)', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'text',
+        'description' => __( 'The API signature secures the data transfer against data manipulation by third parties. You can activate the API signature in the ratenkauf by easyCredit merchant portal. ', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
     ),
 
     'api_verify_credentials' => array(

@@ -1,4 +1,7 @@
 <?php 
+/** @var WC_Order $order */
+/** @var WC_Gateway_RatenkaufByEasyCredit $gateway */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -18,17 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'woocommerce-gateway-ratenkaufbyeasycredit'); 
 					?>
 				</h2>
-			
-				<p class="easycredit-info-description">
-					<span class="easycredit-info-logo">
-						<?php _e('ratenkauf by easyCredit','woocommerce-gateway-ratenkaufbyeasycredit'); ?>
-					</span><br />
-					<strong><?php _e('Easy. Fair. Pay by installments.', 
-						'woocommerce-gateway-ratenkaufbyeasycredit'); ?>
-					</strong><br />
-					<?php echo $gateway->get_storage()->get('payment_plan'); ?>
-				</p>
-
+				<easycredit-checkout-label>
+				</easycredit-checkout-label>
+				<easycredit-checkout payment-plan="<?php echo htmlspecialchars($gateway->get_storage()->get('summary')); ?>">
+				</easycredit-checkout>
 			</div>
 
 		</section>

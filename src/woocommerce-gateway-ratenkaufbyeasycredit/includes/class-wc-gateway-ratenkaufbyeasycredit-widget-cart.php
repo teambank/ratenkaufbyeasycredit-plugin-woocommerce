@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class WC_Gateway_Ratenkaufbyeasycredit_Widget_Cart extends WC_Gateway_Ratenkaufbyeasycredit_Widget {
 
     protected function should_be_displayed() {

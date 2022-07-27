@@ -1,0 +1,26 @@
+{
+  "name": "ratenkaufbyeasycredit/woocommerce",
+  "description": "ratenkauf by easyCredit Plugin for wooCommerce",
+  "keywords": ["wordpress", "plugin"],
+  "homepage": "https://netzkollektiv.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "NETZKOLLEKTIV",
+      "email": "kontakt@netzkollektiv.com",
+      "homepage": "https://netzkollektiv.com"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "1.2.0",
+    "guzzlehttp/psr7": "1.8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~9",
+    "szepeviktor/phpstan-wordpress": "^0.6.0"
+  },
+  "config": {
+    "vendor-dir": "src/woocommerce-gateway-ratenkaufbyeasycredit/vendor"
+  }
+}

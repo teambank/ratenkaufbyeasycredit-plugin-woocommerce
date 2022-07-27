@@ -1,16 +1,32 @@
-<?php
+<?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Netzkollektiv\EasyCredit\Api;
 
-class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface {
+use Symfony\Component\HttpFoundation\Session\Session;
+use Monolog\Logger;
 
+class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\StorageInterface
+{
     protected $key = 'wc_ratenkaufbyeasycredit'; 
+
     protected $session;
 
-    public function __construct() {
-        $this->session = WC()->session;
+    protected $logger;
+
+    public function __construct($session, $logger) {
+        $this->session = $session;
+        $this->logger = $logger;
     }
 
-    public function set($key, $value) {
+    public function set($key, $value): self
+    {
+        $this->logger->debug('storage::set '.$key.' = '.$value);
+        $this->session->set('easycredit[' . $key . ']', $value);
 
         $data = $this->session->get($this->key);
         if (!is_array($data)) {
@@ -22,14 +38,21 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface {
         return $this;
     }
 
-    public function get($key) {
+    public function get($key)
+    {
         $data = $this->session->get($this->key);
         if (isset($data[$key])) {
+            $this->logger->debug('storage::get '.$key.' = '.$data[$key]);
             return $data[$key];
         }
     }
 
-    public function clear() {
+    public function clear(): self
+    {
+        $backtrace = debug_backtrace();
+        $this->logger->info('storage::clear from ' .$backtrace[1]['class'].':'.$backtrace[1]['function']);
+
         $this->session->set($this->key, null);
+        return $this;
     }
 }

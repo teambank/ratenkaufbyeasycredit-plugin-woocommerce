@@ -1,38 +1,3 @@
-.wc_payment_method.payment_method_ratenkaufbyeasycredit label[for=payment_method_ratenkaufbyeasycredit] {
-	background-color:#fff;
-	border:2px solid #fafafa;
-	
-	user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-}
-.wc_payment_method.payment_method_ratenkaufbyeasycredit label[for=payment_method_ratenkaufbyeasycredit] span.easycredit-method {
-	display:inline-block;
-	vertical-align: middle;
-}
-.easycredit-info-description .easycredit-info-logo,
-.wc_payment_method.payment_method_ratenkaufbyeasycredit label span.easycredit-method-title {
-    background-image:url(https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png);
-    background-position-x:center;
-    background-repeat:no-repeat;
-    background-size:contain;
-    text-indent:-1000px;
-    display:inline-block;
-    height:30px;
-    width:145px;
-    overflow:hidden;
-}
-
-.ratenkaufbyeasycredit-agreement {
-	user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;	
-}
-
 .ratenkaufbyeasycredit-payment-details::after {
     display: block;
     content: "";
@@ -47,9 +12,3 @@
 .ratenkaufbyeasycredit.checkout-review-button #place_order {
 	width:100%;
 }
-
-.easycredit-widget {
-	display:block !important;
-}
-
-
