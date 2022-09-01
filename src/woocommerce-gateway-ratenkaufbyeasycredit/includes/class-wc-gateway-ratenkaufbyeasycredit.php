@@ -34,8 +34,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $this->id                 = WC_RATENKAUFBYEASYCREDIT_ID;
 
         $this->has_fields         = false;
-        $this->method_title       = __( 'ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit');
-        $this->method_description = __( 'ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung Deutschlands nutzen. Unser Credo einfach, fair und sicher gilt sowohl für Ratenkaufkunden als auch für Händler. Der schnelle, einfache und medienbruchfreie Prozess mit sofortiger Online-Bonitätsprüfung lässt sich sicher in den Onlineshop integrieren. Wir übernehmen das Ausfallrisiko und Sie können Ihren Umsatz bereits nach drei Tagen verbuchen.' );
+        $this->method_title       = __( 'easyCredit-Ratenkauf', 'woocommerce-gateway-ratenkaufbyeasycredit');
+        $this->method_description = __( 'easyCredit-Ratenkauf - jetzt die einfachste Teilzahlungslösung Deutschlands nutzen. Unser Credo einfach, fair und sicher gilt sowohl für Ratenkaufkunden als auch für Händler. Der schnelle, einfache und medienbruchfreie Prozess mit sofortiger Online-Bonitätsprüfung lässt sich sicher in den Onlineshop integrieren. Wir übernehmen das Ausfallrisiko und Sie können Ihren Umsatz bereits nach drei Tagen verbuchen.' );
 
         $this->init_form_fields();
         $this->init_settings();
@@ -106,7 +106,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             <div class="easycredit-intro">
               <easycredit-logo></easycredit-logo>
               <div>
-                Bieten Sie Ihren Kunden die Möglichkeit der Ratenzahlung mit ratenkauf by easyCredit.<br>
+                Bieten Sie Ihren Kunden die Möglichkeit der Ratenzahlung mit easyCredit-Ratenkauf.<br>
                 <strong>Einfach. Fair. In Raten zahlen.</strong>
                 <br><br>
                 <a href="https://partner.easycredit-ratenkauf.de/portal/" target="_blank">zum Partnerportal</a>
@@ -316,7 +316,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                     $this->get_checkout()->verifyCredentials($apiKey, $apiToken, $apiSignature);
                 } catch (ApiV3\Integration\ApiCredentialsInvalidException $e) {
                     return implode(' ',[
-                        __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
+                        __('easyCredit-Ratenkauf credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
                         __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.','woocommerce-gateway-ratenkaufbyeasycredit')
                     ]);
                 } catch (ApiV3\Integration\ApiCredentialsNotActiveException $e) {
@@ -328,7 +328,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                             $messages[] = implode(': ',[$violation->getField(),$violation->getMessage()]);
                         }
                         return implode(' ',[
-                            __('ratenkauf by easyCredit credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
+                            __('easyCredit-Ratenkauf credentials are not valid.','woocommerce-gateway-ratenkaufbyeasycredit'),
                             sprintf(__( 'An error occured while checking your credentials: %s', 'woocommerce-gateway-ratenkaufbyeasycredit'), implode(', ',$messages))
                         ]);
                     }
@@ -339,7 +339,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
                 return sprintf(__( 'An error occured while checking your credentials: %s', 'woocommerce-gateway-ratenkaufbyeasycredit'), $e->getMessage());
             }
         } else {
-            return __('Please enter your credentials to use ratenkauf by easyCredit payment plugin in the <a href="%s">plugin settings</a>.','woocommerce-gateway-ratenkaufbyeasycredit');
+            return __('Please enter your credentials to use easyCredit-Ratenkauf payment plugin in the <a href="%s">plugin settings</a>.','woocommerce-gateway-ratenkaufbyeasycredit');
         }
     }
 
@@ -354,7 +354,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         echo $this->_display_settings_error(
-            __('The "ratenkauf by easyCredit" review page does not exist. Probably it was deleted by mistake. The page is necessary to confirm "ratenkauf by easyCredit" payments after being returned from the payment terminal. To restore the page, please restore it from the trash under "Pages", or deactivate and activate the plugin in the <a href="%s">plugin administration</a>.','woocommerce-gateway-ratenkaufbyeasycredit'),
+            __('The "easyCredit-Ratenkauf" review page does not exist. Probably it was deleted by mistake. The page is necessary to confirm "easyCredit-Ratenkauf" payments after being returned from the payment terminal. To restore the page, please restore it from the trash under "Pages", or deactivate and activate the plugin in the <a href="%s">plugin administration</a>.','woocommerce-gateway-ratenkaufbyeasycredit'),
             is_multisite() ? admin_url('network/plugins.php?s=easycredit') :  admin_url('plugins.php?s=easycredit')
         );
         return;
@@ -435,7 +435,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             $quote->getOrderDetails()->getInvoiceAddress()->getCountry() != 'DE' &&
             $quote->getOrderDetails()->getInvoiceAddress()->getCountry() != ''
         ) {
-            $error = 'ratenkauf by easyCredit ist leider nur in Deutschland verfügbar.';
+            $error = 'easyCredit-Ratenkauf ist leider nur in Deutschland verfügbar.';
         }
 
         $this->plugin->load_template('payment-fields', array(

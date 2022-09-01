@@ -82,7 +82,7 @@ msgid "Enable Debug Logging"
 msgstr ""
 
 #: includes/admin-fields.php:10
-msgid "Enable ratenkauf by easyCredit Payment"
+msgid "Enable easyCredit-Ratenkauf Payment"
 msgstr ""
 
 #: includes/admin-fields.php:8
@@ -138,7 +138,7 @@ msgstr ""
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:340
 #, php-format
 msgid ""
-"Please enter your credentials to use ratenkauf by easyCredit payment plugin "
+"Please enter your credentials to use easyCredit-Ratenkauf payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
@@ -154,26 +154,26 @@ msgid "Please review and confirm your order"
 msgstr ""
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:32
-msgid "ratenkauf by easyCredit"
+msgid "easyCredit-Ratenkauf"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"ratenkauf by easyCredit - use the easiest installment purchase of Germany "
+"easyCredit-Ratenkauf - use the easiest installment purchase of Germany "
 "for your WooCommerce store now"
 msgstr ""
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:316
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:328
-msgid "ratenkauf by easyCredit credentials are not valid."
+msgid "easyCredit-Ratenkauf credentials are not valid."
 msgstr ""
 
 #. Name of the plugin
-msgid "ratenkauf by easyCredit for WooCommerce"
+msgid "easyCredit-Ratenkauf for WooCommerce"
 msgstr ""
 
 #: includes/order-management.php:205
-msgid "Refund automatically set in ratenkauf by easyCredit"
+msgid "Refund automatically set in easyCredit-Ratenkauf"
 msgstr ""
 
 #: includes/admin-fields.php:123
@@ -186,7 +186,7 @@ msgid "Refund update failed with message: %s"
 msgstr ""
 
 #: includes/order-management.php:171
-msgid "Shipment automatically set in ratenkauf by easyCredit"
+msgid "Shipment automatically set in easyCredit-Ratenkauf"
 msgstr ""
 
 #: includes/order-management.php:184
@@ -207,19 +207,19 @@ msgid "Show widget next to product price"
 msgstr ""
 
 #: includes/admin-fields.php:92
-msgid "Specifies if ratenkauf by easyCredit will be advertised in cart view"
+msgid "Specifies if easyCredit-Ratenkauf will be advertised in cart view"
 msgstr ""
 
 #: includes/admin-fields.php:76
 msgid ""
-"Specifies if ratenkauf by easyCredit will be advertised in product detail "
+"Specifies if easyCredit-Ratenkauf will be advertised in product detail "
 "view"
 msgstr ""
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:355
 #, php-format
 msgid ""
-"The \"ratenkauf by easyCredit\" review page does not exist. Probably it was "
+"The \"easyCredit-Ratenkauf\" review page does not exist. Probably it was "
 "deleted by mistake. The page is necessary to confirm \"ratenkauf by "
 "easyCredit\" payments after being returned from the payment terminal. To "
 "restore the page, please restore it from the trash under \"Pages\", or "

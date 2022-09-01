@@ -4,7 +4,7 @@
 Installation
 ============
 
-Das Plugin für ratenkauf by easyCredit kann im Bereich der Plugins entweder über den direkten Download aus dem *Wordpress Plugin-Verzeichnis* oder über den Datei-Upload des bereitgestellten Archives über *Plugin Hochladen* installiert werden.
+Das Plugin für easyCredit-Ratenkauf kann im Bereich der Plugins entweder über den direkten Download aus dem *Wordpress Plugin-Verzeichnis* oder über den Datei-Upload des bereitgestellten Archives über *Plugin Hochladen* installiert werden.
 Alternativ ist auch die Installation über die Kommandozeile z.B. über WP-CLI möglich.
 
 Wordpress Plugin-Verzeichnis

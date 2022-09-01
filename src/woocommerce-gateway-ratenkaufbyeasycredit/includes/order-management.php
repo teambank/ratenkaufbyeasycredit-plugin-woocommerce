@@ -167,11 +167,11 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                         $txId,
                         new CaptureRequest([])
                     );
-                    $order->add_order_note( __('Shipment automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+                    $order->add_order_note( __('Shipment automatically set in easyCredit-Ratenkauf', 'woocommerce-gateway-ratenkaufbyeasycredit') );
 
             } catch (ApiException $e) {
                 if ($e->getResponseObject() instanceof ConstraintViolation) {
-                    $error = 'ratenkauf by easyCredit: ';
+                    $error = 'easyCredit-Ratenkauf: ';
                     foreach ($e->getResponseObject()->getViolations() as $violation) {
                         $error .= $violation->getMessage();
                     }
@@ -201,10 +201,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management {
                         $txId,
                         new RefundRequest(['value'=> $order->get_total()])
                     );
-                $order->add_order_note( __('Refund automatically set in ratenkauf by easyCredit', 'woocommerce-gateway-ratenkaufbyeasycredit') );
+                $order->add_order_note( __('Refund automatically set in easyCredit-Ratenkauf', 'woocommerce-gateway-ratenkaufbyeasycredit') );
             } catch (ApiException $e) {
                 if ($e->getResponseObject() instanceof ConstraintViolation) {
-                    $error = 'ratenkauf by easyCredit: ';
+                    $error = 'easyCredit-Ratenkauf: ';
                     foreach ($e->getResponseObject()->getViolations() as $violation) {
                         $error .= $violation->getMessage();
                     }

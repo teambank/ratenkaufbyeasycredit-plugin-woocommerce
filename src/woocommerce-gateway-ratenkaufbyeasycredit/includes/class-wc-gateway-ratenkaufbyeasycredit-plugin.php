@@ -73,6 +73,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     public function maybe_run() {
         add_action('plugins_loaded', array($this,'run') );
         add_action('init',array($this,'load_textdomain'));
+        add_action('admin_init',array($this,'brand_relaunch_update'));
 
         register_activation_hook( $this->file, array( $this, 'activate' ) );
         register_deactivation_hook( $this->file, array( $this, 'deactivate' ) );
@@ -239,9 +240,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     }
 
     public function enqueue_easycredit_components () {
-        wp_register_script('easycredit-components-module', 'https://easycredit-ratenkauf-webcomponents.netzkollektiv.com/easycredit-components/easycredit-components.esm.js', [], '1.0');
+        wp_register_script('easycredit-components-module', 'https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js', [], '1.0');
         wp_enqueue_script('easycredit-components-module');
-        wp_register_script('easycredit-components-nomodule', 'https://easycredit-ratenkauf-webcomponents.netzkollektiv.com/easycredit-components/easycredit-components.js', [], '1.0');
+        wp_register_script('easycredit-components-nomodule', 'https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.js', [], '1.0');
         wp_enqueue_script('easycredit-components-nomodule');
         add_filter('script_loader_tag', array($this, 'add_module_nomodule_attribute'), 10, 3);
     }
@@ -318,5 +319,18 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit' ) . '">' . __( 'Settings', 'wc-gateway-ratenkaufbyeasycredit' ) . '</a>'
         );
         return array_merge( $plugin_links, $links );
+    }
+
+    public function brand_relaunch_update() {
+        $transient = $this->id.'-brand-relaunch-updated';
+        $option_key = 'woocommerce_ratenkaufbyeasycredit_settings';
+        if (!get_transient($transient)) {
+            $option = get_option($option_key);
+            if (isset($option['title'])) {
+                $option['title'] = str_ireplace('ratenkauf by easyCredit','easyCredit-Ratenkauf', $option['title']);
+            }
+            update_option($option_key, $option);
+            set_transient($transient, true);
+        }
     }
 }

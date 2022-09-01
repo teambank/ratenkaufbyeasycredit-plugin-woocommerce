@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: ratenkauf by easyCredit for Woocommerce\n"
+"Project-Id-Version: easyCredit-Ratenkauf for Woocommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-14 14:43+0000\n"
 "PO-Revision-Date: 2022-07-27 10:53+0000\n"
@@ -51,13 +51,13 @@ msgstr "Weiter zum Ratenkauf"
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:601
 msgid "Could not initialize easycredit payment"
 msgstr ""
-"ratenkauf by easyCredit konnte nicht initialisiert werden. Bitte wählen Sie "
+"easyCredit-Ratenkauf konnte nicht initialisiert werden. Bitte wählen Sie "
 "eine andere Zahlungsart."
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:596
 #, php-format
 msgid "Could not initialize easycredit payment: %s"
-msgstr "ratenkauf by easyCredit konnte nicht initialisiert werden: %s"
+msgstr "easyCredit-Ratenkauf konnte nicht initialisiert werden: %s"
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:290
 msgid "Credentials valid!"
@@ -90,8 +90,8 @@ msgid "Enable Debug Logging"
 msgstr "Debug Logging aktivieren"
 
 #: includes/admin-fields.php:10
-msgid "Enable ratenkauf by easyCredit Payment"
-msgstr "ratenkauf by easyCredit aktivieren."
+msgid "Enable easyCredit-Ratenkauf Payment"
+msgstr "easyCredit-Ratenkauf aktivieren."
 
 #: includes/admin-fields.php:8
 msgid "Enable/Disable"
@@ -150,11 +150,11 @@ msgstr ""
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:340
 #, php-format
 msgid ""
-"Please enter your credentials to use ratenkauf by easyCredit payment plugin "
+"Please enter your credentials to use easyCredit-Ratenkauf payment plugin "
 "in the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 "Bitte trage deine Zugangsdaten in den <a href=\"%s\">Plugin Einstellungen</a>"
-" ein, um ratenkauf by easyCredit anbieten zu können."
+" ein, um easyCredit-Ratenkauf anbieten zu können."
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:317
 #, php-format
@@ -162,7 +162,7 @@ msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
-"Bitte überprüfen deine ratenkauf by easyCredit Zugangsdaten in den <a "
+"Bitte überprüfen deine easyCredit-Ratenkauf Zugangsdaten in den <a "
 "href=\"%s\">Plugin Einstellungen</a>."
 
 #: templates/review-order.php:7
@@ -170,31 +170,31 @@ msgid "Please review and confirm your order"
 msgstr "Bitte überprüfe und bestätige deine Bestellung:"
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:32
-msgid "ratenkauf by easyCredit"
-msgstr "ratenkauf by easyCredit"
+msgid "easyCredit-Ratenkauf"
+msgstr "easyCredit-Ratenkauf"
 
 #. Description of the plugin
 msgid ""
-"ratenkauf by easyCredit - use the easiest installment purchase of Germany "
+"easyCredit-Ratenkauf - use the easiest installment purchase of Germany "
 "for your WooCommerce store now"
 msgstr ""
-"ratenkauf by easyCredit - jetzt die einfachste Teilzahlungslösung "
+"easyCredit-Ratenkauf - jetzt die einfachste Teilzahlungslösung "
 "Deutschlands mit WooCommerce nutzen."
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:316
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:328
-msgid "ratenkauf by easyCredit credentials are not valid."
-msgstr "Die Zugangsdaten für ratenkauf by easyCredit sind nicht korrekt."
+msgid "easyCredit-Ratenkauf credentials are not valid."
+msgstr "Die Zugangsdaten für easyCredit-Ratenkauf sind nicht korrekt."
 
 #. Name of the plugin
-msgid "ratenkauf by easyCredit for WooCommerce"
-msgstr "ratenkauf by easyCredit für WooCommerce"
+msgid "easyCredit-Ratenkauf for WooCommerce"
+msgstr "easyCredit-Ratenkauf für WooCommerce"
 
 #: includes/order-management.php:205
-msgid "Refund automatically set in ratenkauf by easyCredit"
+msgid "Refund automatically set in easyCredit-Ratenkauf"
 msgstr ""
 "Die Rückerstattung wurde auf Basis des Bestellstatus automatisch an "
-"ratenkauf by easyCredit gemeldet."
+"easyCredit-Ratenkauf gemeldet."
 
 #: includes/admin-fields.php:123
 msgid "Refund automatically?"
@@ -206,7 +206,7 @@ msgid "Refund update failed with message: %s"
 msgstr "Das automatische Melden der Rückabwicklung ist fehlgeschlagen: %s"
 
 #: includes/order-management.php:171
-msgid "Shipment automatically set in ratenkauf by easyCredit"
+msgid "Shipment automatically set in easyCredit-Ratenkauf"
 msgstr ""
 "Die Lieferung wurde auf Basis des Bestellstatus automatisch an ratenkauf by "
 "easyCredit gemeldet."
@@ -229,32 +229,32 @@ msgid "Show widget next to product price"
 msgstr "Zeige Modellrechner-Widget neben Produktpreis"
 
 #: includes/admin-fields.php:92
-msgid "Specifies if ratenkauf by easyCredit will be advertised in cart view"
+msgid "Specifies if easyCredit-Ratenkauf will be advertised in cart view"
 msgstr ""
 "Bestimmt, ob der Ratenkauf im Warenkorb beworben wird. Für den größten "
-"Erfolg mit dem ratenkauf by easyCredit empfehlen wir, das Widget hier "
+"Erfolg mit dem easyCredit-Ratenkauf empfehlen wir, das Widget hier "
 "ebenfalls zu aktivieren."
 
 #: includes/admin-fields.php:76
 msgid ""
-"Specifies if ratenkauf by easyCredit will be advertised in product detail "
+"Specifies if easyCredit-Ratenkauf will be advertised in product detail "
 "view"
 msgstr ""
 "Bestimmt, ob Ratenkauf in der Detailansicht beworben wird (\"oder mtl. ab x "
-"EUR\"). Für den größten Erfolg mit dem ratenkauf by easyCredit empfehlen wir,"
+"EUR\"). Für den größten Erfolg mit dem easyCredit-Ratenkauf empfehlen wir,"
 " das Widget zu aktivieren."
 
 #: includes/class-wc-gateway-ratenkaufbyeasycredit.php:355
 #, php-format
 msgid ""
-"The \"ratenkauf by easyCredit\" review page does not exist. Probably it was "
+"The \"easyCredit-Ratenkauf\" review page does not exist. Probably it was "
 "deleted by mistake. The page is necessary to confirm \"ratenkauf by "
 "easyCredit\" payments after being returned from the payment terminal. To "
 "restore the page, please restore it from the trash under \"Pages\", or "
 "deactivate and activate the plugin in the <a href=\"%s\">plugin "
 "administration</a>."
 msgstr ""
-"Die ratenkauf by easyCredit Review-Seite existiert nicht. Wahrscheinlich "
+"Die easyCredit-Ratenkauf Review-Seite existiert nicht. Wahrscheinlich "
 "wurde sie versehentlich gelöscht. Die Seite ist notwendig, um ratenkauf by "
 "easyCredit Zahlungen nach Rückleitung vom Zahlungsterminal zu bestätigen. Um "
 "die Seite wiederherzustellen, stelle diese bitte unter \"Seiten\" aus dem "
@@ -285,7 +285,7 @@ msgid ""
 "This controls the title for the payment method the customer sees during "
 "checkout."
 msgstr ""
-"Diese Einstellung bestimmt, mit welchem Titel ratenkauf by easyCredit im "
+"Diese Einstellung bestimmt, mit welchem Titel easyCredit-Ratenkauf im "
 "Bezahlvorgang angezeigt wird."
 
 #: includes/admin-fields.php:20
