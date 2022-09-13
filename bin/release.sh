@@ -1,11 +1,11 @@
 DIR="$(cd "$(dirname "$0")"; pwd)";
 cd $DIR/..
 
-mkdir build
-mkdir dist
+[ -d ./build ] || mkdir ./build
+[ -d ./dist ] || mkdir ./dist
 rm -r build/*
 
-composer2 install --no-dev
+composer install --no-dev
 
 rsync -rv \
   --exclude '*backup*' \
@@ -16,7 +16,6 @@ rsync -rv \
   --exclude '.git' \
   --exclude 'merchant-interface' \
  src/* build/
-rm -r build/woocommerce-gateway-ratenkaufbyeasycredit/lib/test
 
 version_statement=$(grep "define( 'WC_RATENKAUFBYEASYCREDIT_VERSION" src/woocommerce-gateway-ratenkaufbyeasycredit/woocommerce-gateway-ratenkaufbyeasycredit.php)
 version=$(php -r "$version_statement echo WC_RATENKAUFBYEASYCREDIT_VERSION;")
