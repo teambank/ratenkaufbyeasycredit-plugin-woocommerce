@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-27 09:32+0000\n"
+"POT-Creation-Date: 2022-09-13 08:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,8 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:329
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:337
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:332
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:339
 #, php-format
 msgid "An error occured while checking your credentials: %s"
 msgstr ""
@@ -44,20 +44,20 @@ msgstr ""
 msgid "Confirm shipping automatically?"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:46
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:51
 msgid "Continue to pay by installments"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:601
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:604
 msgid "Could not initialize easycredit payment"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:596
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:599
 #, php-format
 msgid "Could not initialize easycredit payment: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:290
+#: includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php:303
 msgid "Credentials valid!"
 msgstr ""
 
@@ -77,12 +77,31 @@ msgstr ""
 msgid "Display settings"
 msgstr ""
 
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:37
+msgid "easyCredit-Ratenkauf"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"easyCredit-Ratenkauf - use the easiest installment purchase of Germany for "
+"your WooCommerce store now"
+msgstr ""
+
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:319
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:331
+msgid "easyCredit-Ratenkauf credentials are not valid."
+msgstr ""
+
+#. Name of the plugin
+msgid "easyCredit-Ratenkauf for WooCommerce"
+msgstr ""
+
 #: includes/admin-fields.php:64
 msgid "Enable Debug Logging"
 msgstr ""
 
 #: includes/admin-fields.php:10
-msgid "Enable ratenkauf by easyCredit Payment"
+msgid "Enable easyCredit-Ratenkauf Payment"
 msgstr ""
 
 #: includes/admin-fields.php:8
@@ -103,7 +122,7 @@ msgid ""
 "matches your theme."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:649
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:652
 msgid "Interest:"
 msgstr ""
 
@@ -115,7 +134,7 @@ msgstr ""
 msgid "NETZKOLLEKTIV"
 msgstr ""
 
-#: includes/admin-fields.php:106 includes/order-management.php:124
+#: includes/admin-fields.php:106 includes/order-management.php:123
 msgid "Order Management"
 msgstr ""
 
@@ -127,69 +146,50 @@ msgstr ""
 msgid "Order status to refund"
 msgstr ""
 
-#: templates/review-order.php:17
+#: templates/review-order.php:20
 msgid "Payment Method"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:615
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:618
 msgid "Payment Page URI could not be retrieved"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:340
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:342
 #, php-format
 msgid ""
-"Please enter your credentials to use ratenkauf by easyCredit payment plugin "
-"in the <a href=\"%s\">plugin settings</a>."
+"Please enter your credentials to use easyCredit-Ratenkauf payment plugin in "
+"the <a href=\"%s\">plugin settings</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:317
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:320
 #, php-format
 msgid ""
 "Please go to <a href=\"%s\">plugin settings</a> and correct API Key and API "
 "Token."
 msgstr ""
 
-#: templates/review-order.php:7
+#: templates/review-order.php:10
 msgid "Please review and confirm your order"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:32
-msgid "ratenkauf by easyCredit"
-msgstr ""
-
-#. Description of the plugin
-msgid ""
-"ratenkauf by easyCredit - use the easiest installment purchase of Germany "
-"for your WooCommerce store now"
-msgstr ""
-
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:316
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:328
-msgid "ratenkauf by easyCredit credentials are not valid."
-msgstr ""
-
-#. Name of the plugin
-msgid "ratenkauf by easyCredit for WooCommerce"
-msgstr ""
-
-#: includes/order-management.php:205
-msgid "Refund automatically set in ratenkauf by easyCredit"
+#: includes/order-management.php:204
+msgid "Refund automatically set in easyCredit-Ratenkauf"
 msgstr ""
 
 #: includes/admin-fields.php:123
 msgid "Refund automatically?"
 msgstr ""
 
-#: includes/order-management.php:217
+#: includes/order-management.php:216
 #, php-format
 msgid "Refund update failed with message: %s"
 msgstr ""
 
-#: includes/order-management.php:171
-msgid "Shipment automatically set in ratenkauf by easyCredit"
+#: includes/order-management.php:170
+msgid "Shipment automatically set in easyCredit-Ratenkauf"
 msgstr ""
 
-#: includes/order-management.php:184
+#: includes/order-management.php:183
 #, php-format
 msgid "Shipment update failed with message: %s"
 msgstr ""
@@ -207,21 +207,20 @@ msgid "Show widget next to product price"
 msgstr ""
 
 #: includes/admin-fields.php:92
-msgid "Specifies if ratenkauf by easyCredit will be advertised in cart view"
+msgid "Specifies if easyCredit-Ratenkauf will be advertised in cart view"
 msgstr ""
 
 #: includes/admin-fields.php:76
 msgid ""
-"Specifies if ratenkauf by easyCredit will be advertised in product detail "
-"view"
+"Specifies if easyCredit-Ratenkauf will be advertised in product detail view"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:355
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:357
 #, php-format
 msgid ""
-"The \"ratenkauf by easyCredit\" review page does not exist. Probably it was "
-"deleted by mistake. The page is necessary to confirm \"ratenkauf by "
-"easyCredit\" payments after being returned from the payment terminal. To "
+"The \"easyCredit-Ratenkauf\" review page does not exist. Probably it was "
+"deleted by mistake. The page is necessary to confirm \"easyCredit-"
+"Ratenkauf\" payments after being returned from the payment terminal. To "
 "restore the page, please restore it from the trash under \"Pages\", or "
 "deactivate and activate the plugin in the <a href=\"%s\">plugin "
 "administration</a>."
@@ -230,11 +229,11 @@ msgstr ""
 #: includes/admin-fields.php:51
 msgid ""
 "The API signature secures the data transfer against data manipulation by "
-"third parties. You can activate the API signature in the ratenkauf by "
-"easyCredit merchant portal. "
+"third parties. You can activate the API signature in the easyCredit-"
+"Ratenkauf merchant portal. "
 msgstr ""
 
-#: includes/order-management.php:163 includes/order-management.php:197
+#: includes/order-management.php:162 includes/order-management.php:196
 msgid ""
 "The transaction id of this transaction is not available. This usually "
 "happens if the webhook which confirms the transaction is not working "
@@ -251,8 +250,8 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:219
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:248
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:222
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:251
 msgid "Transaction not approved"
 msgstr ""
 
@@ -260,7 +259,7 @@ msgstr ""
 msgid "Verify Credentials"
 msgstr ""
 
-#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:320
+#: includes/class-wc-gateway-ratenkaufbyeasycredit.php:323
 msgid ""
 "Your credentials are valid, but your account has not been activated yet."
 msgstr ""

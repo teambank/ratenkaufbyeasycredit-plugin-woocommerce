@@ -7,7 +7,7 @@ return array(
     'enabled' => array(
         'title'   => __( 'Enable/Disable', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'    => 'checkbox',
-        'label'   => __( 'Enable ratenkauf by easyCredit Payment', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'label'   => __( 'Enable easyCredit-Ratenkauf Payment', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'default' => 'yes'
     ),
 
@@ -48,7 +48,7 @@ return array(
     'api_signature' => array(
         'title'       => __( 'API Signature (if activated in partner portal, optional)', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'text',
-        'description' => __( 'The API signature secures the data transfer against data manipulation by third parties. You can activate the API signature in the ratenkauf by easyCredit merchant portal. ', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'description' => __( 'The API signature secures the data transfer against data manipulation by third parties. You can activate the API signature in the easyCredit-Ratenkauf merchant portal. ', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
     ),
 
     'api_verify_credentials' => array(
@@ -73,7 +73,7 @@ return array(
     'widget_enabled' => array(
         'title'       => __( 'Show widget next to product price', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'checkbox',
-        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in product detail view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'description' => __( 'Specifies if easyCredit-Ratenkauf will be advertised in product detail view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'desc_tip'    => true,
         'default'     => 'yes'
     ),
@@ -89,7 +89,7 @@ return array(
     'cart_widget_enabled' => array(
         'title'       => __( 'Show widget in Cart', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'checkbox',
-        'description' => __( 'Specifies if ratenkauf by easyCredit will be advertised in cart view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'description' => __( 'Specifies if easyCredit-Ratenkauf will be advertised in cart view', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'desc_tip'    => true,
         'default'     => 'yes'
     ),

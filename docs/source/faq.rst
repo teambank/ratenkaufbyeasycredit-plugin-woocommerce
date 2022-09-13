@@ -4,7 +4,7 @@
 Häufige Fragen
 ============================
 
-Die Bestellbestätigungs E-Mail wird bereits bei Weiterleitung auf das Payment Terminal von ratenkauf by easyCredit versendet. Lässt sich dies nach hinten verschieben?
+Die Bestellbestätigungs E-Mail wird bereits bei Weiterleitung auf das Payment Terminal von easyCredit-Ratenkauf versendet. Lässt sich dies nach hinten verschieben?
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Das Problem hängt möglicherweise mit einem der folgenden Plugins zusammen:
@@ -37,7 +37,7 @@ Fehlerbehebung bei Verwendung von German Market
 
 Im Plugin **German Market** hat der Hersteller die Funktion konfigurierbar gemacht. Das Verhalten kann unter Allgemein -> Emails -> Bestelleingangsbestätigungsmail konfiguriert werden.
 
-Die Button-Bezeichnung im Checkout verändert sich nicht auf "Weiter zur Ratenzahlung" nach Auswahl von ratenkauf by easyCredit. Woran liegt dies?
+Die Button-Bezeichnung im Checkout verändert sich nicht auf "Weiter zur Ratenzahlung" nach Auswahl von easyCredit-Ratenkauf. Woran liegt dies?
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Das Problem hängt möglicherweise mit einem der folgenden Plugins zusammen:

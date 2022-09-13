@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.0
+-----
+
+- Änderungen zum Markenrelaunch
+- Migration auf ratenkauf by easyCredit API v3
+- Integration von EasyCredit Ratenkauf Web-Komponenten
+
 1.7.3
 -----
 
