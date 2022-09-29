@@ -53,7 +53,8 @@ jQuery(function($){
             });
 
             $('form.checkout').on('checkout_place_order', function() {
-                if (!$('easycredit-checkout').prop('isActive')
+                if (!$('easycredit-checkout').is(':visible')
+                    || !$('easycredit-checkout').prop('isActive')
                     || $('easycredit-checkout').prop('paymentPlan') !== ''
                     || $('easycredit-checkout').prop('alert') !== ''
                 ) {

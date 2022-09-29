@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.1
+-----
+
+- behebt einen Fehler im Checkout, bei dem eine Bestellung unter bestimmten Umständen nicht abgesendet werden kann
+
 2.0.0
 -----
 

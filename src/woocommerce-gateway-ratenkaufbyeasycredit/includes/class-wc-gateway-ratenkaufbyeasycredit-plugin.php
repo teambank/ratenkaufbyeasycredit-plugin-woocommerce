@@ -251,7 +251,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         $this->enqueue_easycredit_components();
 
         wp_enqueue_script('wc_ratenkaufbyeasycredit_js',
-            $this->plugin_url . 'assets/js/easycredit.min.js', ['jquery'], '1.0');
+            $this->plugin_url . 'assets/js/easycredit.min.js', ['jquery'], '2.0');
         wp_enqueue_style( 'wc_ratenkaufbyeasycredit_css', 
             $this->plugin_url. 'assets/css/easycredit.min.css');
     }
