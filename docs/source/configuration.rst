@@ -6,10 +6,9 @@
 Konfiguration
 =============
 
-Zur Konfiguration des Plugins navigieren Sie erneut zu :menuselection:`Plugins`. Klicken Sie dort auf :menuselection:`Einstellungen`.
+Zur Konfiguration des Plugins navigieren Sie erneut zu :menuselection:`Plugins`. Klicken Sie dort auf :menuselection:`Details ansehen`.
 
 .. image:: ./_static/config-open.png
-   :scale: 50%
 
 Alternativ erreichen Sie die Zahlungsarten-Konfiguration unter :menuselection:`wooCommerce --> Einstellungen --> Zahlungsarten`. In der Liste der installierten Plugins sollte nun **easyCredit-Ratenkauf** enthalten sein. Klicken Sie dort auf *Verwalten*
 

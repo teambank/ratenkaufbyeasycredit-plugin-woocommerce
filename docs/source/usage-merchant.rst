@@ -18,9 +18,7 @@ Der Transaktionsmanager in der Detailansicht einer mit easyCredit-Ratenkauf beza
 Statusmeldung über den Transaktionsmanager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Zur Meldung des Transaktionsstatus wählen Sie den gewünschten Status und senden Sie das Formular ab. Der Transaktionsmanager aktualisiert nach Absenden die Historie und die Transaktionsdetails oberhalb.
-
-Bei Rückabwicklung wählen Sie bitte den Grund und geben Sie bei einer Teil-Rückabwicklung den entsprechenden Betrag ein.
+Zur Meldung des Transaktionsstatus wählen Sie den gewünschten Status und senden Sie das Formular ab. Sie haben zusätzlich die Möglichkeit eine Versand-Trackingnummer anzugeben. Der Transaktionsmanager aktualisiert nach Absenden die Historie und die Transaktionsdetails oberhalb. Bei Rückabwicklung wählen haben Sie die Möglichkeit den Betrag bei einer teilweisen Rückabwicklung zu reduzieren (z.B. im Falle von Minderung).
 
 .. image:: ./_static/merchant-tx-manager-options.png
            :scale: 50%
