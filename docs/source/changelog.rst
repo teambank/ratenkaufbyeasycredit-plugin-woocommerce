@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.2
+-----
+
+- eine Bestellung kann nur abgeschlossen werden, wenn der Transaktionstatus PREAUTHORIZED ist, andernfalls erhält der Kunde eine Fehlermeldung
+- eine Bestellung wird nur als bezahlt markiert, wenn der Transaktionsstatus bei Aufruf des AuthorizationCallback AUTHORIZED ist
+
 2.0.1
 -----
 

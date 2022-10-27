@@ -155,14 +155,37 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         $orders = new WP_Query($args);
         $order = wc_get_order(current($orders->posts));
 
-        if ($order) {
-            $order->payment_complete(
-                $txId
-            );
-            http_response_code(200);
+        if (!$order) {
+            http_response_code(404);
+            echo 'transaction not found';
             exit;
         }
-        http_response_code(404);
+        if (!$token = $order->get_meta($this->id.'-token')) {
+            http_response_code(404);
+            echo 'technical transaction id not found';
+            exit;
+        }
+
+        $tx = $this->get_gateway()
+            ->get_checkout()
+            ->loadTransaction($token);
+
+        if ($tx->getStatus() !== ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
+            http_response_code(409);
+            echo 'payment status of transaction not updated as transaction status is not AUTHORIZED';
+            exit;
+        }
+
+        if ($order->payment_complete(
+            $txId
+        )) {
+            http_response_code(200);
+            echo 'payment status successfully set';
+            exit;
+        }
+
+        http_response_code(500);
+        echo 'payment status could not be set, please check the logs';
         exit;
     }
 

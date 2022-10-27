@@ -4,6 +4,18 @@
 Häufige Fragen
 ============================
 
+Seit v2.0 wird die Transaktions-ID in der Bestellung nicht mehr gesetzt und der Bestellstatus bleibt auf "Zahlung ausstehend" stehen
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Ab dieser Version enthält das Plugin die sog. Zwei-Phasen Bestätigung. Dabei ist eine eine Zahlungstransaktion in wooCommerce nicht mehr mit der Bestätigung des Kunden abgeschlossen, sondern es erfolgt eine weitere Bestätigung seitens des easyCredit-Ratenkauf Servers. Der Server ruft im Anschluss der Bestellung die URL `/easycredit/authorize` auf. Bitte prüfen Sie die Logs Ihres Web-Servers auf den folgenden Aufruf, der kurz nach der Bestellung eingehen sollte. Enthält der Aufruf den Status-Code 200, ist die Transaktion auf "in Bearbeitung" umgestellt und die Transaktions-ID ist der Bestellung zugeordnet:
+
+.. code-block::
+
+    127.0.0.1 - - [11/Nov/2011:11:11:11 +0200] "GET /easycredit/authorize/secToken/{secToken}/?transactionId={txId}&orderId={orderId} HTTP/1.1" 200 - mein-woocommerce-shop.de "-" "Java/1.0.0" "-
+
+.. note:: Dieser Aufruf funktioniert möglicherweise nicht in Passwort-geschützten Staging- oder Entwicklungsumgebungen, wenn diese URL nicht explizit aus der Authentifizierung ausgeschlossen wird.
+
+
 Die Bestellbestätigungs E-Mail wird bereits bei Weiterleitung auf das Payment Terminal von easyCredit-Ratenkauf versendet. Lässt sich dies nach hinten verschieben?
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

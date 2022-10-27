@@ -253,11 +253,15 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
             ob_start(); // Suppress error output from akismet
     
-            $checkout->authorize($order->get_order_number());
-               
+            if (!$checkout->authorize($order->get_order_number())) {
+                throw new \Exception(__('Transaction could not be captured', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+            }
+
             $order->add_meta_data($this->id.'-interest-amount', $this->get_storage()->get('interest_amount'), true);
             $order->add_meta_data($this->id.'-sec-token', $this->get_storage()->get('sec_token'), true);
             $order->add_meta_data($this->id.'-transaction-id', $this->get_storage()->get('transaction_id'), true);
+            $order->add_meta_data($this->id.'-token', $this->get_storage()->get('token'), true);
+
             $order->save();
             
             WC()->cart->empty_cart();        
