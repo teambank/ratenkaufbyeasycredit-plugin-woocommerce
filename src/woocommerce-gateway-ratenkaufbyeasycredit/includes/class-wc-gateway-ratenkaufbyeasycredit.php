@@ -173,6 +173,16 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         return wc_get_order($order_id);
     }
 
+    public function payment_review_before() {
+        if ((int)get_option('woocommerce_easycredit_checkout_review_page_id') === (int)get_queried_object_id()) {
+            try {
+                $this->get_checkout()->loadTransaction();
+            } catch (\Exception $e) {
+                return $this->_handleError($e->getMessage());
+            }
+        }
+    }
+
     public function payment_review() {
         if (is_admin()) {
             return;
@@ -180,8 +190,6 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         if (!$order = $this->get_current_order()) {
             return;
         }    
-            
-        $this->get_checkout()->loadTransaction();        
 
         ob_start();
         $this->plugin->load_template('review-order', array(

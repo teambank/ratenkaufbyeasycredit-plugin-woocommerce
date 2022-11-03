@@ -47,6 +47,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         add_action('admin_post_wc_ratenkaufbyeasycredit_verify_credentials', array($this, 'verify_credentials'));
         add_filter('plugin_action_links_' . plugin_basename( $this->file ), array($this,'plugin_links') );
 
+        add_action('template_redirect', array($this->get_gateway(), 'payment_review_before'));
         add_shortcode($this->get_review_shortcode(), array($this->get_gateway(), 'payment_review'));
 
         add_action( 'init', function() {
@@ -219,7 +220,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             )
         );
     }
-    
+
     public function get_review_page_uri() {
         $pageId = get_option(
             key($this->get_review_page_data())
