@@ -166,7 +166,7 @@ class QuoteBuilder {
             'orderDetails' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
-                'numberOfProductsInShoppingCart' => 1,
+                'numberOfProductsInShoppingCart' => count($this->getItems()),
                 'invoiceAddress' => $this->getInvoiceAddress(),
                 'shippingAddress' => $this->getShippingAddress(),
                 'shoppingCartInformation' => $this->getItems()

@@ -76,7 +76,7 @@ class CustomerBuilder
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'birthDate' => $this->getDob(),
-            'company' => $this->getCompany(),
+            'companyName' => $this->getCompany(),
             'contact' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
                 'email' => $this->getEmail()
             ]),
