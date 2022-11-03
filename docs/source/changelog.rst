@@ -6,6 +6,9 @@ Changelog
 
 - eine Bestellung kann nur abgeschlossen werden, wenn der Transaktionstatus PREAUTHORIZED ist, andernfalls erhält der Kunde eine Fehlermeldung
 - eine Bestellung wird nur als bezahlt markiert, wenn der Transaktionsstatus bei Aufruf des AuthorizationCallback AUTHORIZED ist
+- der Firmenname und die Anzahl der Produkte im Warenkorb werden nun korrekt übertragen
+- die Fehlerbehandlung bei abgelaufenen Transaktionen wurde verbessert
+- die Betragsprüfung wird nur bei vorhandener Session durchgeführt
 
 2.0.1
 -----
