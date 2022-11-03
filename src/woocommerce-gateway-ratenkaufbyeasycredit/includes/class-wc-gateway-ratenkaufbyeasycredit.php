@@ -197,6 +197,9 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         if (!$order = $this->get_current_order()) {
             return;
         }
+        if (!WC()->session) {
+            return;
+        }
         
         $quote = $this->get_quote_builder()->build($order);
 
