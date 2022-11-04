@@ -19,7 +19,7 @@ jQuery(function($){
             if (!document.querySelector(selector).classList.contains('hydrated')) {
                 return onHydrated(selector, cb);
             }
-            cb();
+            cb(selector);
         }, 50)
     }
 
@@ -31,7 +31,7 @@ jQuery(function($){
                         return;
                     }
                     if (el = node.querySelector(selector)) {
-                        cb();
+                        cb(selector);
                     }
                 });
             });
@@ -39,9 +39,9 @@ jQuery(function($){
         observer.observe(document, { subtree: true, childList: true });
     }
 
-    var handleShippingPaymentConfirm = function () {
-        onHydrated('easycredit-checkout', function() {
-            $('easycredit-checkout').submit(function(e){
+    var handleShippingPaymentConfirm = function (selector) {
+        onHydrated(selector, function(selector) {
+            $(selector).submit(function(e){
                 var form = $('form.checkout');
                 form.append('<input type="hidden" name="easycredit[submit]" value="1" />')
                 if (e.detail && e.detail.numberOfInstallments) {
@@ -65,13 +65,13 @@ jQuery(function($){
                     return true;
                 }
 
-                $('easycredit-checkout')
+                $(selector)
                     .get(0)
                     .dispatchEvent(new Event('openModal'));
                 return false;
             });
             $(document.body).on('checkout_error', function() {
-                $('easycredit-checkout')
+                $(selector)
                     .get(0)
                     .dispatchEvent(new Event('closeModal'));
             });
@@ -80,4 +80,24 @@ jQuery(function($){
 
     watchForSelector('easycredit-checkout', handleShippingPaymentConfirm);
     onHydrated('easycredit-checkout', handleShippingPaymentConfirm);
+
+    var handleExpressButton = function(selector) {
+        onHydrated(selector, function(selector) {
+            $(selector).submit(function(e){
+                var form = $(this).closest('.summary').find('form.cart');
+                if (form.length > 0 && form.find('button[name="add-to-cart"]')) {
+                    form.append('<input type="hidden" name="easycredit-express" value="1" />')
+                      .find('button[name="add-to-cart"]')
+                      .click();
+                }
+
+                if ($(this).closest('.wc-proceed-to-checkout').length > 0) {
+                    window.location.href = '/easycredit/express';
+                }
+            });
+        });
+    }
+
+    watchForSelector('easycredit-express-button', handleExpressButton);
+    onHydrated('easycredit-express-button', handleExpressButton);
 });

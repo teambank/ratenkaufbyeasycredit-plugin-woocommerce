@@ -129,15 +129,11 @@ class QuoteBuilder {
             $this->storage->set('sec_token', md5(uniqid((string)mt_rand(), true)));
         }
 
-        if ($this->quote->get_id() === 0) {
-            return null;
-        }
-
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
             'urlSuccess' => $this->gateway->plugin->get_review_page_uri(),
-            'urlCancellation' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
-            'urlDenial' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
-            'urlAuthorizationCallback' =>   \esc_url_raw( get_home_url(null, '/easycredit/authorize/secToken/'.$this->storage->get('sec_token').'/') )
+            'urlCancellation' => \esc_url_raw( \get_home_url(null, '/easycredit/cancel') ),
+            'urlDenial' => \esc_url_raw( \get_home_url(null, '/easycredit/cancel') ),
+            'urlAuthorizationCallback' =>   \esc_url_raw( \get_home_url(null, '/easycredit/authorize/secToken/'.$this->storage->get('sec_token').'/') )
         ]);
     }
 
@@ -157,6 +153,10 @@ class QuoteBuilder {
         return $query->found_posts;
     }
 
+    protected function isExpress() {
+        return $this->storage->get('express');
+    }
+
     public function build(\WC_Order $order): Transaction {
         $this->quote = $order;
         $this->customer = new \WC_Customer( $order->get_user_id() );
@@ -167,8 +167,8 @@ class QuoteBuilder {
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
                 'numberOfProductsInShoppingCart' => count($this->getItems()),
-                'invoiceAddress' => $this->getInvoiceAddress(),
-                'shippingAddress' => $this->getShippingAddress(),
+                'invoiceAddress' => $this->isExpress() ? null : $this->getInvoiceAddress(),
+                'shippingAddress' =>  $this->isExpress() ? null : $this->getShippingAddress(),
                 'shoppingCartInformation' => $this->getItems()
             ]),
             'shopsystem' => $this->getSystem(),

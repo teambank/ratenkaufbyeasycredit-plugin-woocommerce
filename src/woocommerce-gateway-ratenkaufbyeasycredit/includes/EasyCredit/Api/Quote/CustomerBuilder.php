@@ -71,15 +71,15 @@ class CustomerBuilder
         $this->quote = $quote;
         $this->customer = $customer;
 
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer([
+        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer(array_filter([
             'gender' => $this->getPrefix(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'birthDate' => $this->getDob(),
             'companyName' => $this->getCompany(),
-            'contact' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
+            'contact' => ($this->getEmail()) ? new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
                 'email' => $this->getEmail()
-            ]),
-        ]);
+            ]) : null,
+        ]));
     }
 }

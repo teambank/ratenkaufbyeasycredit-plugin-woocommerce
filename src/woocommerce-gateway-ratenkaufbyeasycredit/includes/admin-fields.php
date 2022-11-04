@@ -65,6 +65,27 @@ return array(
         'default' => 'no'
     ),
 
+    'express_checkout' => array(
+        'title'       => __( 'Express Checkout', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'title'
+    ),
+
+    'express_checkout_detail_enabled' => array(
+        'title'       => __( 'Show expresss checkout button at product detail page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'description' => __( 'Let customers initiate easyCredit-Ratenkauf directly from the product detail page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => 'yes'
+    ),
+
+    'express_checkout_cart_enabled' => array(
+        'title'       => __( 'Show expresss checkout button in cart', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'type'        => 'checkbox',
+        'description' => __( 'Let customers initiate easyCredit-Ratenkauf directly from the cart page', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
+        'desc_tip'    => true,
+        'default'     => 'yes'
+    ),
+
     'marketing' => array(
         'title'       => __( 'Marketing', 'woocommerce-gateway-ratenkaufbyeasycredit' ),
         'type'        => 'title'
