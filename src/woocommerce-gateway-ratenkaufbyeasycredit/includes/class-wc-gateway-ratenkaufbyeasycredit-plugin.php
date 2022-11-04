@@ -13,6 +13,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     public $plugin_url;
     public $includes_path;
     public $gateway;
+    public $rewrite_rules = array(
+        'easycredit/(authorize)/secToken/([^/]+)/?' => 'index.php?easycredit[action]=$matches[1]&easycredit[sec_token]=$matches[2]'
+    );
 
     public function __construct($file) {
 
@@ -50,12 +53,11 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         add_action('template_redirect', array($this->get_gateway(), 'payment_review_before'));
         add_shortcode($this->get_review_shortcode(), array($this->get_gateway(), 'payment_review'));
 
-        add_action( 'init', function() {
-            add_rewrite_tag( '%easycredit%', '([^/]+)' );
-            add_rewrite_rule( 'easycredit/(authorize)/secToken/([^/]+)/?', 'index.php?easycredit[action]=$matches[1]&easycredit[sec_token]=$matches[2]', 'top' );
-        });
+        add_action( 'init', array($this, 'add_rewrite_rules'));
+        add_action( 'admin_init', array($this, 'check_rewrite_rules') );
         add_action ('template_redirect', array($this, 'handle_controller'));
     }
+
 
     public function init_api() {
         new WC_Gateway_Ratenkaufbyeasycredit_RestApi(
@@ -74,12 +76,13 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     public function maybe_run() {
         add_action('plugins_loaded', array($this,'run') );
         add_action('init',array($this,'load_textdomain'));
+
         add_action('admin_init',array($this,'brand_relaunch_update'));
 
         register_activation_hook( $this->file, array( $this, 'activate' ) );
         register_deactivation_hook( $this->file, array( $this, 'deactivate' ) );
         register_uninstall_hook(__FILE__, 'uninstall');
-        add_action('wpmu_new_blog', array($this,'activate_new_blog'), 10, 6 );
+        add_action('wpmu_new_blog', array($this, 'activate_new_blog'), 10, 6 );
     }
 
     public function activate_new_blog($blog_id, $user_id, $domain, $path, $site_id, $meta) {
@@ -93,7 +96,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         }
     }
 
+
     public function activate($network_wide) {
+        $this->add_rewrite_rules();
         flush_rewrite_rules();
 
         if ( is_multisite() && $network_wide ) { 
@@ -116,6 +121,26 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
 
     public static function uninstall() {
         // nothing to do here currently
+    }
+
+    public function add_rewrite_rules() {
+        add_rewrite_tag( '%easycredit%', '([^/]+)' );
+        foreach ($this->rewrite_rules as $regex => $query) {
+            add_rewrite_rule($regex, $query, 'top' );
+        }
+    }
+
+    public function check_rewrite_rules() {
+        $rules = get_option('rewrite_rules');
+        foreach ($this->rewrite_rules as $regex => $query) {
+            if (!isset($rules[$regex])) {
+                $flush = true;
+            }
+        }
+
+        if ($flush) {
+            flush_rewrite_rules();
+        }
     }
 
     public function handle_controller () {
