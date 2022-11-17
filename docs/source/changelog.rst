@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.3
+-----
+
+- die Rewrite Rules werden nun bei Bedarf automatisch geleert 
+
 2.0.2
 -----
 
