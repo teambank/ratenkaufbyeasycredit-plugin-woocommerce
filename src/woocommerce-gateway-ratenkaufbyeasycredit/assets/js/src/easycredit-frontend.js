@@ -85,15 +85,21 @@ jQuery(function($){
         onHydrated(selector, function(selector) {
             $(selector).submit(function(e){
                 var form = $(this).closest('.summary').find('form.cart');
-                if (form.length > 0 && form.find('button[name="add-to-cart"]')) {
-                    form.append('<input type="hidden" name="easycredit-express" value="1" />')
-                      .find('button[name="add-to-cart"]')
-                      .click();
-                }
+                if (form.length > 0) {
 
+                    var addToCartButton = form.find('button[name="add-to-cart"], button.single_add_to_cart_button');
+                    if (addToCartButton.length > 0) {
+                      form.append('<input type="hidden" name="easycredit-express" value="1" />')
+                        .find(addToCartButton)
+                        .click();
+                    }
+                }
                 if ($(this).closest('.wc-proceed-to-checkout').length > 0) {
                     window.location.href = '/easycredit/express';
                 }
+            });
+            $('form.variations_form').on('show_variation', function(event, data, purchasable) {
+                (!purchasable) ? $(selector).hide() : $(selector).show();
             });
         });
     }

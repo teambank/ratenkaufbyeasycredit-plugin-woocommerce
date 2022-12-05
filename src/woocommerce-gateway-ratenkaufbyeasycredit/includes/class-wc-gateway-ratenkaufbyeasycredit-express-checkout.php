@@ -50,11 +50,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout {
         $product = new WC_Product( $post->ID );
         $amount = $product->get_price();
 
-        if ($product->get_price() > 199 && $product->get_price() <= 10000) {
+        if ($product->is_in_stock() && $product->get_price() > 199 && $product->get_price() <= 10000) {
             echo '<easycredit-express-button 
                 webshop-id="'.$this->gateway->get_option('api_key').'"
                 amount="'.$product->get_price().'"
-                '.$attributes.'
             ></easycredit-express-button>';
         }
     }
