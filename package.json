@@ -17,7 +17,8 @@
     "docs:deploy" : "export $(cat .env | xargs) && rsync -rvz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
     "docs": "yarn docs:build:html; yarn docs:deploy",
     "deploy": "bin/deploy-to-wordpress.sh --svn",
-    "release": "bin/release.sh"
+    "release": "bin/release.sh",
+    "phpstan" : "cd src/woocommerce-gateway-ratenkaufbyeasycredit; vendor/bin/phpstan analyse ."
   },
   "author": "NETZKOLLEKTIV <corporate@netzkollektiv.com>",
   "license": "MIT"
