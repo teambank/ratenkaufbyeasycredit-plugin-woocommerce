@@ -131,6 +131,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     }
 
     public function check_rewrite_rules() {
+        $flush = false;
         $rules = get_option('rewrite_rules');
         foreach ($this->rewrite_rules as $regex => $query) {
             if (!isset($rules[$regex])) {
