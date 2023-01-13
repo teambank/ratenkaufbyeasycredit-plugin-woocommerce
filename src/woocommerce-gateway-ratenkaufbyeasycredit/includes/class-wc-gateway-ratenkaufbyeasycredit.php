@@ -204,7 +204,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         $updateAddress($transaction->getTransaction()->getOrderDetails()->getShippingAddress(), 'shipping');
 
         $contact = $transaction->getTransaction()->getCustomer()->getContact();
-        WC()->customer->set_billing_phone($contact->getPhoneNumber());
+        WC()->customer->set_billing_phone($contact->getMobilePhoneNumber());
         WC()->customer->set_billing_email($contact->getEmail());
         WC()->customer->save();
 
