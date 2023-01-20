@@ -7,7 +7,7 @@ Traditional financing solutions are often connected with complicated application
 
 # Getting started
 Are you interested in using easyCredit-Ratenkauf? Contact us now:
-* [sales.ratenkauf@easycredit.de](https://store.shopware.com/en/easyc36021249341f/ratenkauf-by-easycredit.html#)
+* [sales.ratenkauf@easycredit.de](mailto:sales.ratenkauf@easycredit.de)
 * +49 (0)911 5390 2726
   
 or register at [easycredit-ratenkauf.de](https://www.easycredit-ratenkauf.de/registrierung.htm) and we will contact you.
@@ -18,7 +18,7 @@ or register at [easycredit-ratenkauf.de](https://www.easycredit-ratenkauf.de/reg
 
 ### Stable Installation
 
-The [easyCredit-Ratenkauf plugin for wooCommerce](https://de.wordpress.org/plugins/wc-easycredit/) can be installed directly in your Wordpress installation from the Wordpress plugin directory. Please follow the guidelines in our [Documentation](https://netzkollektiv.com/docs/ratenkaufbyeasycredit-woocommerce/)
+The [easyCredit-Ratenkauf plugin for wooCommerce](https://de.wordpress.org/plugins/wc-easycredit/) can be installed directly in your Wordpress installation from the Wordpress plugin directory. Please follow the guidelines in our [Documentation](https://netzkollektiv.com/docs/easycredit-ratenkauf-woocommerce/)
 
 ### Development Installation
 It is not recommended to install this version from Github. 
