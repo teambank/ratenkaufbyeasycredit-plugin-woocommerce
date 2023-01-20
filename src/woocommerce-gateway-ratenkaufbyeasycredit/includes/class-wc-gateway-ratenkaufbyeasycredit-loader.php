@@ -28,12 +28,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Loader {
     }
 
     public function autoloader($class) {
-    	$ds = DIRECTORY_SEPARATOR;
+        $ds = DIRECTORY_SEPARATOR;
 
-        if ( false !== strpos( $class, 'EasyCredit' ) ) {
+        if ( strpos( $class, 'Netzkollektiv\EasyCredit' ) === 0) {
             $file = str_replace( array('_','Netzkollektiv\\','\\'), $ds, $class ) . '.php';
-            require_once $this->includes_path . $file;
-            return;
+            if (file_exists($this->includes_path . $file)) {
+                require_once $this->includes_path . $file;
+                return;
+            }
         }
     }
 
