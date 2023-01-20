@@ -10,6 +10,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\MessageFormatter;
 use Netzkollektiv\EasyCredit\Api\Storage;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\ModelInterface;
 
 class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
@@ -178,15 +179,66 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             try {
                 $this->get_checkout()->loadTransaction();
             } catch (\Exception $e) {
-                return $this->_handleError($e->getMessage());
+                return $this->handleError($e->getMessage());
             }
         }
+    }
+
+    protected function create_express_checkout_order($transaction) {
+        $updateAddress = function(ModelInterface $address, $type = 'billing') {
+            $fields = [
+                'first_name' => $address->getFirstName(),
+                'last_name'  => $address->getLastName(),
+                'address_1'  => $address->getAddress(),
+                'address_2'  => '',
+                'city'       => $address->getCity(),
+                'state'      => '',
+                'postcode'   => $address->getZip(),
+                'country'    => $address->getCountry()
+            ];
+            array_walk($fields,function($value, $field) use ($type) {
+                WC()->customer->{"set_{$type}_{$field}"}( $value );
+            });
+        };
+        $updateAddress($transaction->getTransaction()->getOrderDetails()->getInvoiceAddress());
+        $updateAddress($transaction->getTransaction()->getOrderDetails()->getShippingAddress(), 'shipping');
+
+        $contact = $transaction->getTransaction()->getCustomer()->getContact();
+        WC()->customer->set_billing_phone($contact->getMobilePhoneNumber());
+        WC()->customer->set_billing_email($contact->getEmail());
+        WC()->customer->save();
+
+        $order_data = [];
+        foreach (['billing','shipping'] as $prefix) {
+          array_walk(WC()->customer->get_data()[$prefix],function($value, $field) use (&$order_data, $prefix) {
+            $order_data[$prefix . '_' .$field] = $value;
+          });
+        }
+
+        $order = new \WC_Order();
+        $order->set_created_via( 'easycredit-express-checkout' );
+        $order->add_order_note(__('Created via express checkout', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+        $order->set_payment_method($this->id);
+
+        $orderController = new \Automattic\WooCommerce\StoreApi\Utilities\OrderController();
+        $orderController->update_order_from_cart($order);
+
+        $this->get_storage()
+            ->set('order_id', $order->get_id())
+            ->set('express', false);
     }
 
     public function payment_review() {
         if (is_admin()) {
             return;
         }
+
+        $transaction = $this->get_checkout()->loadTransaction();        
+
+        if ($this->get_storage()->get('express')) {
+            $this->create_express_checkout_order($transaction);
+        }
+ 
         if (!$order = $this->get_current_order()) {
             return;
         }    
@@ -213,7 +265,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
 
         $checkout = $this->get_checkout();        
         if ($this->get_storage()->get('authorized_amount') != $quote->getOrderDetails()->getOrderValue()
-            && !$checkout->verifyAddressNotChanged($quote)
+            && !$checkout->verifyAddress($quote)
         ) {
             $checkout->clear();
         }    
@@ -234,7 +286,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             }
 
         } catch (\Exception $e) {
-            $this->_handleError($e->getMessage());
+            $this->handleError($e->getMessage());
         }
     }
     
@@ -244,12 +296,12 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
        
         if (!$order = $this->get_current_order()) {
-            $this->_handleError('Could not find order');
+            $this->handleError('Could not find order');
             return;
         }
 
         if (!wp_verify_nonce($_POST['_wpnonce'], 'woocommerce-easycredit-pay')) {
-            $this->_handleError('Could not verify nonce');
+            $this->handleError('Could not verify nonce');
         }
         
           try {
@@ -283,11 +335,11 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
             wp_redirect( $order->get_checkout_order_received_url() );
             exit;
         } catch (\Exception $e) {
-            $this->_handleError($e->getMessage());
+            $this->handleError($e->getMessage());
         }
     }
     
-    protected function _handleError($message) {
+    public function handleError($message) {
         $this->get_logger()->error($message);
         wc_add_notice( __($message, 'woocommerce-gateway-ratenkaufbyeasycredit'), 'error' );
         $this->get_checkout()->clear();

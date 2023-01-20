@@ -12,3 +12,8 @@
 .ratenkaufbyeasycredit.checkout-review-button #place_order {
 	width:100%;
 }
+
+easycredit-express-button {
+  display:block;
+  margin-bottom:20px;
+}

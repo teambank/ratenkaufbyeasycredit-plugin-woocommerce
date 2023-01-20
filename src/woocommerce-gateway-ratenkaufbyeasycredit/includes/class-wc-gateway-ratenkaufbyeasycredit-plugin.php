@@ -14,6 +14,8 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     public $includes_path;
     public $gateway;
     public $rewrite_rules = array(
+        'easycredit/(cancel)/?' => 'index.php?easycredit[action]=$matches[1]',
+        'easycredit/(express)/?' => 'index.php?easycredit[action]=$matches[1]',
         'easycredit/(authorize)/secToken/([^/]+)/?' => 'index.php?easycredit[action]=$matches[1]&easycredit[sec_token]=$matches[2]'
     );
 
@@ -35,6 +37,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         if (!is_admin()) {
             new WC_Gateway_Ratenkaufbyeasycredit_Widget_Product($this);
             new WC_Gateway_Ratenkaufbyeasycredit_Widget_Cart($this);
+            new WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout($this);
         }
 
         if (is_admin()) {
@@ -57,7 +60,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         add_action( 'admin_init', array($this, 'check_rewrite_rules') );
         add_action ('template_redirect', array($this, 'handle_controller'));
     }
-
 
     public function init_api() {
         new WC_Gateway_Ratenkaufbyeasycredit_RestApi(
@@ -152,6 +154,39 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             if (method_exists($this, $params['action'].'Action')) {
                 $this->{$params['action'].'Action'}($params);
             }
+        }
+    }
+
+    public function expressAction () {
+        try {
+            try {
+                $this->gateway->get_storage()
+                    ->set('express', true);
+
+                $quote = $this->gateway->get_quote_builder()->build(
+                    $this->gateway->get_tmp_order()
+                );
+
+                $checkout = $this->gateway->get_checkout();
+                $checkout->start($quote);
+
+                wp_redirect($checkout->getRedirectUrl());
+                exit;
+            } catch (ApiV3\ApiException $e) {
+                if ($e->getResponseObject() instanceof ApiV3\Model\ConstraintViolation) {
+                    $error = 'easyCredit-Ratenkauf: ';
+                    foreach ($e->getResponseObject()->getViolations() as $violation) {
+                        $error .= $violation->getMessage();
+                    }
+                    throw new \Exception($error);
+                }
+                throw $e;
+            }
+        } catch (\Exception $e) {
+            $this->gateway->get_storage()
+                ->set('express', false);
+
+            $this->get_gateway()->handleError($e->getMessage());
         }
     }
 
