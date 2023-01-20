@@ -131,8 +131,8 @@ class QuoteBuilder {
 
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
             'urlSuccess' => $this->gateway->plugin->get_review_page_uri(),
-            'urlCancellation' => \esc_url_raw( \get_home_url(null, '/easycredit/cancel') ),
-            'urlDenial' => \esc_url_raw( \get_home_url(null, '/easycredit/cancel') ),
+            'urlCancellation' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
+            'urlDenial' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
             'urlAuthorizationCallback' =>   \esc_url_raw( \get_home_url(null, '/easycredit/authorize/secToken/'.$this->storage->get('sec_token').'/') )
         ]);
     }
