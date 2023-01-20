@@ -478,6 +478,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         try {
+            $this->get_storage()->set('express',0);
             $quote = $this->get_quote_builder()->build($order);
             $checkout->isAvailable($quote);
         } catch(\Exception $e) {
