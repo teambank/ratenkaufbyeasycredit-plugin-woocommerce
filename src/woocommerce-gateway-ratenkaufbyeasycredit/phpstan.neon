@@ -1,0 +1,18 @@
+parameters:
+  level: 1
+  excludePaths:
+    - vendor
+  scanDirectories:
+    - ../../wordpress
+  scanFiles:
+    - %rootDir%/../../php-stubs/wordpress-stubs/wordpress-stubs.php
+    - %rootDir%/../../php-stubs/wordpress-tests-stubs/wordpress-tests-stubs.php
+  ignoreErrors:
+    - # ignore false positive
+        message: '#Constant WC_ABSPATH not found#'
+        paths:
+          - 'includes/class-wc-gateway-ratenkaufbyeasycredit-plugin.php'
+    - # ignore false positive
+        message: '#Action callback returns bool but should not return anything#'
+        paths:
+          - 'includes/class-wc-gateway-ratenkaufbyeasycredit.php'

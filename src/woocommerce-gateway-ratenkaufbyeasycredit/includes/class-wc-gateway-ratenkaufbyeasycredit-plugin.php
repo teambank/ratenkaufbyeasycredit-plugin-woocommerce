@@ -252,7 +252,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
     }
 
     public function activate_single_site() {
-        require_once( WC_ABSPATH . 'includes/admin/wc-admin-functions.php' );
+        require_once( \WC_ABSPATH . 'includes/admin/wc-admin-functions.php' );
 
         $pages = $this->get_review_page_data();
 

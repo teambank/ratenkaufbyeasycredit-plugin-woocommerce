@@ -5,6 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout {
 
+    protected $plugin;
+
+    protected $plugin_url;
+
+    protected $gateway;
+
     public function __construct($plugin) {
         $this->plugin = $plugin;
         $this->plugin_url = $plugin->plugin_url;
@@ -23,7 +29,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout {
 
     public function init_buttons() {
         if ($this->should_be_displayed_at_product()) {
-            add_action('woocommerce_single_product_summary', [$this, 'add_button_at_product'], 30, 2);
+            add_action('woocommerce_single_product_summary', [$this, 'add_button_at_product'], 30);
         }
         if ($this->should_be_displayed_in_cart()) {
             add_action('woocommerce_proceed_to_checkout', [$this, 'add_button_in_cart']);
