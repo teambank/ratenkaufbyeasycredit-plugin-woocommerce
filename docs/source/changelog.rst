@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.1.1
+-----
+
+- die Stornierung von Bestellungen durch Abbruch auf der Zahlungsseite funktioniert nun auch mit wooCommerce Germanized zuverlässig
+- die Zuverlässigkeit der Express-Checkout-Initialisierung in verschiedenen Templates wurde verbessert
+- die Zuverlässigkeit der Zwei-Phasen Bestätigung wurde verbessert
+
 2.1.0
 -----
 
