@@ -218,12 +218,12 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         $order = wc_get_order(current($orders->posts));
 
         if (!$order) {
-            http_response_code(404);
+            header('HTTP/1.1 404 Not Found');
             echo 'transaction not found';
             exit;
         }
         if (!$token = $order->get_meta($this->id.'-token')) {
-            http_response_code(404);
+            header('HTTP/1.1 404 Not Found');
             echo 'technical transaction id not found';
             exit;
         }
@@ -233,7 +233,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
             ->loadTransaction($token);
 
         if ($tx->getStatus() !== ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
-            http_response_code(409);
+            header('HTTP/1.1 409 Conflict');
             echo 'payment status of transaction not updated as transaction status is not AUTHORIZED';
             exit;
         }
@@ -241,12 +241,12 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin {
         if ($order->payment_complete(
             $txId
         )) {
-            http_response_code(200);
+            header('HTTP/1.1 200 OK');
             echo 'payment status successfully set';
             exit;
         }
 
-        http_response_code(500);
+        header('HTTP/1.1 500 Internal Server Error');
         echo 'payment status could not be set, please check the logs';
         exit;
     }
