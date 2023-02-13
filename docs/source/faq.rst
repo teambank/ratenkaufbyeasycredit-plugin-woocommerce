@@ -15,7 +15,6 @@ Ab dieser Version enthält das Plugin die sog. Zwei-Phasen Bestätigung. Dabei i
 
 .. note:: Dieser Aufruf funktioniert möglicherweise nicht in Passwort-geschützten Staging- oder Entwicklungsumgebungen, wenn diese URL nicht explizit aus der Authentifizierung ausgeschlossen wird.
 
-
 Die Bestellbestätigungs E-Mail wird bereits bei Weiterleitung auf das Payment Terminal von easyCredit-Ratenkauf versendet. Lässt sich dies nach hinten verschieben?
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

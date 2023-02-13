@@ -124,6 +124,22 @@ class QuoteBuilder {
         return $this->systemBuilder->build();
     }
 
+    protected function getCancelUrl($order) {
+        $uri = $order->get_cancel_endpoint();
+        if ($order->get_id() > 0) {
+            return \add_query_arg(
+                array(
+                    'cancel_order' => 'true',
+                    'order'        => $order->get_order_key(),
+                    'order_id'     => $order->get_id(),
+                    '_wpnonce'     => wp_create_nonce( 'woocommerce-cancel_order' ),
+                ),
+                $uri
+            );
+        }
+        return \esc_url_raw($uri);
+    }
+
     protected function getRedirectLinks() {
         if (!$this->storage->get('sec_token')) {
             $this->storage->set('sec_token', md5(uniqid((string)mt_rand(), true)));
@@ -131,8 +147,8 @@ class QuoteBuilder {
 
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
             'urlSuccess' => $this->gateway->plugin->get_review_page_uri(),
-            'urlCancellation' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
-            'urlDenial' => \esc_url_raw( $this->quote->get_cancel_order_url_raw() ),
+            'urlCancellation' => $this->getCancelUrl($this->quote),
+            'urlDenial' => $this->getCancelUrl($this->quote),
             'urlAuthorizationCallback' =>   \esc_url_raw( \get_home_url(null, '/easycredit/authorize/secToken/'.$this->storage->get('sec_token').'/') )
         ]);
     }
