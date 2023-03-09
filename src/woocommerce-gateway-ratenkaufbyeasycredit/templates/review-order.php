@@ -9,26 +9,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <p><?php _e('Please review and confirm your order','woocommerce-gateway-ratenkaufbyeasycredit'); ?></p>
 
-<?php wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) ); ?>
+<div class="ratenkaufbyeasycredit-review-container">
+	<?php wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) ); ?>
 
-<section class="woocommerce-payment-details ratenkaufbyeasycredit-payment-details">
+	<section class="woocommerce-payment-details ratenkaufbyeasycredit-payment-details">
 
-		<section class="woocommerce-columns woocommerce-columns--2 col2-set addresses">
-			<div class="woocommerce-column woocommerce-column--1 col-1">
-				
-				<h2 class="woocommerce-column__title">
-					<?php _e('Payment Method',
-					'woocommerce-gateway-ratenkaufbyeasycredit'); 
-					?>
-				</h2>
-				<easycredit-checkout-label>
-				</easycredit-checkout-label>
-				<easycredit-checkout payment-plan="<?php echo htmlspecialchars($gateway->get_storage()->get('summary')); ?>">
-				</easycredit-checkout>
-			</div>
+			<section class="woocommerce-columns woocommerce-columns--2 col2-set addresses">
+				<div class="woocommerce-column woocommerce-column--1 col-1">
 
-		</section>
-</section>
+					<h2 class="woocommerce-column__title">
+						<?php _e('Payment Method',
+						'woocommerce-gateway-ratenkaufbyeasycredit'); 
+						?>
+					</h2>
+					<easycredit-checkout-label>
+					</easycredit-checkout-label>
+					<easycredit-checkout payment-plan="<?php echo htmlspecialchars($gateway->get_storage()->get('summary')); ?>">
+					</easycredit-checkout>
+				</div>
+
+			</section>
+	</section>
+</div>
 
 <?php $order_items = $order->get_items( apply_filters( 'woocommerce_purchase_order_item_types', 'line_item' ) ); ?>
 <table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
