@@ -1,0 +1,89 @@
+name: Test
+
+on:
+  push:
+    branches:
+    - 'phpstan'
+
+jobs:
+  ci-current:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: 7.4
+            wordpress-version: "5.6.10"
+            woocommerce-version: "5.6.2"
+          - php-version: 8.0
+            wordpress-version: "5.9.5"
+            woocommerce-version: "6.9.4"
+          - php-version: 8.1
+            wordpress-version: "6.1"
+            woocommerce-version: "7.4.1"
+
+    name: Wordpress v${{ matrix.wordpress-version }} & wooCommerce v${{ matrix.woocommerce-version }} @ ${{ matrix.php-version }}
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: wordpress
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    env:
+      WORDPRESS_DIR: /opt/wordpress
+      PLUGIN_DIR: /opt/wordpress/wp-content/plugins/wc-easycredit
+      WORDPRESS_DB_HOST: 127.0.0.1
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: true
+      WP_CLI_ALLOW_ROOT: true
+ 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium
+          tools: composer:2.1.5
+          coverage: none
+      - name: Debug
+        run: |
+          php -v
+          env
+      - name: Install Wordpress & wooCommerce
+        run: | 
+          curl -L "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" > /usr/local/bin/wp && chmod +x /usr/local/bin/wp
+          mkdir -p $WORDPRESS_DIR && cd $WORDPRESS_DIR
+          wp core download --version=${{ matrix.wordpress-version }} --locale=de_DE
+          wp config create --dbhost=$WORDPRESS_DB_HOST --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$WORDPRESS_DB_PASSWORD --locale=de_DE
+          wp core install --url=localhost --title=Example --admin_user=admin --admin_password=password --admin_email=info@example.com
+          wp plugin install woocommerce --version=${{ matrix.woocommerce-version }} --activate
+      - name:  Install easyCredit Plugin
+        run: |
+          cd $GITHUB_WORKSPACE
+          composer require \
+            php-stubs/wordpress-stubs:v${{ matrix.wordpress-version }} \
+            php-stubs/woocommerce-stubs:v${{ matrix.woocommerce-version }} 
+
+          composer install -n
+
+          mkdir -p $WORDPRESS_DIR/wp-content/plugins
+          ln -s $GITHUB_WORKSPACE/src/woocommerce-gateway-ratenkaufbyeasycredit $PLUGIN_DIR
+
+          cd $WORDPRESS_DIR
+          wp plugin activate wc-easycredit
+      - name: Static Analyze
+        run: | 
+          cd $PLUGIN_DIR
+          php vendor/bin/phpstan analyze .

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -15,12 +17,14 @@ class AddressBuilder
 {
     protected $address = null;
 
-    public function setAddress($address) {
+    public function setAddress($address)
+    {
         $this->address = $address;
         return $this;
     }
 
-    public function build($address) {
+    public function build($address)
+    {
         $this->address['firstName'] = $address['first_name'];
         $this->address['lastName'] = $address['last_name'];
         $this->address['address'] = $address['address_1'];

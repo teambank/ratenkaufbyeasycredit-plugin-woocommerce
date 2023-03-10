@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -15,7 +17,8 @@ class CustomerBuilder
     protected $customer;
     protected $prefixConverter;
 
-    public function __construct(PrefixConverter $prefixConverter) {
+    public function __construct(PrefixConverter $prefixConverter)
+    {
         $this->prefixConverter = $prefixConverter;
     }
 
@@ -26,41 +29,49 @@ class CustomerBuilder
         );
     }
 
-    public function getFirstname() {
+    public function getFirstname()
+    {
         if (!$this->isLoggedIn()) {
             return $this->quote->get_address('billing')['first_name'];
         }
         return $this->customer->get_first_name();
     }
 
-    public function getLastname() {
+    public function getLastname()
+    {
         if (!$this->isLoggedIn()) {
             return $this->quote->get_address('billing')['last_name'];
         }
         return $this->customer->get_last_name();
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->quote->get_address('billing')['email'];
     }
 
-    public function getDob() {
-    	return null;
+    public function getDob()
+    {
+        return null;
     }
 
-    public function getCompany() {
+    public function getCompany()
+    {
         return $this->quote->get_address('billing')['company'];
     }
 
-    public function getTelephone() {
+    public function getTelephone()
+    {
         return $this->quote->get_billing_phone();
     }
 
-    public function isLoggedIn() {
+    public function isLoggedIn()
+    {
         return ($this->customer !== false && $this->customer->get_id());
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt()
+    {
         return (string)$this->customer->get_date_created();
     }
 
@@ -71,14 +82,14 @@ class CustomerBuilder
         $this->quote = $quote;
         $this->customer = $customer;
 
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer(array_filter([
+        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer(\array_filter([
             'gender' => $this->getPrefix(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'birthDate' => $this->getDob(),
             'companyName' => $this->getCompany(),
             'contact' => ($this->getEmail()) ? new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
-                'email' => $this->getEmail()
+                'email' => $this->getEmail(),
             ]) : null,
         ]));
     }
