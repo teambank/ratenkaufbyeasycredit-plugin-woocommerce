@@ -86,6 +86,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( $gateway->get_confirm_url() ); ?>" enctype="multipart/form-data">
 	<div class="ratenkaufbyeasycredit checkout-review-button">
+
+        <?php wc_get_template( 'checkout/terms.php' ); ?>
 	
 		<?php do_action( 'woocommerce_pay_order_before_submit' ); ?>
 		

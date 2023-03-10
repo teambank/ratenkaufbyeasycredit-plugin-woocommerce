@@ -44,6 +44,8 @@ jQuery(function($){
             $(selector).submit(function(e){
                 var form = $('form.checkout');
                 form.append('<input type="hidden" name="easycredit[submit]" value="1" />')
+                form.append('<input type="hidden" name="terms" value="On" />')
+                form.append('<input type="hidden" name="legal" value="On" />')
                 if (e.detail && e.detail.numberOfInstallments) {
                     form.append('<input type="hidden" name="easycredit[number-of-installments]" value="'+ e.detail.numberOfInstallments +'" />')
                 }

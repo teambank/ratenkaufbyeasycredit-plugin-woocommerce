@@ -301,10 +301,16 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway {
         }
 
         if (!wp_verify_nonce($_POST['_wpnonce'], 'woocommerce-easycredit-pay')) {
-            $this->handleError('Could not verify nonce');
+            wc_add_notice(__( 'Could not verify nonce', 'woocommerce' ), 'error');
+            return;
         }
+
+        if ( empty( (int) isset( $_POST['terms'] ) ) && ! empty( (int) isset( $_POST['terms-field'] ) ) ) {
+            wc_add_notice(__( 'Please read and accept the terms and conditions to proceed with your order.', 'woocommerce' ), 'error');
+            return;
+         }
         
-          try {
+         try {
             
             $checkout = $this->get_checkout();
     
