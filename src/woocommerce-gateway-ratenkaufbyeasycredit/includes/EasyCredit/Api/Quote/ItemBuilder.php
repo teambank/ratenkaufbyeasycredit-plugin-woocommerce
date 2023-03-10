@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -16,15 +18,19 @@ class ItemBuilder
     protected $_product;
     protected $_item;
 
-    public function getCategory() {
-        $term_list = \wp_get_post_terms($this->_product->get_id(),'product_cat',array('fields'=>'ids'));
-        $term = \get_term (current($term_list), 'product_cat');
+    public function getCategory()
+    {
+        $term_list = \wp_get_post_terms($this->_product->get_id(), 'product_cat', [
+            'fields' => 'ids',
+        ]);
+        $term = \get_term(\current($term_list), 'product_cat');
         if ($term instanceof \WP_Term) {
             return $term->name;
         }
     }
 
-    public function build(\WC_Order_Item_Product $item) {
+    public function build(\WC_Order_Item_Product $item)
+    {
         $this->_item = $item;
         $this->_product = $item->get_product();
 
@@ -36,8 +42,8 @@ class ItemBuilder
             'productCategory' => $this->getCategory(),
             'articleNumber' => [new \Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem([
                 'numberType' => 'sku',
-                'number' => $item->get_product_id()
-            ])]
-        ]);      
+                'number' => $item->get_product_id(),
+            ])],
+        ]);
     }
 }
