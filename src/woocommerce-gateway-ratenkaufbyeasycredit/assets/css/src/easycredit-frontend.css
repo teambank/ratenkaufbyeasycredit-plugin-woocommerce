@@ -1,3 +1,10 @@
+.woocommerce-checkout-payment .wc_payment_methods .payment_method_ratenkaufbyeasycredit input,
+.woocommerce-checkout-payment .wc_payment_methods .payment_method_ratenkaufbyeasycredit label:before {
+  float: left;
+  margin-right: 8px;
+  height: 42px;
+}
+
 .ratenkaufbyeasycredit-review-container .woocommerce-customer-details .col2-set,
 .ratenkaufbyeasycredit-review-container .ratenkaufbyeasycredit-payment-details .col2-set {
   display: flex;
