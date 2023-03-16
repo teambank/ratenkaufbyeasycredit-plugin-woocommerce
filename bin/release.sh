@@ -17,7 +17,7 @@ rsync -rv \
   --exclude 'merchant-interface' \
  src/* build/
 
-version_statement=$(grep "define( 'WC_RATENKAUFBYEASYCREDIT_VERSION" src/woocommerce-gateway-ratenkaufbyeasycredit/woocommerce-gateway-ratenkaufbyeasycredit.php)
+version_statement=$(grep "define('WC_RATENKAUFBYEASYCREDIT_VERSION" src/woocommerce-gateway-ratenkaufbyeasycredit/woocommerce-gateway-ratenkaufbyeasycredit.php)
 version=$(php -r "$version_statement echo WC_RATENKAUFBYEASYCREDIT_VERSION;")
 echo $version
 rm dist/wc-easycredit-$version.zip

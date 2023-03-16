@@ -7,6 +7,7 @@ Changelog
 - die Review-Seite wurde überarbeitet, um eine bessere Kompatibilität mit unterschiedlichen Themes zu erreichen (u.a. Bootstrap)
 - die Bedingungen müssen nur noch beim Abschluss der Bestellung auf der Review-Seite bestätigt werden
 - im Backend wird die Anforderung 'allow_url_fopen' geprüft und eine Fehlermeldung ausgegeben
+- die Fehlermeldung beim Überprüfen der Zugangsdaten enthält nun keinen Link mehr
 
 2.1.1
 -----
