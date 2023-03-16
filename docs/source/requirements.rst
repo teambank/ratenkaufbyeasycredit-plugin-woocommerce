@@ -16,6 +16,8 @@ Das Plugin hat neben WooCommerce keine weiteren Abhängigkeiten. Es wurde für d
 * wooCommerce > 3.0.0
 * Wordpress > 5.0
 
+PHP 5.6 wird bis maximal v1.7.2 unterstützt. Ab v2.0.0 des Plugins ist mindestens PHP 7.0 erforderlich.
+
 Zugangsdaten für "easyCredit-Ratenkauf"
 ------------------------------------------
 
