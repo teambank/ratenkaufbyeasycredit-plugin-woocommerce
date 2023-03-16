@@ -81,6 +81,7 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
                 [$this, 'process_admin_options']
             );
             add_action('admin_notices', [$this, 'auto_check_credentials']);
+            add_action('admin_notices', [$this, 'auto_check_requirements']);
             add_action('admin_notices', [$this, 'check_review_page_exists']);
         }
         
@@ -323,6 +324,13 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
         exit;
     }
     
+    public function auto_check_requirements()
+    {
+        if (!filter_var(ini_get('allow_url_fopen'), \FILTER_VALIDATE_BOOLEAN)) {
+            echo $this->_display_settings_error(__('To use easyCredit-Ratenkauf the php.ini setting "allow_url_fopen" must be enabled.', 'woocommerce-gateway-ratenkaufbyeasycredit'));
+        }
+    }
+
     public function auto_check_credentials()
     {
         if (get_current_screen()->parent_base !== 'woocommerce' ||
@@ -331,7 +339,6 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
             return;
         }
 
-        $settingsUri = admin_url('admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit');
 
         $apiKey = $this->get_option('api_key');
         $apiToken = $this->get_option('api_token');
@@ -352,9 +359,10 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
                 try {
                     $this->get_checkout()->verifyCredentials($apiKey, $apiToken, $apiSignature);
                 } catch (ApiV3\Integration\ApiCredentialsInvalidException $e) {
+                    $settingsUri = admin_url('admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit');
                     return implode(' ', [
                         __('easyCredit-Ratenkauf credentials are not valid.', 'woocommerce-gateway-ratenkaufbyeasycredit'),
-                        __('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+                        sprintf(__('Please go to <a href="%s">plugin settings</a> and correct API Key and API Token.', 'woocommerce-gateway-ratenkaufbyeasycredit'), $settingsUri),
                     ]);
                 } catch (ApiV3\Integration\ApiCredentialsNotActiveException $e) {
                     return __('Your credentials are valid, but your account has not been activated yet.', 'woocommerce-gateway-ratenkaufbyeasycredit');

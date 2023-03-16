@@ -440,7 +440,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
         if ($error) {
             $status = [
                 'status' => false,
-                'msg' => $error,
+                'msg' => strip_tags($error),
             ];
         }
 
