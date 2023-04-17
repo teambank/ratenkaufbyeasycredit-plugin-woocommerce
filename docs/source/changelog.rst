@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.1.3 
+-----
+
+- der Transaktions-Status wird nun zusätzlich direkt nach der Bestellung überprüft (die 2-Phasen Bestätigung ist damit redundant implementiert)
+- die Kompatibilität des Express-Checkouts über verschiedene Themes und Konfigurationen hinweg wurde verbessert
+- die Info-Seite wird automatisch hinsichtlich Markenrelaunch aktualisiert
+- das Plugin ist nun mit PHP 8.2 getestet und angepasst
+
 2.1.2
 -----
 
