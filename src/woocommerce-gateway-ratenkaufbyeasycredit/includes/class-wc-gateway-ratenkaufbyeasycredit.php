@@ -289,6 +289,16 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
                 throw new \Exception(__('Transaction could not be captured', 'woocommerce-gateway-ratenkaufbyeasycredit'));
             }
 
+            // check transaction status right away
+            try {
+                $tx = $checkout->loadTransaction($this->get_storage()->get('token'));
+                if ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
+                    $order->payment_complete(
+                        $this->get_storage()->get('transaction_id')
+                    );
+                }
+            } catch (\Exception $e) { /* fail silently, will be updated async */ }
+
             $order->add_meta_data($this->id . '-interest-amount', $this->get_storage()->get('interest_amount'), true);
             $order->add_meta_data($this->id . '-sec-token', $this->get_storage()->get('sec_token'), true);
             $order->add_meta_data($this->id . '-transaction-id', $this->get_storage()->get('transaction_id'), true);
