@@ -58,8 +58,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout
 
     public function handle_express_redirect($url)
     {
-        wp_redirect(esc_url_raw(get_home_url(null, '/easycredit/express')));
-        exit;
+        if (wp_redirect(esc_url_raw(get_home_url(null, '/easycredit/express')))) {
+          exit;
+        }
     }
 
     public function add_button_at_product()
@@ -83,6 +84,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout
             webshop-id="' . $this->gateway->get_option('api_key') . '"
             amount="' . WC()->cart->get_total('raw') . '"
             full-width
+            data-url="'.get_site_url(null, 'easycredit/express').'"
         ></easycredit-express-button>';
     }
 

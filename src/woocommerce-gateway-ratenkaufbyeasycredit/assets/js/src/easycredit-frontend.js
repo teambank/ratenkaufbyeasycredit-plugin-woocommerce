@@ -1,10 +1,18 @@
 jQuery(function($){
 
     var selector = $('meta[name=easycredit-widget-selector]').attr('content');
-    $(selector).after($('<easycredit-widget />').attr({
+
+    var widget = $('<easycredit-widget />').attr({
         'webshop-id' : $('meta[name=easycredit-api-key]').attr('content'),
         'amount': $('meta[name=easycredit-widget-price]').attr('content'),
-    }));
+    });
+    $(selector).first().after(widget);
+
+    $('.single_variation_wrap').on( 'show_variation', function ( event, variation ) {
+        if (variation.display_price) {
+            widget.get(0).setAttribute('amount', variation.display_price);
+        }
+    } );
 
     $('.woocommerce-checkout').on( 'change', '#billing_company', function(){
         $(this).trigger("update_checkout");
@@ -83,6 +91,34 @@ jQuery(function($){
     watchForSelector('easycredit-checkout', handleShippingPaymentConfirm);
     onHydrated('easycredit-checkout', handleShippingPaymentConfirm);
 
+
+    function replicateForm(buyForm, additionalData) {
+      if (!buyForm) {
+        return false;
+      }
+
+      var form = document.createElement("form");
+      form.setAttribute("action", buyForm.getAttribute('action'));
+      form.setAttribute("method", buyForm.getAttribute('method'));
+      form.style.display = "none";
+
+      var formData = new FormData(buyForm);
+      for (const prop in additionalData) {
+        formData.set(prop, additionalData[prop]);
+      }
+
+      for (var key of formData.keys()) {
+        let field = document.createElement("input");
+        field.setAttribute("name", key);
+        field.setAttribute("value", formData.get(key));
+        form.append(field);
+      }
+
+      document.querySelector("body").append(form);
+
+      return form;
+    }
+
     var handleExpressButton = function(selector) {
         onHydrated(selector, function(selector) {
             $(selector).submit(function(e){
@@ -91,16 +127,20 @@ jQuery(function($){
                     form = $('body').find('form.cart');
                 }
 
-                var addToCartButton = form.find('button[name="add-to-cart"], button.single_add_to_cart_button');
-                if (addToCartButton.length > 0) {
-                     form.append('<input type="hidden" name="easycredit-express" value="1" />')
-                        .find(addToCartButton)
-                        .click();
-                     return;
+                var addToCartButton = document.querySelector('button[name="add-to-cart"], button.single_add_to_cart_button');
+                if (addToCartButton) {
+
+                    var form = replicateForm(form.get(0), {
+                        'add-to-cart': addToCartButton.getAttribute('value'),
+                        'easycredit-express': 1
+                    });
+                    form.submit();
+
+                    return;
                 }
 
                 if ($(this).closest('.wc-proceed-to-checkout').length > 0) {
-                    window.location.href = '/easycredit/express';
+                    window.location.href = $(this).data('url');
                     return;
                 }
                 alert('Der easyCredit-Ratenkauf konnte nicht gestartet werden.');
