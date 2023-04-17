@@ -274,7 +274,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
         require_once(\WC_ABSPATH . 'includes/admin/wc-admin-functions.php');
 
         $pages = $this->get_review_page_data();
-
         foreach ($pages as $key => $page) {
             $id = wc_create_page(
                 esc_sql($page['name']),
@@ -296,7 +295,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
             ],
             'woocommerce_easycredit_infopage_page_id' => [
                 'name' => _x('easycredit-infopage', 'Page slug', 'woocommerce'),
-                'title' => _x('ratenkauf by easyCredit - Einfach. Fair. In Raten zahlen', 'Page title', 'woocommerce'),
+                'title' => _x('easyCredit-Ratenkauf - Der einfachste Ratenkauf Deutschlands.', 'Page title', 'woocommerce'),
                 'content' => '<easycredit-infopage></easycredit-infopage>',
             ],
         ];
@@ -457,14 +456,43 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 
     public function brand_relaunch_update()
     {
+
         $transient = $this->id . '-brand-relaunch-updated';
-        $option_key = 'woocommerce_ratenkaufbyeasycredit_settings';
         if (!get_transient($transient)) {
+            $option_key = 'woocommerce_ratenkaufbyeasycredit_settings';
             $option = get_option($option_key);
             if (isset($option['title'])) {
                 $option['title'] = str_ireplace('ratenkauf by easyCredit', 'easyCredit-Ratenkauf', $option['title']);
             }
             update_option($option_key, $option);
+            set_transient($transient, true);
+        }
+
+        $transient = $this->id . '-brand-relaunch-page-updated';
+        if (!get_transient($transient)) {
+            $old_slogan = 'ratenkauf by easyCredit – Einfach. Fair. In Raten zahlen';
+            $new_slogan = 'easyCredit-Ratenkauf - Ganz entspannt in Raten zahlen.';
+
+            $page_id = get_option('woocommerce_easycredit_infopage_page_id');
+
+            $post = get_post($page_id);
+            wp_update_post([
+              'ID' => $post->ID,
+              'post_title' => str_ireplace($old_slogan, $new_slogan, $post->post_title)
+            ]);
+
+            $query = new WP_Query([
+                'post_type' => 'nav_menu_item',
+                'meta_key' => '_menu_item_object_id',
+                'meta_value' => $page_id
+            ]);
+            if ($query->have_posts()) {
+                $post = $query->posts[0];
+                wp_update_post([
+                    'ID' => $post->ID,
+                    'post_title' => str_ireplace($old_slogan, $new_slogan, $post->post_title)
+                ]);
+            }
             set_transient($transient, true);
         }
     }
