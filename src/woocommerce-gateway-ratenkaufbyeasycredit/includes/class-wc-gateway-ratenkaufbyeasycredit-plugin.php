@@ -44,10 +44,12 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
             new WC_Gateway_Ratenkaufbyeasycredit_Widget_Product($this);
             new WC_Gateway_Ratenkaufbyeasycredit_Widget_Cart($this);
             new WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout($this);
+            new WC_Gateway_Ratenkaufbyeasycredit_Marketing($this);
         }
 
         if (is_admin()) {
             new WC_Gateway_Ratenkaufbyeasycredit_Order_Management($this);
+            new WC_Gateway_Ratenkaufbyeasycredit_Marketing_Blocks($this);
         }
 
         add_action('rest_api_init', [$this, 'init_api']);
@@ -394,6 +396,12 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
             'wc_ratenkaufbyeasycredit_css',
             $this->plugin_url . 'assets/css/easycredit-backend.css'
         );
+        wp_enqueue_style(
+            'wc_ratenkaufbyeasycredit_marketing_css',
+            $this->plugin_url . 'assets/css/easycredit-backend-marketing.min.css'
+        );
+
+        wp_enqueue_media();
     }
 
     public function hook_prevent_shipping_address_change($box)

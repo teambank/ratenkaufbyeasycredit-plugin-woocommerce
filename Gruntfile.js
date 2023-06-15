@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 
     grunt.initConfig({
       uglify: {
@@ -38,6 +39,18 @@ module.exports = function(grunt) {
             }
           }
       },
+      sass: {
+        dist: {
+          options: {
+            style: 'expanded'
+          },
+          files: {
+            [baseDir+'/css/easycredit-backend-marketing.min.css']: [
+              baseDir+'/css/src/easycredit-backend-marketing.scss'
+            ]
+          }
+        }
+      }
     });
-    grunt.registerTask('default', ['uglify','cssmin']);
+    grunt.registerTask('default', ['uglify','cssmin','sass']);
 }

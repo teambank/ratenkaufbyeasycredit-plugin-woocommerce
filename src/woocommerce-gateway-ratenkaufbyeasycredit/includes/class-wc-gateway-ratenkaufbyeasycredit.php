@@ -108,21 +108,31 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
             '$1$2' . $shipping_methods . '$3',
             (string)$parent_options
         );
+
+        $marketing_settings = [
+            'express_checkout', 'widget', 'modal', 'card', 'flashbox', 'bar', 'clickandcollect'
+        ];
+        foreach ( $marketing_settings as $marketing_setting ) {
+            $html_extracted = preg_match(
+                '!(<h3 class="wc-settings-sub-title " id="woocommerce_ratenkaufbyeasycredit_marketing_components_' . $marketing_setting . '".*?>)(.+?)\K(<table class="form-table">)(.+?)(</table>)!s',
+                (string)$parent_options,
+                $html_extracted_matches
+            );
+            $parent_options = preg_replace(
+                '!(<h3 class="wc-settings-sub-title " id="woocommerce_ratenkaufbyeasycredit_marketing_components_' . $marketing_setting . '".*?>)(.+?)(<table class="form-table">)(.+?)(</table>)!s',
+                '',
+                (string)$parent_options
+            );
+            $parent_options = preg_replace(
+                '!(class="easycredit-marketing__content__settings settings-' . $marketing_setting . '".*?>)(.+?)(</div>)!s',
+                '$1' . $html_extracted_matches[0] . '$3',
+                (string)$parent_options
+            );
+        }
         ?>
         <div class="ratenkaufbyeasycredit-wrapper">
-            <div class="easycredit-intro">
-              <easycredit-logo></easycredit-logo>
-              <div>
-                Bieten Sie Ihren Kunden die Möglichkeit der Ratenzahlung mit easyCredit-Ratenkauf.<br>
-                <strong>Einfach. Fair. In Raten zahlen.</strong>
-                <br><br>
-                <a href="https://partner.easycredit-ratenkauf.de/portal/" target="_blank">zum Partnerportal</a>
-                 - <a href="https://www.easycredit-ratenkauf.de/shopsysteme.htm" target="_blank">zum Integration-Center</a>
-                 - <a href="https://netzkollektiv.com/docs/ratenkaufbyeasycredit-woocommerce/" target="_blank">zur Dokumentation</a> 
-              </div>
-            </div>
-
-          <?php echo $parent_options; ?>
+            <?php include(dirname(__FILE__) . '/../templates/template-intro.php'); ?>
+            <?php echo $parent_options; ?>
         </div>
         <?php
     }
@@ -499,9 +509,22 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
         $this->form_fields = $fields;
     }
 
+    public function generate_marketingintro_html()
+    {
+        ob_start();
+        include(dirname(__FILE__) . '/../templates/template-marketing.php');
+        $contents = ob_get_clean();
+
+        return $contents;
+    }
+
     public function generate_clickandcollectintro_html()
     {
-        return file_get_contents(dirname(__FILE__) . '/../templates/click-and-collect.html');
+        ob_start();
+        include(dirname(__FILE__) . '/../templates/template-click-and-collect.php');
+        $contents = ob_get_clean();
+
+        return $contents;
     }
 
     public function get_option($key, $empty_value = null)
