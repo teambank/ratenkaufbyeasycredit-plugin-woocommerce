@@ -6,7 +6,10 @@ jQuery(function($){
         'webshop-id' : $('meta[name=easycredit-api-key]').attr('content'),
         'amount': $('meta[name=easycredit-widget-price]').attr('content'),
     });
-    $(selector).first().after(widget);
+    $(selector).filter(function() {
+      return $(this).css('visibility') !== 'hidden' &&
+          $(this).css('opacity') !== 0
+    }).first().after(widget);
 
     $('.single_variation_wrap').on( 'show_variation', function ( event, variation ) {
         if (variation.display_price) {
