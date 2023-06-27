@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.1.4
+-----
+
+- umfangreiche Marketing-Komponenten wurden eingefügt und sind über das Backend konfigurierbar
+- Verbesserung der Kompatibilität des Ratenrechner-Widgets mit Drittanbieter-Themes (woodmart)
+
 2.1.3 
 -----
 
