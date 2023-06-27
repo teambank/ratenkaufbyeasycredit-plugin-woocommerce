@@ -53,7 +53,7 @@ jQuery(function($){
     var handleShippingPaymentConfirm = function (selector) {
         onHydrated(selector, function(selector) {
             $(selector).submit(function(e){
-                var form = $('form.checkout');
+                var form = $(this).closest('form');
                 form.append('<input type="hidden" name="easycredit[submit]" value="1" />')
                 form.append('<input type="hidden" name="terms" value="On" />')
                 form.append('<input type="hidden" name="legal" value="On" />')
@@ -156,4 +156,67 @@ jQuery(function($){
 
     watchForSelector('easycredit-express-button', handleExpressButton);
     onHydrated('easycredit-express-button', handleExpressButton);
+
+    var styleCardListing = function () {
+        var card = document.querySelector('easycredit-box-listing.easycredit-box-listing-adjusted');
+
+        if ( card ) {
+            var siblings = n => [...n.parentElement.children].filter(c=>c!=n);
+            var siblingsCard = siblings(card);
+
+            var cardWidth = siblingsCard[0].clientWidth;
+            var cardHeight = siblingsCard[0].clientHeight;
+            var cardClasses = siblingsCard[0].classList;
+
+            card.style.width = cardWidth + 'px';
+            card.style.height = cardHeight + 'px';
+            card.style.visibility = 'hidden';
+            card.classList = card.classList + ' ' + cardClasses;
+
+            if ( siblingsCard[0].tagName === 'LI' ) {
+                card.style.display = 'list-item';
+                card.style.listStyle = 'none';
+
+                if ( card.parentElement.tagName === 'UL') {
+                    card.parentElement.classList = card.parentElement.classList + ' easycredit-card-columns-adjusted';
+                }
+            }
+        }
+    }
+
+    var styleCardListingHydrated = function () {
+        var card = document.querySelector('easycredit-box-listing.easycredit-box-listing-adjusted');
+
+        if ( card ) {
+            card.shadowRoot.querySelector('.ec-box-listing').style.maxWidth = '100%';
+            card.shadowRoot.querySelector('.ec-box-listing').style.height = '100%';
+            card.shadowRoot.querySelector('.ec-box-listing__image').style.minHeight = '100%';
+            card.style.visibility = '';
+        }
+    }
+
+    var positionCardInListing = function () {
+        var card = document.querySelector('easycredit-box-listing');
+
+        if ( card ) {
+            var siblings = n => [...n.parentElement.children].filter(c=>c!=n);
+            var siblingsCard = siblings(card);
+
+            var position = card.getAttribute('position');
+            var previousPosition = ( typeof position === undefined ) ? null : Number( position - 1 );
+            var appendAfterPosition = ( typeof position === undefined ) ? null : Number( position - 2 );
+
+            if ( !position || previousPosition <= 0 ) {
+                // do nothing
+            } else if ( appendAfterPosition in siblingsCard ) {
+                siblingsCard[appendAfterPosition].after(card);
+            } else {
+                card.parentElement.append(card);
+            }
+        }
+    }
+
+    styleCardListing();
+    onHydrated('easycredit-box-listing', styleCardListingHydrated);
+    positionCardInListing();
 });

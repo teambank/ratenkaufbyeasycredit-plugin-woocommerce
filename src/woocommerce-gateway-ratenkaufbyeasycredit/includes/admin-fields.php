@@ -71,7 +71,11 @@ return [
         'default' => 'no',
     ],
 
-    'express_checkout' => [
+    'marketing_intro' => [
+        'type' => 'marketingintro',
+    ],
+
+    'marketing_components_express_checkout' => [
         'title' => __('Express Checkout', 'woocommerce-gateway-ratenkaufbyeasycredit'),
         'type' => 'title',
     ],
@@ -92,7 +96,7 @@ return [
         'default' => 'yes',
     ],
 
-    'marketing' => [
+    'marketing_components_widget' => [
         'title' => __('Marketing', 'woocommerce-gateway-ratenkaufbyeasycredit'),
         'type' => 'title',
     ],
@@ -129,6 +133,101 @@ return [
         'default' => '.wc-proceed-to-checkout',
     ],
 
+    'marketing_components_modal' => [
+        'title' => __('Marketing - Modal', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'title',
+    ],
+
+    'modal_enabled' => [
+        'title' => __('Activate modal', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'label' => __('Show modal automatically when visiting the online shop for the first time', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'checkbox',
+        'default' => 'no'
+    ],
+
+    'modal_delay' => [
+        'title' => __('Delay (in seconds)', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'description' => __('Here you can specify in seconds the delay after which the modal is displayed to the customer when the page is loaded (for example "10" for 10 seconds delay).', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'desc_tip' => true,
+        'type' => 'number',
+        'default' => '10',
+    ],
+
+    'modal_snooze_for' => [
+        'title' => __('Reactivate after (in seconds)', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'description' => __('Here you can specify in seconds the time after which the modal is displayed again to the customer (when the page is loaded) after he has actively closed the modal (for example "3600" for 1 hour).', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'desc_tip' => true,
+        'type' => 'number',
+        'default' => '10',
+    ],
+
+    'modal_src' => [
+        'title' => __('Use your own image', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'hidden',
+        'default' => '',
+    ],
+
+    'marketing_components_card' => [
+        'title' => __('Marketing - Card', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'title',
+    ],
+
+    'card_enabled' => [
+        'title' => __('Activate card', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'label' => __('Show card within the product list (category)', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'checkbox',
+        'default' => 'no',
+    ],
+
+    'card_search_enabled' => [
+        'title' => __('Activate card (search)', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'label' => __('Show card within search results', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'checkbox',
+        'default' => 'no',
+    ],
+
+    'card_position' => [
+        'title' => __('Position in product list', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'number',
+        'default' => '1',
+    ],
+
+    'card_src' => [
+        'title' => __('Use your own image', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'hidden',
+        'default' => '',
+    ],
+
+    'marketing_components_flashbox' => [
+        'title' => __('Marketing - Flashbox', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'title',
+    ],
+
+    'flashbox_enabled' => [
+        'title' => __('Activate flashbox', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'label' => __('Show flashbox at the bottom of the screen', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'checkbox',
+        'default' => 'no',
+    ],
+
+    'flashbox_src' => [
+        'title' => __('Use your own image', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'hidden',
+        'default' => '',
+    ],
+
+    'marketing_components_bar' => [
+        'title' => __('Marketing - Bar', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'title',
+    ],
+
+    'bar_enabled' => [
+        'title' => __('Activate bar', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'label' => __('Show bar at the top of the screen', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'checkbox',
+        'default' => 'no',
+    ],
+
     'transactions' => [
         'title' => __('Order Management', 'woocommerce-gateway-ratenkaufbyeasycredit'),
         'type' => 'title',
@@ -158,13 +257,13 @@ return [
         'options' => wc_get_order_statuses(),
     ],
 
-    'clickandcollect' => [
-        'title' => __('Click & Collect', 'woocommerce-gateway-ratenkaufbyeasycredit'),
-        'type' => 'title',
-    ],
-
     'clickandcollect_intro' => [
         'type' => 'clickandcollectintro',
+    ],
+
+    'marketing_components_clickandcollect' => [
+        'title' => __('Click & Collect', 'woocommerce-gateway-ratenkaufbyeasycredit'),
+        'type' => 'title',
     ],
 
     'clickandcollect_shipping_method' => [
