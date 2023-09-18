@@ -7,7 +7,6 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
@@ -26,7 +25,7 @@ class QuoteBuilder
     protected $customer;
 
     public function __construct(
-        \WC_Gateway_RatenkaufByEasyCredit $gateway,
+        \WC_Easycredit_Gateway $gateway,
         \Netzkollektiv\EasyCredit\Api\Storage $storage
     ) {
         $this->gateway = $gateway;

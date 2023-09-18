@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
 
-    var baseDir = 'src/woocommerce-gateway-ratenkaufbyeasycredit/assets';
+    var baseDir = 'src/wc-easycredit/assets';
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
