@@ -148,25 +148,19 @@ const goThroughPaymentPage = async (page, express: boolean = false) => {
 
 const confirmOrder = async (page) => {
   await test.step(`Confirm order`, async() => {
-    /* Confirm Page */
-    //await expect(page.getByText('gelesen und stimme ihnen zu')).toBeVisible({ timeout: 10000 })
-    /*await page.evaluate(async() => {
-      // workaround: checking checkboxes results in "Target closed" on CI
-      document.getElementById('tos').checked = true
-    })*/
 
-    await page.getByText('gelesen und stimme ihnen zu').click()
+   //await page.getByText('gelesen und stimme ihnen zu').click()
 
-    await page.getByRole('button', { name: 'Zahlungspflichtig bestellen' }).click()
+    await page.getByRole('button', { name: 'pflichtig bestellen' }).click()
 
     /* Success Page */
-    await expect(page.getByRole('heading', { name: 'Bestellung erhalten' })).toBeVisible()
+    await expect(page).toHaveURL(/order-received/);
   })
 }
 
 const goToProduct = async (page, num = 0) => {
   await test.step(`Go to product (num: ${num}}`, async() => {
-    await page.goto('/?product=test');
+    await page.goto('/index.php/produkt/test/');
   })
 }
 
@@ -175,13 +169,14 @@ test('standardCheckout', async ({ page }) => {
   await goToProduct(page)
 
   await page.getByRole('button', { name: 'In den Warenkorb' }).click();
-  await page.goto('/kasse/')
+  await page.goto('index.php/checkout/')
 
   await page.getByRole('textbox', { name: 'Vorname *' }).fill(randomize('Ralf'))
   await page.getByRole('textbox', { name: 'Nachname *' }).fill('Ratenkauf');
   await page.getByRole('textbox', { name: 'Straße *' }).fill('Beuthener Str. 25');
   await page.getByRole('textbox', { name: 'Postleitzahl *' }).fill('90471');
   await page.getByRole('textbox', { name: 'Ort / Stadt *' }).fill('Nürnberg');
+  await page.getByRole('textbox', { name: 'Telefon *' }).fill('012345678');
   await page.getByLabel('E-Mail-Adresse *').fill('ralf.ratenkauf@teambank.de');
 
   /* Confirm Page */
@@ -204,3 +199,27 @@ test('expressCheckout', async ({ page }) => {
   await confirmOrder(page)
 });
 
+test('settingsCheck', async ({ page }) => {
+
+  await page.goto('/wp-admin/')
+
+  await page.getByLabel('Benutzername oder E-Mail-Adresse').fill('admin')
+  await page.getByLabel('Passwort', { exact: true }).fill('password')
+
+  await page.getByRole('button', { name: 'Anmelden' }).click();
+
+  //await page.locator('#toplevel_page_woocommerce').getByRole('link', { name: 'Einstellungen' }).click();
+  //await page.getByRole('link', { name: 'Zahlungen' }).click();
+  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout')
+
+  //await page.getByRole('link', { name: 'easyCredit-Ratenkauf', exact: true }).click();
+  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout&section=easycredit')
+
+  page.on('dialog', async (dialog) => {
+    expect(dialog.message()).toContainText('Die Zugangsdaten sind korrekt')
+    await dialog.accept()
+  })
+  //await page.getByRole('button', { name: 'Zugangsdaten überprüfen' }).click();
+  await page.locator('#woocommerce_easycredit_api_verify_credentials').click()
+
+});
