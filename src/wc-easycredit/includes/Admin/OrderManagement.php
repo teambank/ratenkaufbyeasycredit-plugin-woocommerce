@@ -1,25 +1,28 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit;
-}
+namespace Netzkollektiv\EasyCredit\Admin;
 
 use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ConstraintViolation;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
 
-class WC_Easycredit_Order_Management
+use Netzkollektiv\EasyCredit\Plugin;
+use Netzkollektiv\EasyCredit\Integration;
+
+class OrderManagement
 {
     protected $_field = 'merchant-status';
-    protected $plugin;
-    protected $plugin_url;
-    protected $gateway;
 
-    public function __construct($plugin)
-    {
+    protected $plugin;
+
+    protected $integration;
+
+    public function __construct(
+        Plugin $plugin,
+        Integration $integration
+    ) {
         $this->plugin = $plugin;
-        $this->plugin_url = $plugin->plugin_url;
-        $this->gateway = $this->plugin->get_gateway();
+        $this->integration = $integration;
 
         add_action('manage_shop_order_posts_custom_column', [$this, 'add_order_column_content'], 20);
         add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'add_status_after_shipping_address'], 10, 1);
@@ -27,8 +30,8 @@ class WC_Easycredit_Order_Management
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
 
         foreach (['shipped', 'refunded'] as $state) {
-            if ($this->gateway->get_option('mark_' . $state) == 'yes') {
-                $status = $this->gateway->get_option('mark_' . $state . '_status');
+            if ($this->plugin->get_option('mark_' . $state) == 'yes') {
+                $status = $this->plugin->get_option('mark_' . $state . '_status');
                 $status = str_replace('wc-', '', $status);
 
                 add_action('woocommerce_order_status_' . $status, [$this, 'mark_' . $state], 10, 2);
@@ -85,7 +88,7 @@ class WC_Easycredit_Order_Management
 
     public function get_transaction($order_id)
     {
-        if ($order_id instanceof WC_Order) {
+        if ($order_id instanceof \WC_Order) {
             $order_id = $order_id->get_id();
         }
 
@@ -116,9 +119,10 @@ class WC_Easycredit_Order_Management
 
     public function add_meta_boxes($post_type)
     {
-        if ($post_type !== 'shop_order'
-            || $this->get_order()->get_payment_method() != $this->plugin->id
-        ) {
+        if ($post_type !== 'shop_order') {
+            return false;
+        }
+        if (!$this->plugin->is_easycredit_method($this->get_order()->get_payment_method())) {
             return false;
         }
 
@@ -231,6 +235,6 @@ class WC_Easycredit_Order_Management
             global $post;
             $post_id = $post->ID;
         }
-        return new WC_Order($post_id);
+        return new \WC_Order($post_id);
     }
 }

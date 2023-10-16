@@ -5,21 +5,22 @@
  * file that was distributed with this source code.
  */
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+namespace Netzkollektiv\EasyCredit\Widget;
 
-abstract class WC_Easycredit_Widget
+use Netzkollektiv\EasyCredit\Plugin;
+use Netzkollektiv\EasyCredit\Gateway;
+
+abstract class WidgetAbstract
 {
-    protected $plugin;
-    protected $plugin_url;
-    protected $gateway;
+    protected Plugin $plugin;
+    protected Gateway\Ratenkauf $payment;
 
-    public function __construct($plugin)
-    {
+    public function __construct(
+        Plugin $plugin,
+        Gateway\Ratenkauf $payment
+    ) {
         $this->plugin = $plugin;
-        $this->plugin_url = $plugin->plugin_url;
-        $this->gateway = $this->plugin->get_gateway();
+        $this->payment = $payment;
 
         add_action('wp', [$this, 'run']);
     }
@@ -39,13 +40,13 @@ abstract class WC_Easycredit_Widget
     {
         wp_enqueue_script(
             'wc_easycredit_js',
-            $this->plugin_url . 'assets/js/easycredit.min.js',
+            $this->plugin->plugin_url . 'assets/js/easycredit.min.js',
             ['easycredit-components-module'],
             '1.0'
         );
         wp_enqueue_style(
             'wc_easycredit_css',
-            $this->plugin_url . 'assets/css/easycredit.min.css'
+            $this->plugin->plugin_url . 'assets/css/easycredit.min.css'
         );
     }
 
