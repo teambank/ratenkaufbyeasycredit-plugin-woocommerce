@@ -38,7 +38,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout
     public function init_buttons()
     {
         if ($this->should_be_displayed_at_product()) {
-            add_action('woocommerce_single_product_summary', [$this, 'add_button_at_product'], 30);
+            add_action('woocommerce_after_add_to_cart_button', [$this, 'add_button_at_product'], 30);
         }
         if ($this->should_be_displayed_in_cart()) {
             add_action('woocommerce_proceed_to_checkout', [$this, 'add_button_in_cart']);
@@ -67,13 +67,16 @@ class WC_Gateway_Ratenkaufbyeasycredit_Express_Checkout
     {
         $post = get_post();
 
-        $product = new WC_Product($post->ID);
+        $product = wc_get_product($post->ID);
         $amount = $product->get_price();
+        if ($product->is_type('variable')) {
+            $amount = 1;  // default display has no selection, do not show button implicitly
+        }
 
-        if ($product->is_in_stock() && $product->get_price() > 199 && $product->get_price() <= 10000) {
+        if ($product->is_in_stock() || $product->is_type('variable')) {
             echo '<easycredit-express-button 
                 webshop-id="' . $this->gateway->get_option('api_key') . '"
-                amount="' . $product->get_price() . '"
+                amount="' . $amount . '"
             ></easycredit-express-button>';
         }
     }

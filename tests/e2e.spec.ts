@@ -158,9 +158,9 @@ const confirmOrder = async (page) => {
   })
 }
 
-const goToProduct = async (page, num = 0) => {
-  await test.step(`Go to product (num: ${num}}`, async() => {
-    await page.goto('/index.php/produkt/test/');
+const goToProduct = async (page, sku = 'test') => {
+  await test.step(`Go to product (sku: ${sku}}`, async() => {
+    await page.goto(`/index.php/produkt/${sku}/`);
   })
 }
 
@@ -191,6 +191,26 @@ test('standardCheckout', async ({ page }) => {
 test('expressCheckout', async ({ page }) => {
 
   await goToProduct(page)
+
+  await page.locator('a').filter({ hasText: 'Jetzt direkt in Raten zahlen' }).click();
+  await page.getByText('Akzeptieren', { exact: true }).click();
+
+  await goThroughPaymentPage(page, true)
+  await confirmOrder(page)
+});
+
+test('expressCheckoutWithVariableProduct', async ({ page }) => {
+
+  await goToProduct(page,'variable')
+
+  await page.getByLabel('Size').selectOption('');
+  await expect(page.locator('easycredit-express-button')).not.toBeVisible();
+
+  await page.getByLabel('Size').selectOption('medium');
+  await expect(page.locator('easycredit-express-button')).not.toBeVisible();
+
+  await page.getByLabel('Size').selectOption('small');
+  await expect(page.locator('easycredit-express-button')).toBeVisible();
 
   await page.locator('a').filter({ hasText: 'Jetzt direkt in Raten zahlen' }).click();
   await page.getByText('Akzeptieren', { exact: true }).click();

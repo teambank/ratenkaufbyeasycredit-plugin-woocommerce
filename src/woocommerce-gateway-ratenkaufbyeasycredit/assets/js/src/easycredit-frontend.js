@@ -1,5 +1,6 @@
 jQuery(function($){
 
+
     var selector = $('meta[name=easycredit-widget-selector]').attr('content');
 
     var widget = $('<easycredit-widget />').attr({
@@ -11,7 +12,7 @@ jQuery(function($){
           $(this).css('opacity') !== 0
     }).first().after(widget);
 
-    $('.single_variation_wrap').on( 'show_variation', function ( event, variation ) {
+    $('form.variations_form').on( 'show_variation', function ( event, variation ) {
         if (variation.display_price) {
             widget.get(0).setAttribute('amount', variation.display_price);
         }
@@ -132,11 +133,14 @@ jQuery(function($){
 
                 var addToCartButton = document.querySelector('button[name="add-to-cart"], button.single_add_to_cart_button');
                 if (addToCartButton) {
-
-                    var form = replicateForm(form.get(0), {
-                        'add-to-cart': addToCartButton.getAttribute('value'),
+                    var additional = {
                         'easycredit-express': 1
-                    });
+                    };
+                    if (addToCartButton.getAttribute('value')) {
+                        additional['add-to-cart'] = addToCartButton.getAttribute('value');
+                    }
+
+                    var form = replicateForm(form.get(0), additional);
                     form.submit();
 
                     return;
@@ -148,11 +152,16 @@ jQuery(function($){
                 }
                 alert('Der easyCredit-Ratenkauf konnte nicht gestartet werden.');
             });
-            $('form.variations_form').on('show_variation', function(event, data, purchasable) {
-                (!purchasable) ? $(selector).hide() : $(selector).show();
-            });
         });
     }
+
+    var $form = $('form.variations_form');
+    $form.on('show_variation', function(event, variation, purchasable) {
+        $('easycredit-express-button').show().get(0).setAttribute('amount', (purchasable && variation.is_in_stock) ? variation.display_price : 1);
+    });
+    $form.on('hide_variation', function(event) {
+        $('easycredit-express-button').hide();
+    });
 
     watchForSelector('easycredit-express-button', handleExpressButton);
     onHydrated('easycredit-express-button', handleExpressButton);
