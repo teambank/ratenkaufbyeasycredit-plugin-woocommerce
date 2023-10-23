@@ -213,13 +213,13 @@ test('settingsCheck', async ({ page }) => {
   await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout')
 
   //await page.getByRole('link', { name: 'easyCredit-Ratenkauf', exact: true }).click();
-  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout&section=easycredit')
+  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit')
 
   page.on('dialog', async (dialog) => {
     expect(dialog.message()).toContainText('Die Zugangsdaten sind korrekt')
     await dialog.accept()
   })
   //await page.getByRole('button', { name: 'Zugangsdaten überprüfen' }).click();
-  await page.locator('#woocommerce_easycredit_api_verify_credentials').click()
+  await page.locator('#woocommerce_ratenkaufbyeasycredit_api_verify_credentials').click()
 
 });
