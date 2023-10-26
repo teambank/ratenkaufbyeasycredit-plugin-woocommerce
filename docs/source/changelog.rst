@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.1.5
+-----
+
+- Express-Checkout funktioniert nun auch mit variablen Produkten
+- die Position des Express-Checkouts wurde angepasst ('woocommerce_single_product_summary' => 'woocommerce_after_add_to_cart_button')
+
 2.1.4
 -----
 
