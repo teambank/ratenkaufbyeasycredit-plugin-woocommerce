@@ -157,7 +157,10 @@ jQuery(function($){
 
     var $form = $('form.variations_form');
     $form.on('show_variation', function(event, variation, purchasable) {
-        $('easycredit-express-button').show().get(0).setAttribute('amount', (purchasable && variation.is_in_stock) ? variation.display_price : 1);
+        var button = $('easycredit-express-button').show().get(0);
+        if (button) {
+          button.setAttribute('amount', (purchasable && variation.is_in_stock) ? variation.display_price : 1);
+        }
     });
     $form.on('hide_variation', function(event) {
         $('easycredit-express-button').hide();
