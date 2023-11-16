@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.6
+-----
+
+- behebt einen JavaScript-Fehler, der bei variablen Produkten bei deaktiviertem Express-Button auftrat
+
 2.1.5
 -----
 

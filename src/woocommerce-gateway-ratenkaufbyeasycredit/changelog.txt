@@ -1,3 +1,8 @@
+= 2.1.6 =
+
+- behebt einen JavaScript-Fehler, der bei variablen Produkten bei deaktiviertem Express-Button auftrat
+
+
 = 2.1.5 =
 
 - Express-Checkout funktioniert nun auch mit variablen Produkten
