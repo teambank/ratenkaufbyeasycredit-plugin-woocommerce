@@ -12,11 +12,12 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 
-use Netzkollektiv\EasyCredit\Gateway;
+use Netzkollektiv\EasyCredit\Plugin;
+use Netzkollektiv\EasyCredit\Pages\ReviewPage;
 
 class QuoteBuilder
 {
-    protected $gateway;
+    protected $plugin;
     protected $storage;
     protected $systemBuilder;
     protected $addressBuilder;
@@ -27,10 +28,10 @@ class QuoteBuilder
     protected $customer;
 
     public function __construct(
-        Gateway\GatewayAbstract $gateway,
+        Plugin $plugin,
         Storage $storage
     ) {
-        $this->gateway = $gateway;
+        $this->plugin = $plugin;
         $this->storage = $storage;
 
         $this->systemBuilder = new SystemBuilder();
@@ -42,6 +43,15 @@ class QuoteBuilder
     public function getId()
     {
         return $this->quote->get_order_key();
+    }
+
+    public function getPaymentType() {
+        if ($this->quote->get_payment_method() === 'easycredit-ratenkauf') {
+            return 'INSTALLMENT_PAYMENT';
+        }
+        if ($this->quote->get_payment_method() === 'easycredit-rechnung') {
+            return 'BILL_PAYMENT';
+        }
     }
 
     public function getShippingMethod()
@@ -60,13 +70,13 @@ class QuoteBuilder
     {
         $shippingItem = \current($this->quote->get_items('shipping'));
         if ($shippingItem instanceof \WC_Order_Item_Shipping) {
-            return $shippingItem->get_method_id() == $this->gateway->get_option('clickandcollect_shipping_method');
+            return $shippingItem->get_method_id() == $this->plugin->get_option('clickandcollect_shipping_method');
         }
     }
 
-    public function getDuration(): ?string
+    public function getFinancingTerm(): ?string
     {
-        return $this->storage->get('duration');
+        return $this->storage->get('financingTerm');
     }
 
     public function getGrandTotal()
@@ -151,7 +161,8 @@ class QuoteBuilder
         $this->customer = new \WC_Customer($order->get_user_id());
 
         return new Transaction([
-            'financingTerm' => $this->getDuration(),
+            'financingTerm' => $this->getFinancingTerm(),
+            'paymentType' => $this->getPaymentType(),
             'orderDetails' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
@@ -210,7 +221,7 @@ class QuoteBuilder
         }
 
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
-            'urlSuccess' => $this->gateway->plugin->get_review_page_uri(),
+            'urlSuccess' => \get_permalink(\get_option(ReviewPage::PAGE_ID)),
             'urlCancellation' => $this->getCancelUrl($this->quote),
             'urlDenial' => $this->getCancelUrl($this->quote),
             'urlAuthorizationCallback' => \esc_url_raw(\get_home_url(null, '/easycredit/authorize/secToken/' . $this->storage->get('sec_token') . '/')),
