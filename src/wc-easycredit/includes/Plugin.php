@@ -12,7 +12,6 @@ use Teambank\RatenkaufByEasyCreditApiV3 as ApiV3;
 class Plugin
 {
     const META_KEY_TRANSACTION_ID = 'easycredit-transaction-id';
-    const META_KEY_SEC_TOKEN = 'easycredit-sec-token';
     const META_KEY_INTEREST_AMOUNT = 'easycredit-interest-amount';
     const META_KEY_TOKEN = 'easycredit-token';
 
@@ -26,8 +25,7 @@ class Plugin
 
     private $rewrite_rules = [
         'easycredit/(cancel)/?' => 'index.php?easycredit[action]=$matches[1]',
-        'easycredit/(express)/?' => 'index.php?easycredit[action]=$matches[1]',
-        'easycredit/(authorize)/secToken/([^/]+)/?' => 'index.php?easycredit[action]=$matches[1]&easycredit[sec_token]=$matches[2]',
+        'easycredit/(express)/?' => 'index.php?easycredit[action]=$matches[1]'
     ];
 
     private $integration;
@@ -300,69 +298,6 @@ class Plugin
             $url = $order->get_cancel_order_url_raw();
         }
         wp_safe_redirect($url);
-        exit;
-    }
-
-    public function authorizeAction($params)
-    {
-        $txId = $_GET['transactionId'];
-        $secToken = $params['sec_token'];
-
-        $args = [
-            'post_type' => 'shop_order',
-            'post_status' => 'any',
-            'limit' => 1,
-            'return' => 'ids',
-            'meta_query' => [
-                'relation' => 'AND',
-                [
-                    'key' => self::META_KEY_TRANSACTION_ID,
-                    'value' => $txId,
-                    'compare' => '=',
-                ],
-                [
-                    'key' => 'ratenkaufbyeasycredit-sec-token',
-                    'value' => $params['sec_token'],
-                    'compare' => '=',
-                ],
-            ],
-        ];
-
-        $orders = new \WP_Query($args);
-        $order = wc_get_order(current($orders->posts));
-
-        if (!$order) {
-            header('HTTP/1.1 404 Not Found');
-            echo 'transaction not found';
-            exit;
-        }
-        $token = $order->get_meta($this->id . '-token');
-        if (!$token) {
-            header('HTTP/1.1 404 Not Found');
-            echo 'technical transaction id not found';
-            exit;
-        }
-
-        $tx = $this->integration
-            ->checkout()
-            ->loadTransaction($token);
-
-        if ($tx->getStatus() !== ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
-            header('HTTP/1.1 409 Conflict');
-            echo 'payment status of transaction not updated as transaction status is not AUTHORIZED';
-            exit;
-        }
-
-        if ($order->payment_complete(
-            $txId
-        )) {
-            header('HTTP/1.1 200 OK');
-            echo 'payment status successfully set';
-            exit;
-        }
-
-        header('HTTP/1.1 500 Internal Server Error');
-        echo 'payment status could not be set, please check the logs';
         exit;
     }
 

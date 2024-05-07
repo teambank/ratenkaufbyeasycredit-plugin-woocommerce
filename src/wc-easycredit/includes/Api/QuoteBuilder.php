@@ -216,15 +216,10 @@ class QuoteBuilder
 
     protected function getRedirectLinks()
     {
-        if (!$this->storage->get('sec_token')) {
-            $this->storage->set('sec_token', \md5(\uniqid((string)\mt_rand(), true)));
-        }
-
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
             'urlSuccess' => \get_permalink(\get_option(ReviewPage::PAGE_ID)),
             'urlCancellation' => $this->getCancelUrl($this->quote),
-            'urlDenial' => $this->getCancelUrl($this->quote),
-            'urlAuthorizationCallback' => \esc_url_raw(\get_home_url(null, '/easycredit/authorize/secToken/' . $this->storage->get('sec_token') . '/')),
+            'urlDenial' => $this->getCancelUrl($this->quote)
         ]);
     }
 

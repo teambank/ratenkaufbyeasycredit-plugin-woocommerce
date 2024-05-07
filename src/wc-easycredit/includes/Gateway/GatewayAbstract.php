@@ -217,21 +217,17 @@ abstract class GatewayAbstract extends \WC_Payment_Gateway
             }
 
             // check transaction status right away
-            try {
-                $tx = $checkout->loadTransaction($this->integration->storage()->get('token'));
-                if ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
-                    $order->payment_complete(
-                        $this->integration->storage()->get('transaction_id')
-                    );
-                }
-            } catch (\Exception $e) { /* fail silently, will be updated async */
+            $tx = $checkout->loadTransaction($this->integration->storage()->get('token'));
+            if  ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
+                $order->payment_complete(
+                    $this->integration->storage()->get('transaction_id')
+                );
             }
 
             $storage = $this->integration->storage();
 
             $order->add_meta_data(Plugin::META_KEY_TOKEN, $storage->get('token'), true);
             $order->add_meta_data(Plugin::META_KEY_INTEREST_AMOUNT, $storage->get('interest_amount'), true);
-            $order->add_meta_data(Plugin::META_KEY_SEC_TOKEN, $storage->get('sec_token'), true);
             $order->add_meta_data(Plugin::META_KEY_TRANSACTION_ID,$storage->get('transaction_id'), true);
 
             $order->save();
