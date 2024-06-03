@@ -19,6 +19,9 @@ jQuery(function($){
     } );
 
     $('.woocommerce-checkout').on( 'change', '#billing_company', function(){
+        if ($(this).closest('.woocommerce-billing-fields').length === 0) {
+            return;
+        }
         $(this).trigger("update_checkout");
     });
 
