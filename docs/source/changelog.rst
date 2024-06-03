@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.7
+-----
+
+- umgeht einen Fehler im Checkout, der in Verbindung mit einem Drittanbieter-Plugin auftrat
+
 2.1.6
 -----
 
