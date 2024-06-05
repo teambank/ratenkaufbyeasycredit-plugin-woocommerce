@@ -7,6 +7,7 @@ use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ConstraintViolation;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 
 class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
 {
@@ -21,7 +22,27 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
         $this->plugin_url = $plugin->plugin_url;
         $this->gateway = $this->plugin->get_gateway();
 
-        add_action('manage_shop_order_posts_custom_column', [$this, 'add_order_column_content'], 20);
+        /* Wordpress Approach, HPOS disabled or older version */
+        add_action('manage_shop_order_posts_custom_column', function($column, $order) {
+            if ($column !== 'order_status') {
+                return;
+            }
+            $this->add_order_column_content($column, $order);
+
+        }, 20, 2);
+
+        /* HPOS Approach */
+        add_filter('woocommerce_shop_order_list_table_columns', function ($columns) {
+            $columns['easycredit_status_icon'] = 'Zahlungsstatus';
+            return $columns;
+        });
+        add_action('woocommerce_shop_order_list_table_custom_column', function ($column, $order) {
+            if ('easycredit_status_icon' !== $column) {
+                return;
+            }
+            $this->add_order_column_content($column, $order);
+        }, 10, 2);
+
         add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'add_status_after_shipping_address'], 10, 1);
         add_action('admin_enqueue_scripts', [$this, 'require_transaction_manager']);
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
@@ -65,34 +86,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
         wp_add_inline_script('easycredit_transaction_manager', 'window.ratenkaufbyeasycreditOrderManagementConfig = ' . json_encode($this->get_endpoint_vars()));
     }
 
-    public function get_transactions($transaction_id = null)
-    {
-        global $wpdb;
-
-        $cond = ($transaction_id !== null) ? ' AND m.meta_value = "' . $transaction_id . '"' : '';
-        $data = $wpdb->get_results(
-            '
-            SELECT m.meta_value as transaction_id, p.ID as post_id, m1.meta_value as transaction
-            FROM  ' . $wpdb->posts . ' p 
-            LEFT JOIN ' . $wpdb->postmeta . ' m ON m.post_id = p.ID AND m.meta_key = "' . $this->gateway->id . '-transaction-id"
-            LEFT JOIN ' . $wpdb->postmeta . ' m1 ON m1.post_id = p.ID AND m1.meta_key = "' . $this->get_field() . '"
-            WHERE post_type = "shop_order" AND m.meta_key IS NOT NULL
-            ' . $cond . ';',
-            OBJECT_K
-        );
-        return $data;
-    }
-
-    public function get_transaction($order_id)
-    {
-        if ($order_id instanceof WC_Order) {
-            $order_id = $order_id->get_id();
-        }
-
-        $status = get_post_meta($order_id, $this->get_field(), true);
-        return json_decode($status);
-    }
-
     public function add_status_after_shipping_address($order)
     {
         $content = $this->get_order_status_icon($order);
@@ -101,13 +94,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
         }
     }
 
-    public function add_order_column_content($column)
+    public function add_order_column_content($column, $order)
     {
-        if ($column !== 'order_status') {
-            return;
-        }
-
-        $order = $this->get_order();
+        $order = $this->get_order($order);
         $content = $this->get_order_status_icon($order);
         if ($content) {
             echo $content;
@@ -116,25 +105,31 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
 
     public function add_meta_boxes($post_type)
     {
-        if ($post_type !== 'shop_order'
-            || $this->get_order()->get_payment_method() != $this->plugin->id
-        ) {
+        if ($post_type !== 'shop_order') {
             return false;
         }
+
+        $screen = class_exists('\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController') && 
+            wc_get_container()->get(CustomOrdersTableController::class)->custom_orders_table_usage_is_enabled()
+            ? wc_get_page_screen_id('shop-order')
+            : 'shop_order';
 
         add_meta_box(
             'easycredit-merchant-status',
             __('Order Management', 'woocommerce-gateway-ratenkaufbyeasycredit'),
             [$this, 'add_order_management_meta_box'],
-            'shop_order',
+            $screen,
             'side',
             'core'
         );
     }
 
-    public function add_order_management_meta_box($post_id = null)
+    public function add_order_management_meta_box($post = null)
     {
-        $order = $this->get_order($post_id);
+        $order = $this->get_order($post->ID);
+        if ($order->get_payment_method() != $this->plugin->id) {
+            return;
+        }
         ?>
             <easycredit-merchant-manager 
                 tx-id="<?php echo $order->get_meta($this->gateway->id . '-transaction-id'); ?>" 
@@ -145,14 +140,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
 
     public function get_order_status_icon($order)
     {
-        if ($order->get_payment_method() !== 'ratenkaufbyeasycredit') {
+        if ($order->get_payment_method() !== $this->plugin->id) {
             return;
         }
 
         return '<easycredit-merchant-status-widget  
             tx-id="' . $order->get_meta($this->gateway->id . '-transaction-id') . '" 
             date="' . $order->get_date_created()->format('Y-m-d') . '" 
-        />';
+        ></easycredit-merchant-status-widget>';
     }
 
     public function mark_shipped($order_id, $order)
@@ -225,12 +220,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
         }
     }
 
-    protected function get_order($post_id = null)
+    protected function get_order($post = null)
     {
-        if ($post_id === null) {
+        if ($post === null) {
             global $post;
-            $post_id = $post->ID;
         }
-        return new WC_Order($post_id);
+        if ($post instanceof WP_Post) {
+            $post = $post->ID;
+        }
+        return wc_get_order($post);
     }
 }

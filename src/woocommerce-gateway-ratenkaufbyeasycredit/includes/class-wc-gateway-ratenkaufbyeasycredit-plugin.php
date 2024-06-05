@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 use Teambank\RatenkaufByEasyCreditApiV3 as ApiV3;
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 
 class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 {
@@ -55,8 +56,9 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 
         add_action('admin_enqueue_scripts', [$this, 'enqueue_backend_resources']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_resources']);
-        add_action('do_meta_boxes', [$this, 'hook_prevent_shipping_address_change']);
         
+        add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'prevent_shipping_address_change'], 0, 10);
+
         add_action('admin_post_wc_ratenkaufbyeasycredit_verify_credentials', [$this, 'verify_credentials']);
         add_filter('plugin_action_links_' . plugin_basename($this->file), [$this, 'plugin_links']);
 
@@ -340,35 +342,13 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
         wp_enqueue_media();
     }
 
-    public function hook_prevent_shipping_address_change($box)
-    {
-        global $wp_meta_boxes;
-        $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-data']['callback'] = static::class . '::prevent_shipping_address_change';
-    }
-
-    public static function prevent_shipping_address_change($post)
-    {
-        /* @var WC_Order $theorder */
-        global $theorder;
-
-        if (!is_object($theorder)) {
-            $theorder = wc_get_order($post->ID);
-        }
-
-        $order = $theorder;
-        if (!is_object($order) || $order->get_payment_method() != 'ratenkaufbyeasycredit') {
-            WC_Meta_Box_Order_Data::output($post);
-            return;
-        }
-
-        $note = '<p>Die Versandadresse kann bei ratenkauf by easyCredit nicht nachträglich verändert werden.</p>';
-
-        ob_start();
-        WC_Meta_Box_Order_Data::output($post);
-        $html = ob_get_contents();
-        $html = preg_replace('/(<h3>.+?)(<a .+?class="edit_address">.+?<\/a>)(.+?load_customer_shipping.+?<\/h3>)/sU', '$1$3' . $note, (string)$html);
-        ob_end_clean();
-        echo $html;
+    public function prevent_shipping_address_change() {
+        echo "
+            <p>Die Versandadresse kann bei easyCredit-Ratenkauf nicht nachträglich verändert werden.</p>
+            <script>
+            jQuery('#order_data .order_data_column_container .order_data_column h3:contains(\"". esc_html__('Shipping', 'woocommerce') ."\") a.edit_address').hide();
+            </script>
+        ";
     }
     
     public function verify_credentials()
