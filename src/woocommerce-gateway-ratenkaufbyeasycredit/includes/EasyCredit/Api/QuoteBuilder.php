@@ -7,7 +7,6 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
@@ -204,15 +203,10 @@ class QuoteBuilder
 
     protected function getRedirectLinks()
     {
-        if (!$this->storage->get('sec_token')) {
-            $this->storage->set('sec_token', \md5(\uniqid((string)\mt_rand(), true)));
-        }
-
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
             'urlSuccess' => $this->gateway->plugin->get_review_page_uri(),
             'urlCancellation' => $this->getCancelUrl($this->quote),
-            'urlDenial' => $this->getCancelUrl($this->quote),
-            'urlAuthorizationCallback' => \esc_url_raw(\get_home_url(null, '/easycredit/authorize/secToken/' . $this->storage->get('sec_token') . '/')),
+            'urlDenial' => $this->getCancelUrl($this->quote)
         ]);
     }
 
