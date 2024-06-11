@@ -83,7 +83,15 @@ const goToProduct = async (page, sku = 'test') => {
   })
 }
 
-test('standardCheckout', async ({ page }) => {
+const isBlocksCheckout  = () => {
+  return (process.env.VERSION.localeCompare('8.3', undefined, { numeric: true, sensitivity: 'base' }) >= 0);
+}
+
+test('legacyCheckout', async ({ page }) => {
+
+  if (isBlocksCheckout()) {
+    return
+  }
 
   await goToProduct(page)
 
@@ -98,6 +106,37 @@ test('standardCheckout', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Telefon *' }).fill('012345678');
   await page.getByLabel('E-Mail-Adresse *').fill('ralf.ratenkauf@teambank.de');
 
+  
+  /* Confirm Page */
+  await page.locator('easycredit-checkout-label').click()
+  await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();
+  await page.locator('span:text("Akzeptieren"):visible').click();
+
+  await goThroughPaymentPage(page)
+  await confirmOrder(page)
+});
+
+test('blocksCheckout', async ({ page }) => {
+
+  if (!isBlocksCheckout()) {
+    return
+  }
+
+  await goToProduct(page)
+
+  await page.getByRole('button', { name: 'In den Warenkorb' }).click();
+  await page.goto('index.php/checkout/')
+
+  await page.getByLabel('E-Mail-Adresse').fill('ralf.ratenkauf@teambank.de');
+  await page.getByRole('textbox', { name: 'Vorname' }).fill(randomize('Ralf'))
+  await page.getByRole('textbox', { name: 'Nachname' }).fill('Ratenkauf');
+  await page.getByRole('textbox', { name: 'Adresse', exact: true }).fill('Beuthener Str. 25');
+  await page.getByRole('textbox', { name: 'Postleitzahl' }).fill('90471');
+  await page.getByRole('textbox', { name: 'Stadt' }).fill('Nürnberg');
+  await page.getByRole('textbox', { name: 'Telefon (optional)' }).fill('012345678');
+
+  await delay(500)
+  
   /* Confirm Page */
   await page.locator('easycredit-checkout-label').click()
   await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();

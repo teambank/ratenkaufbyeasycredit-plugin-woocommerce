@@ -192,10 +192,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
                 wp_redirect($checkout->getRedirectUrl());
                 exit;
             } catch (ApiV3\ApiException $e) {
-                if ($e->getResponseObject() instanceof ApiV3\Model\ConstraintViolation) {
+                if ($e->getResponseObject() instanceof ApiV3\Model\PaymentConstraintViolation) {
                     $error = 'easyCredit-Ratenkauf: ';
                     foreach ($e->getResponseObject()->getViolations() as $violation) {
-                        $error .= $violation->getMessage();
+                        $error .= $violation->getMessageDE() ? $violation->getMessageDE() :  $violation->getMessage();
                     }
                     throw new \Exception($error);
                 }
@@ -294,8 +294,6 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
     {
         wp_register_script('easycredit-components-module', 'https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js', [], '1.0');
         wp_enqueue_script('easycredit-components-module');
-        wp_register_script('easycredit-components-nomodule', 'https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.js', [], '1.0');
-        wp_enqueue_script('easycredit-components-nomodule');
         add_filter('script_loader_tag', [$this, 'add_module_nomodule_attribute'], 10, 3);
     }
 
@@ -305,13 +303,13 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 
         wp_enqueue_script(
             'wc_ratenkaufbyeasycredit_js',
-            $this->plugin_url . 'assets/js/easycredit.min.js',
+            $this->plugin_url . 'modules/frontend/build/index.js',
             ['jquery'],
             '2.1'
         );
         wp_enqueue_style(
             'wc_ratenkaufbyeasycredit_css',
-            $this->plugin_url . 'assets/css/easycredit.min.css'
+            $this->plugin_url . 'modules/frontend/build/styles.css'
         );
     }
 
@@ -321,7 +319,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 
         wp_enqueue_script(
             'wc_ratenkaufbyeasycredit_js',
-            $this->plugin_url . 'assets/js/easycredit-backend.js',
+            $this->plugin_url . 'modules/backend/build/index.js',
             ['jquery'],
             '1.0'
         );
@@ -332,11 +330,11 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
 
         wp_enqueue_style(
             'wc_ratenkaufbyeasycredit_css',
-            $this->plugin_url . 'assets/css/easycredit-backend.css'
+            $this->plugin_url . 'modules/backend/build/styles.css'
         );
         wp_enqueue_style(
             'wc_ratenkaufbyeasycredit_marketing_css',
-            $this->plugin_url . 'assets/css/easycredit-backend-marketing.min.css'
+            $this->plugin_url . 'modules/marketing/build/styles.css'
         );
 
         wp_enqueue_media();

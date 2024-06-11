@@ -39,13 +39,13 @@ abstract class WC_Gateway_Ratenkaufbyeasycredit_Widget
     {
         wp_enqueue_script(
             'wc_ratenkaufbyeasycredit_js',
-            $this->plugin_url . 'assets/js/easycredit.min.js',
+            $this->plugin_url . 'modules/frontend/build/index.js',
             ['easycredit-components-module'],
             '1.0'
         );
         wp_enqueue_style(
             'wc_ratenkaufbyeasycredit_css',
-            $this->plugin_url . 'assets/css/easycredit.min.css'
+            $this->plugin_url . 'modules/frontend/build/styles.css'
         );
     }
 

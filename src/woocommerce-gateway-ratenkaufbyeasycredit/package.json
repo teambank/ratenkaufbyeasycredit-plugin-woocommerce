@@ -1,24 +1,26 @@
 {
-	"name": "easycredit",
-	"version": "0.1.0",
-	"author": "The WordPress Contributors",
+	"name": "woo-easycredit",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"author": "NETZKOLLEKTIV <corporate@netzkollektiv.com>",
 	"license": "MIT",
-    "engines": {
-        "node": "^20.12.0",
-        "npm": "^10.5.0"
-    },
-	"scripts": {
-		"build": "wp-scripts build",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start",
-		"postinstall": "composer install"
-	},
 	"devDependencies": {
 		"@woocommerce/dependency-extraction-webpack-plugin": "^3.0.1",
-		"@wordpress/scripts": "^28.0.0"
+		"@wordpress/scripts": "^28.0.0",
+		"@wordpress/element": "^6.0.0"
+	},
+	"scripts": {
+		"install:modules:legacy-frontend": "cd modules/legacy-frontend && yarn install",
+		"install:modules:legacy-backend": "cd modules/legacy-backend && yarn install",
+		"install:modules:checkout": "cd modules/checkout && yarn install",
+		"install:modules:marketing": "cd modules/marketing && yarn install",
+		"postinstall": "for dir in ./modules/*; do (cd $dir && yarn install); done",
+		"build": "for dir in ./modules/*; do (echo \"building $dir ...\" && cd $dir && yarn build); done;",
+		"packages-update": "for dir in ./modules/*; do (echo \"building $dir ...\" && cd $dir && yarn packages-update); done;",
+		"format": "for dir in ./modules/*; do (echo \"building $dir ...\" && cd $dir && yarn format); done;",
+		"lint:css": "for dir in ./modules/*; do (echo \"building $dir ...\" && cd $dir && yarn lint:css); done;",
+		"lint:js": "for dir in ./modules/*; do (echo \"building $dir ...\" && cd $dir && yarn lint:js); done;",
+		"plugin-zip": "wp-scripts plugin-zip"
 	}
 }

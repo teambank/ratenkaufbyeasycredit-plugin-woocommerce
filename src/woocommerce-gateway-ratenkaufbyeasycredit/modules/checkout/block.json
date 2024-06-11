@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "extension/easycredit",
+	"version": "0.1.0",
+	"title": "Easycredit",
+	"category": "widgets",
+	"textdomain": "easycredit",
+	"editorScript": "file:./src/index.js"
+}

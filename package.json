@@ -1,27 +1,21 @@
 {
-  "name": "woo-easycredit",
+  "name": "@wc-easycredit/plugin",
   "version": "1.0.0",
-  "description": "",
+  "description": "easyCredit-Ratenkauf Plugin for wooCommerce",
   "main": "index.js",
-  "devDependencies": {
-    "grunt": "^1.0.4",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^2.2.1",
-    "grunt-contrib-uglify": "^5.2.1",
-    "grunt-contrib-uglify-es": "^3.3.0"
-  },
+  "author": "NETZKOLLEKTIV <corporate@netzkollektiv.com>",
+  "license": "MIT",
   "scripts": {
+    "postinstall": "(cd src/woocommerce-gateway-ratenkaufbyeasycredit && yarn && yarn build) && composer install",
     "docs:build:html": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
     "docs:build:pdf": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
     "docs:deploy": "export $(cat .env | xargs) && rsync -rvz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
     "docs": "yarn docs:build:html; yarn docs:deploy",
     "deploy": "bin/deploy-to-wordpress.sh --svn",
     "release": "bin/release.sh",
-    "phpstan": "cd src/woocommerce-gateway-ratenkaufbyeasycredit; vendor/bin/phpstan analyse .",
-    "fix-cs": "cd src/woocommerce-gateway-ratenkaufbyeasycredit; vendor/bin/ecs check --fix --config=ecs.php"
+    "phpstan": "export $(cat .env | xargs) && cd $PLUGIN_DIR && vendor/bin/phpstan analyse .",
+    "fix-cs": "export $(cat .env | xargs) && cd $PLUGIN_DIR && vendor/bin/ecs check --fix --config=../../ecs.php"
   },
-  "author": "NETZKOLLEKTIV <corporate@netzkollektiv.com>",
-  "license": "MIT",
   "dependencies": {
     "@playwright/test": "^1.38.0"
   }

@@ -148,6 +148,8 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
 
         try {
             $checkout = $this->get_checkout();
+
+            $this->get_storage()->set('express', false);
             $checkout->isAvailable($this->get_quote_builder()->build($order));
         } catch (\Exception $e) {
             $error = $e->getMessage();
@@ -384,10 +386,10 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
                 } catch (ApiV3\Integration\ApiCredentialsNotActiveException $e) {
                     return __('Your credentials are valid, but your account has not been activated yet.', 'woocommerce-gateway-ratenkaufbyeasycredit');
                 } catch (ApiV3\ApiException $e) {
-                    if ($e->getResponseObject() instanceof ApiV3\Model\ConstraintViolation) {
+                    if ($e->getResponseObject() instanceof ApiV3\Model\PaymentConstraintViolation) {
                         $messages = [];
                         foreach ($e->getResponseObject()->getViolations() as $violation) {
-                            $messages[] = implode(': ', [$violation->getField(), $violation->getMessage()]);
+                            $messages[] = $violation->getMessageDE() ? $violation->getMessageDE() :  $violation->getMessage();
                         }
                         return implode(' ', [
                             __('easyCredit-Ratenkauf credentials are not valid.', 'woocommerce-gateway-ratenkaufbyeasycredit'),
@@ -652,9 +654,9 @@ class WC_Gateway_RatenkaufByEasyCredit extends WC_Payment_Gateway
             $checkout->start($quote);
         } catch (ApiV3\ApiException $e) {
             $messages = [];
-            if ($e->getResponseObject() instanceof ApiV3\Model\ConstraintViolation) {
+            if ($e->getResponseObject() instanceof ApiV3\Model\PaymentConstraintViolation) {
                 foreach ($e->getResponseObject()->getViolations() as $violation) {
-                    $messages[] = implode(': ', [$violation->getField(), $violation->getMessage()]);
+                    $messages[] = $violation->getMessageDE() ? $violation->getMessageDE() :  $violation->getMessage();
                 }
             }
             throw new Exception(sprintf(__(

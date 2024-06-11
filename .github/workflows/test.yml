@@ -34,6 +34,9 @@ jobs:
           - php-version: 8.2
             wordpress-version: "6.3"
             woocommerce-version: "8.1.0"
+          - php-version: 8.3
+            wordpress-version: "6.5"
+            woocommerce-version: "8.9.1"
 
     name: woo v${{ matrix.woocommerce-version }}, wp v${{ matrix.wordpress-version }} @ php v${{ matrix.php-version }}
 
@@ -62,6 +65,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      - name: Setup NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -76,6 +83,7 @@ jobs:
           php -v
           php -i
           env
+          node -v
       - name: Install Wordpress & wooCommerce
         run: | 
           curl -L "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" > /usr/local/bin/wp && chmod +x /usr/local/bin/wp
@@ -154,7 +162,7 @@ jobs:
         run: yarn playwright install --with-deps chromium
       - name: Playwright E2E Tests
         run: |
-          cd $PLUGIN_DIR
+          cd $GITHUB_WORKSPACE
 
           VERSION=${{ matrix.woocommerce-version }} yarn playwright test -c tests/
       - name: Save Logs for Debugging

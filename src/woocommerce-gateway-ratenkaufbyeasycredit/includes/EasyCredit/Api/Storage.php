@@ -43,6 +43,9 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
 
     public function get($key)
     {
+        if (!$this->session) {
+            return null;
+        }
         $data = $this->session->get($this->key);
         if (isset($data[$key])) {
             $this->logger->debug('storage::get ' . $key . ' = ' . $data[$key]);

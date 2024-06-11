@@ -58,7 +58,6 @@ if (array_filter(
         if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
             \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
         }
-
         if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
             \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
         }
@@ -70,10 +69,7 @@ if (array_filter(
     {
         if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
             require_once dirname(__FILE__) . '/includes/class-wc-gateway-ratenkaufbyeasycredit-payment-method.php';
-            // priority is important here because this ensures this integration is
-            // registered before the WooCommerce Blocks built-in Stripe registration.
-            // Blocks code has a check in place to only register if 'easycredit' is not
-            // already registered.
+
             add_action('woocommerce_blocks_payment_method_type_registration', function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
                     $container = Automattic\WooCommerce\Blocks\Package::container();
                     $container->register(WC_Gateway_Ratenkaufbyeasycredit_Payment_Method::class, function () {

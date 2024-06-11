@@ -22,7 +22,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
         $this->plugin_url = $plugin->plugin_url;
         $this->gateway = $this->plugin->get_gateway();
 
-        /* Wordpress Approach, HPOS disabled or older version */
+        /* Wordpress Approach: HPOS disabled or older version */
         add_action('manage_shop_order_posts_custom_column', function($column, $order) {
             if ($column !== 'order_status') {
                 return;
@@ -105,14 +105,14 @@ class WC_Gateway_Ratenkaufbyeasycredit_Order_Management
 
     public function add_meta_boxes($post_type)
     {
-        if ($post_type !== 'shop_order') {
-            return false;
-        }
-
         $screen = class_exists('\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController') && 
             wc_get_container()->get(CustomOrdersTableController::class)->custom_orders_table_usage_is_enabled()
             ? wc_get_page_screen_id('shop-order')
             : 'shop_order';
+
+        if ($screen === 'shop_order' && $post_type !== 'shop_order') {
+            return;
+        }
 
         add_meta_box(
             'easycredit-merchant-status',

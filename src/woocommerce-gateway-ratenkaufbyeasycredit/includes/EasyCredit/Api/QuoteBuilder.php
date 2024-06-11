@@ -97,7 +97,7 @@ class QuoteBuilder
         }
 
         $address = $this->quote->get_address($_key);
-        if (!\array_filter($address) && !$this->isLoggedIn()) {
+        if (!\array_filter($address) && $this->isLoggedIn()) {
             $address = ($_key == 'billing') ? $this->customer->get_billing() : $this->customer->get_shipping();
         }
 
@@ -106,8 +106,7 @@ class QuoteBuilder
             ->build($address);
     }
 
-    public function getCustomer()
-    {
+    public function getCustomer() {
         return $this->customerBuilder->build(
             $this->quote,
             $this->customer
@@ -148,7 +147,7 @@ class QuoteBuilder
         $this->quote = $order;
         $this->customer = new \WC_Customer($order->get_user_id());
 
-        return new Transaction([
+        $transaction =  new Transaction([
             'financingTerm' => $this->getDuration(),
             'orderDetails' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
@@ -168,6 +167,9 @@ class QuoteBuilder
             ]),
             'redirectLinks' => $this->getRedirectLinks(),
         ]);
+        $transaction = apply_filters('easycredit_quotebuilder_filter_transaction', $transaction);
+
+        return $transaction;
     }
 
     protected function _getItems(array $items): array
