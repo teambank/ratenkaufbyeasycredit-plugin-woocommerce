@@ -11,8 +11,8 @@
 		"@wordpress/element": "^6.0.0"
 	},
 	"scripts": {
-		"install:modules:legacy-frontend": "cd modules/legacy-frontend && yarn install",
-		"install:modules:legacy-backend": "cd modules/legacy-backend && yarn install",
+		"install:modules:frontend": "cd modules/frontend && yarn install",
+		"install:modules:backend": "cd modules/backend && yarn install",
 		"install:modules:checkout": "cd modules/checkout && yarn install",
 		"install:modules:marketing": "cd modules/marketing && yarn install",
 		"postinstall": "for dir in ./modules/*; do (cd $dir && yarn install); done",

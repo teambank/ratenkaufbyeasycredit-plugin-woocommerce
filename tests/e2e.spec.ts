@@ -135,8 +135,8 @@ test('blocksCheckout', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Stadt' }).fill('Nürnberg');
   await page.getByRole('textbox', { name: 'Telefon (optional)' }).fill('012345678');
 
-  await delay(500)
-  
+  await expect(page.locator('.wc-block-components-checkout-place-order-button')).not.toBeDisabled();
+
   /* Confirm Page */
   await page.locator('easycredit-checkout-label').click()
   await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();

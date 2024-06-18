@@ -1,6 +1,16 @@
 Changelog
 =========
 
+2.1.8
+-----
+
+- das Plugin ist nun kompatibel mit HPOS (High Performance Order Storage)
+- das Plugin ist nun kompatibel mit wooCommerce block-based Checkout
+- die asynchrone Authorisierung wurde entfernt, da die Transaktionen synchron autorisiert und geprüft werden
+- es wird nun, wenn vorhanden, die deutsche Version von Fehlermeldungen ausgegeben
+- alle Skripte werden nun als Webpack-Module mitgeliefert
+- die Web-Komponenten werden nur noch als Modul eingebunden (nomodule wurde entfernt)
+
 2.1.7
 -----
 
