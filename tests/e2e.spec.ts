@@ -30,9 +30,16 @@ const randomize = (name, num = 3) => {
   return name 
 }
 
-const goThroughPaymentPage = async (page, express: boolean = false) => {
+const goThroughPaymentPage = async (page, 
+  { express = false, selectedInstallments = null }: { express?: boolean, selectedInstallments?: number | null }
+) => {
   await test.step(`easyCredit-Ratenkauf Payment`, async() => {
     await page.getByTestId('uc-deny-all-button').click()
+
+    if (selectedInstallments) {
+      await expect(page.locator('.slider-label-bottom')).toHaveText(`in ${selectedInstallments} Raten`) // check if financingTerm is passed correctly
+    }
+
     await page.getByRole('button', { name: 'Weiter zur Dateneingabe' }).click()
 
     if (express) {
@@ -87,17 +94,7 @@ const isBlocksCheckout  = () => {
   return (process.env.VERSION.localeCompare('8.3', undefined, { numeric: true, sensitivity: 'base' }) >= 0);
 }
 
-test('legacyCheckout', async ({ page }) => {
-
-  if (isBlocksCheckout()) {
-    return
-  }
-
-  await goToProduct(page)
-
-  await page.getByRole('button', { name: 'In den Warenkorb' }).click();
-  await page.goto('index.php/checkout/')
-
+const fillCheckout = async (page) => {
   await page.getByRole('textbox', { name: 'Vorname *' }).fill(randomize('Ralf'))
   await page.getByRole('textbox', { name: 'Nachname *' }).fill('Ratenkauf');
   await page.getByRole('textbox', { name: 'Straße *' }).fill('Beuthener Str. 25');
@@ -105,16 +102,15 @@ test('legacyCheckout', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Ort / Stadt *' }).fill('Nürnberg');
   await page.getByRole('textbox', { name: 'Telefon *' }).fill('012345678');
   await page.getByLabel('E-Mail-Adresse *').fill('ralf.ratenkauf@teambank.de');
-
   
   /* Confirm Page */
   await page.locator('easycredit-checkout-label').click()
   await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();
   await page.locator('span:text("Akzeptieren"):visible').click();
 
-  await goThroughPaymentPage(page)
+  await goThroughPaymentPage(page, {express: true})
   await confirmOrder(page)
-});
+}
 
 /*
 test('blocksCheckout', async ({ page }) => {
@@ -148,6 +144,41 @@ test('blocksCheckout', async ({ page }) => {
 });
 */
 
+test('standardCheckoutInstallmentsPayment', async ({ page }) => {
+
+  if (isBlocksCheckout()) {
+    return
+  }
+
+  await fillCheckout(page);
+
+  /* Payment Selection */
+  await page.locator('label').getByTestId('easycredit-ratenkauf').click();
+  await page.locator('easycredit-checkout').getByText('2 Monate', { exact: true }).click(); // select financingTerm
+  await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();
+  await page.locator('span:text("Akzeptieren"):visible').click();
+
+  await goThroughPaymentPage(page, { express: false, selectedInstallments: 2 })
+  await confirmOrder(page)
+})
+
+test('standardCheckoutBillPayment', async ({ page }) => {
+
+  await goToProduct(page)
+
+  await page.getByRole('button', { name: 'In den Warenkorb' }).click();
+  await page.goto('index.php/checkout/')
+
+  await fillCheckout(page);
+
+  /* Payment Selection */
+  await page.locator('label').getByTestId('easycredit-rechnung').click();
+  await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Rechnungskauf' }).click();
+
+  await goThroughPaymentPage(page, {})
+  await confirmOrder(page)
+})
+
 test('expressCheckout', async ({ page }) => {
 
   await goToProduct(page)
@@ -155,9 +186,9 @@ test('expressCheckout', async ({ page }) => {
   await page.locator('a').filter({ hasText: 'Jetzt direkt in Raten zahlen' }).click();
   await page.getByText('Akzeptieren', { exact: true }).click();
 
-  await goThroughPaymentPage(page, true)
+  await goThroughPaymentPage(page, {express: true})
   await confirmOrder(page)
-});
+})
 
 test('expressCheckoutWithVariableProduct', async ({ page }) => {
 
@@ -175,9 +206,9 @@ test('expressCheckoutWithVariableProduct', async ({ page }) => {
   await page.locator('a').filter({ hasText: 'Jetzt direkt in Raten zahlen' }).click();
   await page.getByText('Akzeptieren', { exact: true }).click();
 
-  await goThroughPaymentPage(page, true)
+  await goThroughPaymentPage(page, { express: true })
   await confirmOrder(page)
-});
+})
 
 test('settingsCheck', async ({ page }) => {
 
@@ -188,18 +219,11 @@ test('settingsCheck', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Anmelden' }).click();
 
-  //await page.locator('#toplevel_page_woocommerce').getByRole('link', { name: 'Einstellungen' }).click();
-  //await page.getByRole('link', { name: 'Zahlungen' }).click();
-  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout')
-
-  //await page.getByRole('link', { name: 'easyCredit-Ratenkauf', exact: true }).click();
-  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout&section=ratenkaufbyeasycredit')
+  await page.goto('/wp-admin/admin.php?page=wc-settings&tab=checkout&section=easycredit')
 
   page.on('dialog', async (dialog) => {
     expect(dialog.message()).toContainText('Die Zugangsdaten sind korrekt')
     await dialog.accept()
   })
-  //await page.getByRole('button', { name: 'Zugangsdaten überprüfen' }).click();
-  await page.locator('#woocommerce_ratenkaufbyeasycredit_api_verify_credentials').click()
-
-});
+  await page.locator('#woocommerce_easycredit_api_verify_credentials').click()
+})
