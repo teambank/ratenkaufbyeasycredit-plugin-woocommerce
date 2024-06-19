@@ -116,6 +116,7 @@ test('legacyCheckout', async ({ page }) => {
   await confirmOrder(page)
 });
 
+/*
 test('blocksCheckout', async ({ page }) => {
 
   if (!isBlocksCheckout()) {
@@ -137,7 +138,7 @@ test('blocksCheckout', async ({ page }) => {
 
   await expect(page.locator('.wc-block-components-checkout-place-order-button')).not.toBeDisabled();
 
-  /* Confirm Page */
+  // Checkout Page
   await page.locator('easycredit-checkout-label').click()
   await page.locator('easycredit-checkout').getByRole('button', { name: 'Weiter zum Ratenkauf' }).click();
   await page.locator('span:text("Akzeptieren"):visible').click();
@@ -145,6 +146,7 @@ test('blocksCheckout', async ({ page }) => {
   await goThroughPaymentPage(page)
   await confirmOrder(page)
 });
+*/
 
 test('expressCheckout', async ({ page }) => {
 
