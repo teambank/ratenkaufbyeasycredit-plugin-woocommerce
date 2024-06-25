@@ -1,22 +1,25 @@
 <?php
+
+namespace Netzkollektiv\EasyCredit\Methods;
+
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 use Automattic\WooCommerce\Blocks\Payments\PaymentResult;
 use Automattic\WooCommerce\Blocks\Payments\PaymentContext;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-class WC_Gateway_Ratenkaufbyeasycredit_Payment_Method extends AbstractPaymentMethodType {
-
+class AbstractMethod extends AbstractPaymentMethodType
+{
     protected $plugin_file = null;
-    protected $name = 'ratenkaufbyeasycredit';
 
-    public function __construct($plugin_file) {
+    public function __construct($plugin_file)
+    {
         $this->plugin_file = $plugin_file;
     }
 
     public function initialize()
     {
-        $this->settings = get_option('woocommerce_ratenkaufbyeasycredit_settings', []);
+        $this->settings = get_option('woocommerce_easycredit_settings', []);
     }
 
     public function is_active()
