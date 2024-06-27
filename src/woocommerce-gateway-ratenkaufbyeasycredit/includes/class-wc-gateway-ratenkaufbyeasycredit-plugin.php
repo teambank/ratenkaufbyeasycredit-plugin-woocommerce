@@ -57,7 +57,7 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
         add_action('admin_enqueue_scripts', [$this, 'enqueue_backend_resources']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_resources']);
         
-        add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'prevent_shipping_address_change'], 0, 10);
+        add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'prevent_shipping_address_change'], 1, 10);
 
         add_action('admin_post_wc_ratenkaufbyeasycredit_verify_credentials', [$this, 'verify_credentials']);
         add_filter('plugin_action_links_' . plugin_basename($this->file), [$this, 'plugin_links']);
@@ -340,7 +340,10 @@ class WC_Gateway_Ratenkaufbyeasycredit_Plugin
         wp_enqueue_media();
     }
 
-    public function prevent_shipping_address_change() {
+    public function prevent_shipping_address_change($order) {
+        if ($order->get_payment_method() != $this->id) {
+            return;
+        }
         echo "
             <p>Die Versandadresse kann bei easyCredit-Ratenkauf nicht nachträglich verändert werden.</p>
             <script>
