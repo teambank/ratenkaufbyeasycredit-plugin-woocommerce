@@ -100,6 +100,9 @@ abstract class GatewayAbstract extends \WC_Payment_Gateway
         }
 
         try {
+            $this->integration->storage()
+                ->set('express', false);
+
             $checkout = $this->integration->checkout();
             $checkout->isAvailable($this->integration->quote_builder()->build($order));
         } catch (\Exception $e) {
@@ -163,7 +166,7 @@ abstract class GatewayAbstract extends \WC_Payment_Gateway
 
     public function maybe_return_from_payment_page()
     {
-        if (!isset($_GET['woo-' . $this->id . '-return'])) {
+        if (!isset($_GET['woo-' . $this->plugin->id . '-return'])) {
             return;
         }
 
@@ -292,7 +295,9 @@ abstract class GatewayAbstract extends \WC_Payment_Gateway
         if (isset($wp->query_vars['order-pay'])) {
             $order = wc_get_order($wp->query_vars['order-pay']);
         } else {
-            $order = $this->temporaryOrderHelper->get_order();
+            $order = $this->temporaryOrderHelper->get_order(
+                $this->PAYMENT_TYPE
+            );
         }
 
         if (is_null($order)) {
@@ -417,8 +422,6 @@ abstract class GatewayAbstract extends \WC_Payment_Gateway
             'redirect' => $paymentPageUrl,
         ];
     }
-
-
 
     public function proccess_payment_order_details($order)
     {
