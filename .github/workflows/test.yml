@@ -37,6 +37,9 @@ jobs:
           - php-version: 8.3
             wordpress-version: "6.5"
             woocommerce-version: "8.9.1"
+          - php-version: 8.3
+            wordpress-version: "6.6"
+            woocommerce-version: "9.1.0"
 
     name: woo v${{ matrix.woocommerce-version }}, wp v${{ matrix.wordpress-version }} @ php v${{ matrix.php-version }}
 
@@ -133,7 +136,6 @@ jobs:
           wp plugin activate wc-easycredit
           echo '{"enabled":"yes","display_settings":"","title":"","instructions":"","api_details":"","api_key":"${{ secrets.EASYCREDITAPIKEY }}","api_token":"${{ secrets.EASYCREDITAPIPASSWORD }}","api_signature":"${{ secrets.EASYCREDITAPISIGNATURE }}","api_verify_credentials":"","debug":"yes","marketing_intro":"","marketing_components_express_checkout":"","express_checkout_detail_enabled":"yes","express_checkout_cart_enabled":"yes","marketing_components_widget":"","widget_enabled":"yes","widget_selector":".product .summary .price","cart_widget_enabled":"yes","cart_widget_selector":".wc-proceed-to-checkout","marketing_components_modal":"","modal_enabled":"no","modal_delay":"10","modal_snooze_for":"10","modal_src":"","marketing_components_card":"","card_enabled":"no","card_search_enabled":"no","card_position":"1","card_src":"","marketing_components_flashbox":"","flashbox_enabled":"no","flashbox_src":"","marketing_components_bar":"","bar_enabled":"no","transactions":"","mark_shipped":"no","mark_shipped_status":"wc-completed","mark_refunded":"no","mark_refunded_status":"wc-refunded","clickandcollect_intro":"","marketing_components_clickandcollect":"","clickandcollect_shipping_method":""}' | wp option set woocommerce_ratenkaufbyeasycredit_settings --format=json
       - name: Static Analyze
-        if: false
         run: | 
           cd $PLUGIN_DIR
           php vendor/bin/phpstan analyze .
@@ -168,7 +170,8 @@ jobs:
       - name: Save Logs for Debugging
         if: always()
         run: |
-          cp -r $WORDPRESS_DIR/wp-content/debug.log $WORDPRESS_DIR/wp-content/uploads/wc-logs/*.log test-results/${{ matrix.woocommerce-version }}/ 
+          [ -f $WORDPRESS_DIR/wp-content/debug.log ] && cp -r $WORDPRESS_DIR/wp-content/debug.log test-results/${{ matrix.woocommerce-version }}/
+          [ -d $WORDPRESS_DIR/wp-content/uploads/wc-logs ] && cp -r $WORDPRESS_DIR/wp-content/uploads/wc-logs/*.log test-results/${{ matrix.woocommerce-version }}/ 
       - uses: actions/upload-artifact@v3
         if: failure()
         with:

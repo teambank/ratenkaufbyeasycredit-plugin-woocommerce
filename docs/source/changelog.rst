@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.9
+-----
+
+- die Veränderung der Lieferadresse wird nur bei Bestellungen, die mit easyCredit bezahlt wurden, unterbunden
+
 2.1.8
 -----
 
